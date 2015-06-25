@@ -2,6 +2,9 @@ package cf.study.lang
 
 import org.junit.Test
 import org.junit.Assert
+
+import scala.collection.mutable.Map
+
 /**
  * Created by fan on 2015/6/23.
  */
@@ -25,6 +28,23 @@ class ChecksumAccumulator_concise {
 	private var sum = 0
 	def add(b: Byte): Unit = sum += b
 	def checksum(): Int = ~(sum & 0xFF) + 1
+}
+
+object ChecksumAccumulator {
+	private  val cache = Map[String, Int]()
+
+	def calculate(s: String): Int = {
+		if (cache.contains(s))
+			cache(s)
+		else {
+			val acc = new ChecksumAccumulator
+			for (c <- s)
+				acc.add(c.toByte)
+			val cs = acc.checksum()
+			cache += (s -> cs)
+			cs
+		}
+	}
 }
 
 class ClassAndObjectTests {
@@ -80,8 +100,7 @@ class ClassAndObjectTests {
 		Assert.assertEquals(_x, x + x)
 	}
 
-	object ChecksumAccumulator {
-		private val cache = Map[String, Int]()
-		def calculate(s: String)
+	@Test def testObject(): Unit = {
+		println(ChecksumAccumulator.calculate("Every value is an object"))
 	}
 }
