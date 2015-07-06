@@ -186,10 +186,10 @@ class BasicTypeAndOperTests {
 	@Test def richOperations(): Unit = {
 		Assert.assertEquals(0 max 5, 5)
 		Assert.assertEquals(0 min 5, 0)
-		Assert.assertEquals(-2.7 abs, Math.abs(-2.7))
-		Assert.assertEquals(-2.7 round, -3L)
+		Assert.assertEquals(-2.7 abs, Math.abs(-2.7), 0.01)
+		Assert.assertEquals(-2.7 round, -3L, 0.01)
 		Assert.assertEquals(1.5 isInfinity, false)
-		Assert.assertEquals((1/0) isInfinity, true)
+		Assert.assertEquals((1.0/0) isInfinity, true)
 		Assert.assertEquals(4 to 6, Range(4, 5, 6))
 		Assert.assertEquals("bob" capitalize, "Bob")
 		Assert.assertEquals("robert" drop 2, "bert")
