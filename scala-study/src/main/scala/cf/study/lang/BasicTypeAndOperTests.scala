@@ -112,7 +112,86 @@ class BasicTypeAndOperTests {
 		val paradox = toBe && !toBe
 		println("toBe && !toBe", paradox)
 
+		def salt() = {println("salt"); false}
+		def pepper() = {println("pepper"); true}
+
+		println()
+		println(pepper() && salt())
+		println()
+		println(pepper() || salt())
+		println()
+		println((pepper()).||(salt()))
 	}
 
+	@Test def bitwiseOperations(): Unit = {
+		println("1 & 2 = ", 1 & 2)
+		println("1 | 2 = ", 1 | 2)
+		println("1 ^ 3 = ", 1 ^ 3)
+		println("~1 = ", ~1)
 
+		println("-1 >> 31 = ", -1 >> 31)
+		println("-1 >>> 31 = ", -1 >>> 31)
+		println("1 << 2 = ", 1 << 2)
+	}
+
+	@Test def objectEquality(): Unit = {
+		println("1 == 2 : ", 1 == 2)
+		println("1 != 2 : ", 1 != 2)
+		println("2 == 2 : ", 2 == 2)
+		println("2 != 2 : ", 2 != 2)
+
+		println("List(1, 2, 3) == List(1, 2, 3) : ", List(1, 2, 3) == List(1, 2, 3))
+		println("List(1, 2, 3) == List(4, 5, 6) : ", List(1, 2, 3) == List(4, 5, 6))
+
+		println("1 == 1.0 : ", 1 == 1.0)
+		println("List(1, 2, 3) == \"hello\" : ", List(1, 2, 3) == "hello")
+
+		println("List(1, 2, 3) == null : ", List(1, 2, 3) == null)
+		println("null == List(1, 2, 3) : ", null == List(1, 2, 3))
+
+		println("\"he\" + \"llo\" == \"hello\"", "he" + "llo" == "hello")
+	}
+
+	@Test def operatorPrecedenceAndAssociativity(): Unit = {
+		Assert.assertEquals(2 + 2 * 7, 16)
+		Assert.assertEquals(2 * 2 + 7, 11)
+		Assert.assertEquals((2 + 2) * 7, 28)
+
+		Assert.assertEquals(2 + 7 % 2, 3)
+		Assert.assertEquals(36 / 2 / 3, 6)
+		Assert.assertEquals(36 / 2 * 4 / 3, 24)
+
+		/*
+		(all other special characters)
+			*
+			/
+			%
+			+ -
+			:
+			= !
+			< >
+			&
+			?
+			|
+			(all letters)
+			(all assignment operators)
+		 */
+		Assert.assertEquals(2 << 2 + 2, 32)
+		Assert.assertEquals(2 + 2 << 2, 16)
+
+		var x = 2
+		Assert.assertEquals(x *= 2 + 1, 5)
+	}
+
+	@Test def richOperations(): Unit = {
+		Assert.assertEquals(0 max 5, 5)
+		Assert.assertEquals(0 min 5, 0)
+		Assert.assertEquals(-2.7 abs, Math.abs(-2.7))
+		Assert.assertEquals(-2.7 round, -3L)
+		Assert.assertEquals(1.5 isInfinity, false)
+		Assert.assertEquals((1/0) isInfinity, true)
+		Assert.assertEquals(4 to 6, Range(4, 5, 6))
+		Assert.assertEquals("bob" capitalize, "Bob")
+		Assert.assertEquals("robert" drop 2, "bert")
+	}
 }
