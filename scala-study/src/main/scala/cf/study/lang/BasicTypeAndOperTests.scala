@@ -194,4 +194,13 @@ class BasicTypeAndOperTests {
 		Assert.assertEquals("bob" capitalize, "Bob")
 		Assert.assertEquals("robert" drop 2, "bert")
 	}
+
+	@Test def testComparison(): Unit = {
+		Assert.assertTrue(1 > 0)
+		Assert.assertTrue(-1 < 0)
+		Assert.assertTrue(1 == 1)
+		Assert.assertFalse(1 < 1)
+
+		Assert.assertTrue(true > false)
+	}
 }
