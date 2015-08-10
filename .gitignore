@@ -9,4 +9,6 @@ pom.xml.asc
 .lein-plugins/
 .lein-failures
 **/target/**
+.idea/*
+.idea/**		
 
