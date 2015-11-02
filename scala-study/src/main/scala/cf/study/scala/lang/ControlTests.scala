@@ -1,4 +1,4 @@
-package cf.study.lang
+package cf.study.scala.lang
 
 import java.io.{FileNotFoundException, File}
 import java.nio.file.{Paths, Path}
@@ -202,7 +202,11 @@ class ControlTests {
 
 	@Test
 	def testBreakable(): Unit = {
-		{
+		{/*
+		 Class Breaks in package scala.util.control
+offers a break method, which can be used to exit the an enclosing block
+that's marked with breakable.
+*/
 			var v: Int = 0
 			breakable {
 				for (i <- 1 to 10) {
@@ -216,7 +220,7 @@ class ControlTests {
 
 		{
 			var i:Int = 0
-			breakable({
+			breakable({ //breakable is a method!
 				while (true) {
 					i = i + 1
 					if (i > 5)

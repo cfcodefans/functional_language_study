@@ -1,4 +1,4 @@
-package cf.study.lang
+package cf.study.scala.lang
 
 import ChecksumAccumulator.calculate
 import org.junit.Test
