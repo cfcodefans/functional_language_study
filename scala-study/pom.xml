@@ -5,7 +5,7 @@
   <version>1.0.0</version>
   <inceptionYear>2008</inceptionYear>
   <properties>
-    <scala.version>2.11.6</scala.version>
+    <scala.version>2.12.0-M1</scala.version>
   </properties>
 
   <repositories>

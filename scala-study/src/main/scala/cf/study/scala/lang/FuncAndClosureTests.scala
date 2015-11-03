@@ -112,5 +112,61 @@ class FuncAndClosureTests {
 		echo(arr: _*)
 	}
 
-	
+	@Test def tailRecursion(): Unit = {
+		val answer:Double = 0.0
+		def isGoodEnough(guess: Double): Boolean = Math.abs(answer - guess) < 0.001
+
+		def improve(guess: Double): Double =
+			(answer + guess) / 2
+
+		def approximate(guess: Double): Double =
+			if (isGoodEnough(guess)) guess
+			else approximate(improve(guess))
+
+		def approximateLoop(initialGuess: Double): Double = {
+			var guess = initialGuess
+			while (!isGoodEnough(guess))
+				guess = improve(guess)
+			guess
+		}
+
+		println(approximate(10))
+		println(approximateLoop(10))
+
+		def boom(x:Int): Int =
+			if (x == 0) throw new Exception("Boom!")
+			else boom(x - 1) + 1 //This is not tail recursive, because it performs an increment operation after the recursive call
+
+		def _boom(x:Int): Int =
+			if (x == 0) throw new Exception("Boom!")
+			else 1 + _boom(x - 1) //This is not tail recursive, because it performs an increment operation after the recursive call
+
+		try {
+			boom(3)
+		} catch {
+			case e: Exception => e.printStackTrace()
+		}
+		println()
+		try {
+			_boom(3)
+		} catch {
+			case e: Exception => e.printStackTrace()
+		}
+
+		def bang(x:Int): Int =
+			if (x == 0) throw new Exception("Bang!")
+			else bang(x - 1)
+
+		try {
+			bang(3)
+		} catch {
+			case e: Exception => e.printStackTrace()
+		}
+
+		//indirect recursion can't be turned into tail recursion
+		def isEven(x: Int): Boolean =
+			if (x == 0) true else isOdd(x - 1)
+		def isOdd(x: Int): Boolean =
+			if (x == 0) false else isEven(x - 1)
+	}
 }
