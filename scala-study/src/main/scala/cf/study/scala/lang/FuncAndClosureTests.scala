@@ -169,4 +169,15 @@ class FuncAndClosureTests {
 		def isOdd(x: Int): Boolean =
 			if (x == 0) false else isEven(x - 1)
 	}
+
+	@Test def functionLiteral(): Unit = {
+		def addOne(v: Int = 0): Int = v + 1
+		println(addOne())
+		println(addOne(1))
+		def printlnFunc(f: (Int => Int)) = println(f)
+		printlnFunc(addOne)
+
+		val _f:(Int => Int) = addOne
+		println(_f)
+	}
 }

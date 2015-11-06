@@ -3,7 +3,7 @@ package cf.study.scala
 import java.util.{Calendar, Date}
 
 import cf.study.scala.MiscTests.MyClass
-import org.junit.Test
+import org.junit.{Assert, Test}
 
 import scala.actors.threadpool.AtomicInteger
 
@@ -50,5 +50,64 @@ class MiscTests {
 		println(_one.updated)
 		println(_one.name)
 		println(_one.id)
+	}
+
+	@Test def testEquality(): Unit =  {
+		{
+			val a = "a"
+			val _a = "a"
+
+			Assert.assertTrue(a.eq(_a))
+			Assert.assertTrue(a == _a)
+			Assert.assertTrue(a.equals(_a))
+		}
+
+		{
+			val a = new String("a")
+			val _a = new String("a")
+
+			Assert.assertFalse(a eq _a)
+			Assert.assertTrue(a == _a)
+			Assert.assertTrue(a.equals(_a))
+		}
+
+		{
+			val a = new String("a")
+			val _a = a
+
+			Assert.assertTrue(a eq _a)
+			Assert.assertTrue(a == _a)
+			Assert.assertTrue(a.equals(_a))
+		}
+
+		{
+			class Stub(_value: AnyRef) {
+				val value = _value
+
+				def canEqual(other: Any): Boolean = other.isInstanceOf[Stub]
+
+				override def equals(other: Any): Boolean = {
+					println("Stub.equals")
+					other match {
+						case that: Stub =>
+							(that canEqual this) &&
+								value == that.value
+						case _ => false
+					}
+				}
+
+				override def hashCode(): Int = {
+					val state = Seq(value)
+					state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+				}
+			}
+			val s1 = new Stub("a")
+			val s2 = new Stub("B")
+
+			Assert.assertFalse(s1 eq s2)
+			Assert.assertFalse(s1 == s2)
+			Assert.assertFalse(s1 equals s2)
+		}
+
 	}
 }
