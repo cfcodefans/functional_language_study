@@ -1,6 +1,6 @@
 package cf.study.scala.lang
 
-import cf.study.scala.lang.CompositionAndInheritanceTests.{Tiger, Element, ArrayElement}
+import cf.study.scala.lang.CompositionAndInheritanceTests._
 import org.junit.Test
 
 /**
@@ -11,6 +11,10 @@ object CompositionAndInheritanceTests {
 		def contents: Array[String] //this is an abstract method
 		val height = contents.length // this is val
 		val width = if (height == 0) 0 else contents(0).length
+
+		def demo(): Unit = {
+			println("Element's implementation invoked")
+		}
 	}
 
 	abstract class _Element {
@@ -22,6 +26,9 @@ object CompositionAndInheritanceTests {
 	/* parametric field with val, if there is not val, it isn't a field */
 	class ArrayElement(val conts: Array[String] ) extends Element {
 		val contents: Array[String] = conts //Overriding a parameterless method with a field
+		override def demo(): Unit = {
+			println("ArrayElement's implementation invoked")
+		}
 	}
 
 	/*	class CompilesFine {
@@ -32,9 +39,10 @@ object CompositionAndInheritanceTests {
 		private var f = 0 //won't compile, because a field
 		def f = 1 // and method have the same name
 	}*/
-
+	//ArrayElement(Array(s)) calling constructor of super
 	class LineElement(s: String) extends ArrayElement(Array(s)) {
-
+		override def width = s.length
+		override def height = 1
 	}
 
 	class Cat {
@@ -44,6 +52,15 @@ object CompositionAndInheritanceTests {
 	class Tiger(param1: Boolean, param2: Int) extends Cat {
 		override val dangerous = param1 //has to add override modifier
 		private var age = param2
+	}
+
+	class _Tiger(override val dangerous: Boolean, private var age: Int) extends Cat
+
+	class UniformElement(ch: Char,
+	                     override val width: Int,
+	                     override val height: Int) extends Element {
+		private val line = ch.toString * width
+		def contents = Array.fill(height)(line)
 	}
 }
 
@@ -60,5 +77,19 @@ class CompositionAndInheritanceTests {
 		println(e)
 
 		val t = new Tiger(true, 10)
+		t.dangerous\
+//		t.age //private val is invisible
+		val _t = new _Tiger(True, 10)
+		_t.dangerous
+//		_t.age //private field is invisible
+	}
+
+	@Test def testHierarchy(): Unit = {
+		val e1: Element = new ArrayElement(Array("Hello", "world"))
+		val ae: ArrayElement = new LineElement("Hello")
+		val e2: Element = ae
+		val e3: Element = new UniformElement('x', 2, 3)
+
+
 	}
 }
