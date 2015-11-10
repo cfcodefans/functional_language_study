@@ -8,9 +8,9 @@ import org.junit.Test
  */
 object CompositionAndInheritanceTests {
 	abstract class Element {
-		def contents: Array[String] //this is an abstract method
-		val height = contents.length // this is val
-		val width = if (height == 0) 0 else contents(0).length
+		def contents(): Array[String] //this is an abstract method
+		val height = contents().length // this is val
+		val width = if (height == 0) 0 else contents()(0).length
 
 		def demo(): Unit = {
 			println("Element's implementation invoked")
@@ -25,7 +25,7 @@ object CompositionAndInheritanceTests {
 
 	/* parametric field with val, if there is not val, it isn't a field */
 	class ArrayElement(val conts: Array[String] ) extends Element {
-		val contents: Array[String] = conts //Overriding a parameterless method with a field
+		override val contents: Array[String] = conts //Overriding a parameterless method with a field
 		override def demo(): Unit = {
 			println("ArrayElement's implementation invoked")
 		}
@@ -41,8 +41,8 @@ object CompositionAndInheritanceTests {
 	}*/
 	//ArrayElement(Array(s)) calling constructor of super
 	class LineElement(s: String) extends ArrayElement(Array(s)) {
-		override def width = s.length
-		override def height = 1
+//		override def width = s.length
+//		override def height = 1
 	}
 
 	class Cat {
@@ -62,6 +62,11 @@ object CompositionAndInheritanceTests {
 		private val line = ch.toString * width
 		def contents = Array.fill(height)(line)
 	}
+
+	def printClass[T](cls: Class[T]): Unit = {
+		if (cls == null) return
+		cls.getDeclaredFields.foreach(f => println(f))
+	}
 }
 
 class CompositionAndInheritanceTests {
@@ -77,9 +82,9 @@ class CompositionAndInheritanceTests {
 		println(e)
 
 		val t = new Tiger(true, 10)
-		t.dangerous\
+		t.dangerous
 //		t.age //private val is invisible
-		val _t = new _Tiger(True, 10)
+		val _t = new _Tiger(true, 10)
 		_t.dangerous
 //		_t.age //private field is invisible
 	}
@@ -90,6 +95,77 @@ class CompositionAndInheritanceTests {
 		val e2: Element = ae
 		val e3: Element = new UniformElement('x', 2, 3)
 
+		e1.demo()
+		ae.demo()
+		e2.demo()
+		e3.demo()
+	}
 
+	@Test def testValAndMethods(): Unit = {
+		{
+			abstract class Abstract {
+				def foo
+			}
+
+			class Concrete extends Abstract {
+				def foo = println("foo")
+			}
+//			val abs = new Abstract //abstract class can't be initiated
+			val abs: Abstract = new Concrete
+			abs.foo
+		}
+
+		{
+			class Bar(id: Int) {
+				override def toString: String = "%s_%d".format(super.toString, id)
+			}
+			val bar:Bar = new Bar(10)
+			println(bar)
+			printClass(classOf[Bar])
+//			bar.id //id is private
+			println()
+		}
+
+		{
+			class Bar(val id: Int) {
+				override def toString: String = "%s_%d".format(super.toString, id)
+			}
+			val bar:Bar = new Bar(11)
+			println(bar)
+			println(bar.id) // id becomes val
+			printClass(classOf[Bar])
+			println()
+		}
+
+		{
+			class Bar(id: Int) {
+				val barId:Int = id;
+				override def toString: String = "%s_%d".format(super.toString, id)
+			}
+			val bar:Bar = new Bar(12)
+			println(bar)
+			println(bar.barId) //_id is an Pattern?
+			//			bar.id //id is private
+			printClass(classOf[Bar])
+			println()
+		}
+
+		{
+			class Bar(val id: Int) {
+				val barId:Int = id;
+				override def toString: String = "%s_%d".format(super.toString, id)
+			}
+			val bar:Bar = new Bar(13)
+			println(bar)
+			println(bar.barId) //_id is an Pattern?
+			println(bar.id) // id becomes val
+			//			bar.id //id is private
+			printClass(classOf[Bar])
+			println()
+		}
+	}
+
+	@Test def testType(): Unit = {
+//		println(classOf[])
 	}
 }
