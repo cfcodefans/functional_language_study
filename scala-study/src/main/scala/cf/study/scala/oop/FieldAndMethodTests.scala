@@ -26,6 +26,16 @@ class Bar6 {
 	protected def _protected = println("protected")
 }
 
+class Methods {
+	def foo(i: Int): Int = i + 1
+	def foo(f: Float): Float = f + 1
+	def foo(): Int = 1
+	def foo(i: Int*): Int = i.sum
+//	can't have same name
+//	def foo(i: Int): Float = i.toFloat
+
+}
+
 class FieldAndMethodTests {
 	def printFields[T](cls: Class[T]) {
 		cls.getDeclaredFields.map("\t" + _.toString).foreach(println)

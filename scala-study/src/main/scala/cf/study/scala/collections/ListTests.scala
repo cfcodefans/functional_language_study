@@ -39,4 +39,8 @@ class ListTests {
 	@Test def testIsEmpty: Unit = {
 
 	}
+
+	@Test def contructLists(): Unit = {
+		val fruit = "apples" :: ("oranges" :: ("pears" :: Nil))
+	}
 }
