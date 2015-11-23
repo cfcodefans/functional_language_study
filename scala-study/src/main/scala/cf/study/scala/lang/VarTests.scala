@@ -1,4 +1,4 @@
-package cf.study.lang
+package cf.study.scala.lang
 
 import org.junit.Test
 /**
