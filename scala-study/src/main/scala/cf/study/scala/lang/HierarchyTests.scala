@@ -33,5 +33,13 @@ class HierarchyTests {
 			//as reference equality (i.e., it behaves like == in Java for reference types)
 			Assert.assertFalse(a eq a1)
 		}
+
+		{
+			val a = null
+			Assert.assertTrue(a == null)
+			Assert.assertTrue(null == a)
+			Assert.assertTrue(a eq null)
+			Assert.assertTrue(null eq a)
+		}
 	}
 }
