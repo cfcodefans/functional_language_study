@@ -5,7 +5,7 @@
   <version>1.0.0</version>
   <inceptionYear>2008</inceptionYear>
   <properties>
-    <scala.version>2.12.0-M1</scala.version>
+    <scala.version>2.11.6</scala.version>
   </properties>
 
   <repositories>
@@ -29,6 +29,11 @@
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.4</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -61,7 +66,7 @@
         <configuration>
           <scalaVersion>${scala.version}</scalaVersion>
           <args>
-            <arg>-target:jvm-1.8</arg>
+            <arg>-target:jvm-1.7</arg>
           </args>
         </configuration>
       </plugin>
