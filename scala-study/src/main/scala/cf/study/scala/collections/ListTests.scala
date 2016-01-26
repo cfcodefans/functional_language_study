@@ -24,6 +24,10 @@ class ListTests {
 		Assert.assertEquals(fruits.take(1), List("apples"))
 		Assert.assertEquals(fruits.take(2), List("apples", "oranges"))
 		Assert.assertEquals(fruits.length, 4)
+
+		println(fruits + "what")
+		println(fruits :: List[String]("what"))
+		println(fruits ::: List[String]("what"))
 	}
 
 	@Test def testNestedList: Unit = {
