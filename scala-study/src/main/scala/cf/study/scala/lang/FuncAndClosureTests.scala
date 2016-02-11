@@ -38,6 +38,24 @@ object LongLines {
 //}
 
 class FuncAndClosureTests {
+	@Test def testFuncLiteral: Unit = {
+		val fruits: Iterable[String] = List("apples", "oranges", "pears", "bananas")
+		val toLen: (String) => Int = (f: String) => f.length
+		println(toLen)
+		fruits.map(toLen).foreach(println)
+
+		println
+		fruits.map((f: String) => f.length).foreach(println)
+
+		println
+		//Formally speaking return is defined as always returning from the nearest enclosing named method
+		fruits.map((f: String) => {
+			if (f.startsWith("b"))
+				f.charAt(0).toInt
+			f.length
+		}).foreach(println)
+	}
+
 	@Test def testFirstClassFunc(): Unit = {
 		var increase = (x: Int) => x + 1
 		println(increase)
@@ -179,5 +197,39 @@ class FuncAndClosureTests {
 
 		val _f:(Int => Int) = addOne
 		println(_f)
+	}
+
+	@Test def testCodeBlock(): Unit = {
+		val getOne = {
+			println(this)
+			Thread.currentThread().getStackTrace.foreach(println);
+			1
+		}
+		println(getOne)
+	}
+
+	@Test def testFuncComposition {
+		def f(s: String): String = s"f($s)"
+		def g(s: String): String = s"g($s)"
+
+		val f_g = f _ compose g _
+		println(f_g)
+		println(f_g("w"))
+
+		val g_f = f _ andThen(g _)
+		println(g_f)
+		println(g_f("w"))
+	}
+
+	@Test def testPartialFunc: Unit = {
+		def add(a: Int, b: Int):Int = a + b
+		println(add(1, 2))
+
+		val addOne = add(1, _: Int)
+		println(addOne(5))
+
+		val addThree2 = add(3, _:Int)
+
+		def addThree1(a:Int):Int = a + 3
 	}
 }

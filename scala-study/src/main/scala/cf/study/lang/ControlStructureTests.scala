@@ -56,4 +56,32 @@ class ControlStructureTests {
 		Assert.assertEquals(gcdLoop(36, 24), 12)
 		Assert.assertEquals(gcdLoop(36, 18), 18)
 	}
+
+	@Test def testHighOrderFunc: Unit = {
+		def call(op: (Int, Int) => Int)(a: Int, b: Int): Int = {
+			println("before op")
+			val result:Int = op(a, b)
+			println("after op: " + result)
+			return result
+		}
+
+		val add:(Int, Int) => Int = (a: Int, b: Int) =>{
+			if (a > 5) {
+				println("return a")
+				return a
+			}
+			if (b < 5) {
+				println("return b")
+				return b
+			}
+			println("return a + b")
+			return a + b
+		}
+
+		val callAdd: (Int, Int) => Int = call(add(_, _))
+		println(callAdd)
+
+		println("call(1, 2) = " + callAdd(1, 2))
+		println("call(6, 2) = " + callAdd(6, 2))
+	}
 }

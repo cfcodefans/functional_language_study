@@ -1,5 +1,7 @@
 package cf.study.scala.lang
 
+import java.util.Date
+
 import org.junit.Test
 /**
  * Created by Administrator on 2015/6/21.
@@ -70,6 +72,16 @@ class VarTests {
 //			arg is a val, can't reassign a new value to val
 //			arg = ","
 		}
+	}
 
+	@Test def testStringFormat: Unit = {
+		val now = new Date
+		println(s"$now")
+	}
+
+	@Test def testNil: Unit = {
+		println(Nil)
+		println(None)
+		println(null)
 	}
 }

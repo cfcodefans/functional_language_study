@@ -1,5 +1,7 @@
 package cf.study.scala.lang
 
+import cf.study.scala.MiscTests
+import cf.study.scala.oop.FieldAndMethodTests
 import org.junit.{Assert, Test}
 
 import scala.collection.mutable.ArrayBuffer
@@ -132,5 +134,20 @@ class TraitsTests {
 			stackQueue.put(2)
 			println(stackQueue.get)
 		}
+	}
+
+	trait IOperView extends Serializable {
+		protected val name: String
+		protected val result: Serializable
+	}
+	class Oper(_name: String, _result:Serializable = null) extends IOperView {
+		val name: String = _name
+		val result: Serializable = _result
+	}
+
+	@Test def testTraitWithProperties: Unit = {
+		FieldAndMethodTests.printClass(classOf[IOperView])
+		FieldAndMethodTests.printClass(classOf[Oper])
+		val op = new Oper("test", 0.asInstanceOf[Serializable])
 	}
 }
