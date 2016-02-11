@@ -157,6 +157,27 @@ class ControlTests {
 		}
 	}
 
+	@Test def testIterationAndException: Unit = {
+		val array:Array[Int] = (1 to 10).toArray
+
+		try {
+			array.foreach(i => if (i == 5) throw new Exception("5!"))
+			println("not 5")
+		} catch {
+			case e: Exception => println(e)
+		}
+
+
+		try {
+			for (i <- array) {
+				if (i == 5) throw new Exception("5!")
+			}
+			println("not 5")
+		} catch {
+			case e: Exception => println(e)
+		}
+	}
+
 	@Test def testFinally: Unit = {
 		def foo(): Int = {
 			try {

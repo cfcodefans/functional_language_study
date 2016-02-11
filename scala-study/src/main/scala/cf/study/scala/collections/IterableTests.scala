@@ -26,4 +26,13 @@ class IterableTests {
 		val fruits: Iterable[String] = List("apples", "oranges", "pears", "bananas")
 		println(fruits.foldRight("fruit: ")(_ + ", " + _))
 	}
+
+	@Test def testCollect: Unit = {
+		val fruits: Array[Array[String]] = Array(
+				Array("apples"),
+				Array("oranges", "pears"),
+				Array("bananas"))
+
+		fruits.flatten.foreach(println)
+	}
 }

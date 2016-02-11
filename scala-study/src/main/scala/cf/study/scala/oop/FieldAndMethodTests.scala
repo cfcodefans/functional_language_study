@@ -1,5 +1,7 @@
 package cf.study.scala.oop
 
+import java.lang.reflect.{Method, Modifier}
+
 import org.junit.Test
 
 /**
@@ -36,28 +38,46 @@ class Methods {
 
 }
 
-class FieldAndMethodTests {
-	def printFields[T](cls: Class[T]) {
-		cls.getDeclaredFields.map("\t" + _.toString).foreach(println)
+object FieldAndMethodTests {
+
+	def getTypeStr[T](cls: Class[T]): String = {
+		if (cls.isAnnotation) return "@interface"
+		if (cls.isInterface) return "interface"
+		if (cls.isEnum) return "enum"
+		return "class"
 	}
-	def printContructors[T](cls: Class[T]): Unit = {
+
+	def printFields[T](cls: Class[T]):Int = {
+		cls.getDeclaredFields.map("\t" + _.toString).foreach(println)
+		cls.getDeclaredFields.length
+	}
+	def printContructors[T](cls: Class[T]): Int = {
 		cls.getConstructors.foreach(c => println("\t" + c))
+		cls.getConstructors.length
 	}
 
 	def printMethods[T](cls: Class[T]): Unit = {
-		cls.getDeclaredMethods.foreach(m => println("\t" + m))
+		val statics: Array[Method] = cls.getDeclaredMethods.filter(m => Modifier.isStatic(m.getModifiers))
+		statics.foreach(m => println("\t" + m))
+		if (!statics.isEmpty) println()
+		cls.getDeclaredMethods.filter(m => !Modifier.isStatic(m.getModifiers)).foreach(m => println("\t" + m))
 	}
 
 	def printClass[T](cls: Class[T]): Unit = {
-		println("class " + cls.getSimpleName + " {")
-		printContructors(cls)
-		println()
-		printFields(cls)
-		println()
+		println(getTypeStr(cls) + " " + cls.getSimpleName + " {")
+		if (printContructors(cls) > 0)
+			println()
+
+		if (printFields(cls) > 0)
+			println()
+
 		printMethods(cls)
 		println("}")
 	}
+}
 
+class FieldAndMethodTests {
+	import FieldAndMethodTests._
 	@Test def testFields(): Unit = {
 		printClass(classOf[Bar1])
 		printClass(classOf[Bar2])
@@ -65,5 +85,9 @@ class FieldAndMethodTests {
 		printClass(classOf[Bar4])
 		printClass(classOf[Bar5])
 		printClass(classOf[Bar6])
+	}
+
+	@Test def testObject: Unit = {
+		printClass(classOf[FieldAndMethodTests])
 	}
 }
