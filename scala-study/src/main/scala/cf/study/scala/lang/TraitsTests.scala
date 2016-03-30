@@ -124,7 +124,7 @@ class TraitsTests {
 		}
 
 		{
-			val stackQueue = (new BasicIntQueue with Incrementing with Doubling) //Doubling's put is call first then the Incrementing's put method
+			val stackQueue = (new BasicIntQueue with Incrementing with Doubling) //Doubling's put is called first then the Incrementing's put method
 			stackQueue.put(2)
 			println(stackQueue.get)
 		}

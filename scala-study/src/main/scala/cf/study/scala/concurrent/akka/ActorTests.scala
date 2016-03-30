@@ -26,15 +26,12 @@ class ActorTests {
 		}
 
 		class TestActor extends Actor {
-			val log = Logging(context.system, this)
+//			val log = Logging(context.system, this)
 			override def receive: Receive = {
 				case "test" => {
-					println("test received")
-					log.info("received test")
-
 					longOper
 				}
-				case _ => log.info("received unknown message")
+				case _ => println("received unknown message")
 			}
 		}
 
@@ -50,6 +47,7 @@ class ActorTests {
 		Thread.sleep(100)
 
 		println("kill an actor")
+		Thread.sleep(5000)
 
 	}
 }

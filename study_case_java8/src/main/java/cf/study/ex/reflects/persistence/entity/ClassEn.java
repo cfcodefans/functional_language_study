@@ -104,16 +104,6 @@ public class ClassEn extends BaseEn {
 		_ce.clazz = clazz;
 		_ce.types.addAll(types);
 		_ce.modifiers.addAll(modifiers);
-		
-//		if (pkg != null)
-//			_ce.pkg = pkg.clone();
-//		
-//		_ce.superClz = superClz.clone();
-//		
-//		Set<ClassEn> infs2 = _ce.infs;
-//		infs.stream().forEach(inf->{
-//			infs2.add(inf.clone());
-		// });
 
 		return _ce;
 	}
