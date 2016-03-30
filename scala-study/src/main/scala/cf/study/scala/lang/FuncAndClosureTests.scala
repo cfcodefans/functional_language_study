@@ -204,6 +204,7 @@ class FuncAndClosureTests {
 			println(this)
 			Thread.currentThread().getStackTrace.foreach(println);
 			1
+			2
 		}
 		println(getOne)
 	}

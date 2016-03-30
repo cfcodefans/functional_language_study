@@ -11,4 +11,10 @@ class StreamTests {
 		val it:Iterator[Int] = intList.iterator
 		Stream.continually(it.next).foreach(println)
 	}
+
+	@Test def testStream1: Unit = {
+		val intList: List[Int] = 1.to(10).toList
+		val it:Iterator[Int] = intList.iterator
+		Stream.continually(it.next).t
+	}
 }
