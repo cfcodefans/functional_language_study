@@ -16,3 +16,8 @@ pom.xml.asc
 .project
 **/.idea/**
 **/.idea
+**/node_modules
+**/node_modules/**
+**/typings
+**/typings/**
+
