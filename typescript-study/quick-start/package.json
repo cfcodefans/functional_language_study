@@ -1,0 +1,14 @@
+{
+  "name": "typescript-study",
+  "version": "1.0.0",
+  "description": "a project for me to study the syntax and idea of typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "study"
+  ],
+  "author": "cf.chenfan@gmail.com",
+  "license": "ISC"
+}
