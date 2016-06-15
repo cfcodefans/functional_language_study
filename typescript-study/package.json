@@ -2,18 +2,13 @@
   "name": "typescript-study",
   "version": "1.0.0",
   "description": "a project for me to study the syntax and idea of typescript",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "test"
   },
   "keywords": [
     "study"
   ],
-
-  "dependencies" : {
-    "tsunit.external": "^2.0.0"
-  }
-
   "author": "cf.chenfan@gmail.com",
   "license": "ISC"
 }
