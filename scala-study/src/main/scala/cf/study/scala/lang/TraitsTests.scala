@@ -39,9 +39,9 @@ class TraitsTests {
 	}
 
 	class Insect extends Animal with HasLegs with HasWings {
-		override def legs = {
+		override def legs:Int = {
 			println("though super has %d legs".format(super.legs))
-			6
+			return 6
 		}
 	}
 

@@ -4,8 +4,8 @@ import java.util.{Calendar, Date}
 
 import cf.study.scala.MiscTests.MyClass
 import org.junit.{Assert, Test}
+import java.util.concurrent.atomic.AtomicInteger
 
-import scala.actors.threadpool.AtomicInteger
 
 /**
  * Created by fan on 2015/9/16.

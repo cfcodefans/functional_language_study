@@ -1,0 +1,13 @@
+{
+  "name": "cf.study.web.typescript",
+  "version": "0.0.0",
+  "description": "Study cases for typescript",
+  "main": "Main.js",
+  "author": {
+    "name": "chen fan",
+    "email": "cf.chenfan@gmail.com"
+  },
+  "dependencies": {
+    "tsunit.external": "^2.0.0"
+  }
+}

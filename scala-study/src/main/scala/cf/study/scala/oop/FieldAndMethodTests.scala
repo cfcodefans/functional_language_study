@@ -4,6 +4,8 @@ import java.lang.reflect.{Method, Modifier}
 
 import org.junit.Test
 
+import scala.beans.BeanProperty
+
 /**
  * Created by fan on 2015/11/10.
  */
@@ -21,7 +23,18 @@ class Bar4(_id: Int) {
 
 class Bar5(var id:Int)
 
-class Bar6 {
+class Bar6(_id:Int) {
+	var id:Int = _id;
+}
+
+class Bar7(_id:Int) {
+	@BeanProperty var id:Int = _id
+	@BeanProperty val age:Int = 0
+}
+
+class Bar8(@BeanProperty id:Int)
+
+class _Bar {
 	def public = println("public")
 	implicit def _implicit = println("implicit")
 	private def _private = println("private")
@@ -39,52 +52,26 @@ class Methods {
 }
 
 object FieldAndMethodTests {
-
-	def getTypeStr[T](cls: Class[T]): String = {
-		if (cls.isAnnotation) return "@interface"
-		if (cls.isInterface) return "interface"
-		if (cls.isEnum) return "enum"
-		return "class"
-	}
-
-	def printFields[T](cls: Class[T]):Int = {
-		cls.getDeclaredFields.map("\t" + _.toString).foreach(println)
-		cls.getDeclaredFields.length
-	}
-	def printContructors[T](cls: Class[T]): Int = {
-		cls.getConstructors.foreach(c => println("\t" + c))
-		cls.getConstructors.length
-	}
-
-	def printMethods[T](cls: Class[T]): Unit = {
-		val statics: Array[Method] = cls.getDeclaredMethods.filter(m => Modifier.isStatic(m.getModifiers))
-		statics.foreach(m => println("\t" + m))
-		if (!statics.isEmpty) println()
-		cls.getDeclaredMethods.filter(m => !Modifier.isStatic(m.getModifiers)).foreach(m => println("\t" + m))
-	}
-
-	def printClass[T](cls: Class[T]): Unit = {
-		println(getTypeStr(cls) + " " + cls.getSimpleName + " {")
-		if (printContructors(cls) > 0)
-			println()
-
-		if (printFields(cls) > 0)
-			println()
-
-		printMethods(cls)
-		println("}")
-	}
+	import cf.study.scala.util.ClassLens._
+	def printClass[T](cls: Class[T]) = println(prespective(cls))
 }
 
 class FieldAndMethodTests {
 	import FieldAndMethodTests._
+
 	@Test def testFields(): Unit = {
-		printClass(classOf[Bar1])
-		printClass(classOf[Bar2])
-		printClass(classOf[Bar3])
-		printClass(classOf[Bar4])
-		printClass(classOf[Bar5])
-		printClass(classOf[Bar6])
+//		printClass(classOf[Bar1])
+//		printClass(classOf[Bar2])
+//		printClass(classOf[Bar3])
+//		printClass(classOf[Bar4])
+//		printClass(classOf[Bar5])
+//		printClass(classOf[Bar6])
+		printClass(classOf[Bar7])
+//		printClass(classOf[Bar8])
+
+//		val b6 = new Bar6(5)
+//		b6.id = 3;
+//		println(b6.id)
 	}
 
 	@Test def testObject: Unit = {

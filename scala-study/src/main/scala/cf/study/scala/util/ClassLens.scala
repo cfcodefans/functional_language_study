@@ -3,6 +3,7 @@ package cf.study.scala.util
 import java.lang.annotation.Annotation
 import java.lang.reflect.{Modifier => Mod, Executable, Field, Method, Parameter}
 
+import org.apache.commons.lang3.{ArrayUtils, StringUtils}
 import org.junit.Test
 
 import scala.collection.mutable
@@ -44,13 +45,15 @@ object ClassLens {
 		val lines: ListBuffer[String] = new ListBuffer[String]
 
 		def processAnnotations(ans: Array[Annotation], prefix: String = ""): Unit = {
+			if (ans.isEmpty) return;
+
 			imports.appendAll(ans.map(_.annotationType()))
-			lines.appendAll(ans.map(prefix + _.toString))
+			lines.appendAll(ans.map(prefix + _.annotationType().getName))
 		}
 
 		lines += "package %s;".format(cls.getPackage.getName)
 
-		processAnnotations(cls.getAnnotations)
+		processAnnotations(cls.getAnnotations, "@")
 
 		lines += "%s %s %s extends %s".format(modsToStrs(cls.getModifiers).mkString(" "),
 			typeStr(cls),
@@ -65,7 +68,7 @@ object ClassLens {
 			lines.update(lines.length - 1, lines.last + " {")
 		}
 
-		def fieldToLine(f: Field) = "\t%s %s %s;".format(modsToStrs(f.getModifiers).mkString(" "), f.getDeclaringClass.getSimpleName, f.getName)
+		def fieldToLine(f: Field) = "\t%s %s %s;".format(modsToStrs(f.getModifiers).mkString(" "), f.getType.getSimpleName, f.getName)
 
 		def paramToStr(p: Parameter): String = {
 			val anns: Array[Annotation] = p.getAnnotations
@@ -92,10 +95,11 @@ object ClassLens {
 
 		val mds: Array[Method] = cls.getDeclaredMethods
 		val fs: Array[Field] = cls.getDeclaredFields
-		imports.appendAll(fs.map(_.getDeclaringClass))
+		imports.appendAll(fs.map(_.getType))
 
 		def procLine(f: Field) {
-			processAnnotations(f.getAnnotations, "\t")
+			processAnnotations(f.getAnnotations, "\t@")
+			imports.append(f.getType)
 			lines += fieldToLine(f)
 		}
 
@@ -125,12 +129,13 @@ object ClassLens {
 		if (!imports.isEmpty) {
 			lines.insert(1, "\n")
 			val top = classOf[Object].getPackage
-			lines.insertAll(1, imports.filter(c => top.equals(c.getPackage.equals()))
+			lines.insertAll(1, imports.filter(c => top.equals(c.getPackage))
 					.map(c => if (c.isArray) c.getComponentType.getName else c.getName)
+//					.map(n => {println(n); StringUtils.substringBefore(n, "\n");})
 					.distinct.map("import %s;".format(_)).sorted)
 		}
 
-		return lines.mkString("\n")
+		return lines.filter(line => StringUtils.isNotBlank(line)).mkString("\n")
 	}
 }
 
