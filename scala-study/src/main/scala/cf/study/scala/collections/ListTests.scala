@@ -189,4 +189,30 @@ class ListTests {
 		println(msort((_1:Int, _2:Int) => _1 < _2)(nums))
 		println(msort((_1:Int, _2:Int) => _1 > _2)(nums))
 	}
+
+	@Test def testCollect(): Unit = {
+		val samples: List[Int] = 1.to(10).toList
+		val isEven: PartialFunction[Int, String] = {
+			case x if x % 2 == 0 => x + " is even"
+		}
+
+		val evenNums = samples.collect(isEven)
+		println(evenNums)
+
+		val isOdd: PartialFunction[Int, String] = {
+			case x if x % 2 != 0 => x + " is odd"
+		}
+
+		val nums = samples.map(isEven.orElse(isOdd))
+		println(nums)
+	}
+
+	@Test def testFoldLeft(): Unit = {
+		val samples: List[Int] = 1.to(10).toList
+		val sum:Int = samples.sum
+		println(sum)
+
+		println(samples.foldLeft(0)((a, b) => a + b))
+		println(samples.foldLeft("join: ")((s, i) => s + i + ", "))
+	}
 }
