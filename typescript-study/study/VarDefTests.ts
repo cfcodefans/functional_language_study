@@ -90,4 +90,44 @@ export class VarDefTests extends tsUnit.TestClass {
 		}
 	}
 
+	testArrayDestructuring() {
+		let input = [1, 2];
+		let [first, second] = input;
+
+		this.areIdentical(1, first);
+		this.areIdentical(2, second);
+
+		[first, second] = [second, first];
+
+		this.areIdentical(2, first);
+		this.areIdentical(1, second);
+
+		function f([first, second] : [number, number]) {
+			console.log("first:\t" + first);
+			console.log("second:\t" + second);
+		}
+
+		f([3, 4]);
+
+		[first] = [4, 3, 2, 1];
+		this.areIdentical(first, 4);
+
+		let [head, ...rest] = [0, 1, 2, 3, 4];
+		console.info(rest, "let [head, ...rest] = [0, 1, 2, 3, 4];");
+
+		let [a, , c] = [4, 3, 2, 1];
+		this.areIdentical(a, 4);
+		this.areIdentical(c, 2);
+	}
+
+	testObjectDestructuring() {
+		let coordinate = { x: 100, y: 200 };
+		let {x, y} = coordinate;
+
+		this.areIdentical(x, coordinate.x);
+		this.areIdentical(y, coordinate.y);
+
+		//TODO
+	}
+
 }
