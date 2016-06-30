@@ -11,5 +11,6 @@ class StringTests {
 	@Test def testSplit: Unit = {
 		println("abc".split(',').toList)
 		println("/data".split(',').toList)
+		println("\u000A")
 	}
 }
