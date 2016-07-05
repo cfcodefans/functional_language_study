@@ -9,7 +9,7 @@ export class InterfaceTests extends tsUnit.TestClass {
 	}
 
 	setUp() {
-		console.info("\nsetUp\t");
+		console.info("\nsetUp\t");		
 	}
 
 	tearDown() {
@@ -197,6 +197,99 @@ export class InterfaceTests extends tsUnit.TestClass {
 				}
 			}
 		}
+	}
 
+	testExtendInterface() {
+		interface Shape {
+			color: string;
+		}
+
+	 	{
+			interface Square extends Shape {
+				sideLength: number;
+			}
+
+			let square = <Square>{};
+			square.color = "blue";
+			square.sideLength = 10;
+
+			console.info(square);
+		}
+
+		{
+			interface PenStroke {
+				penWidth: number;
+			}
+
+			interface Square extends Shape, PenStroke {
+				sideLength: number;
+			}
+
+			let square = <Square>{};
+			square.color = "blue";
+			square.sideLength = 10;
+			square.penWidth = 5.0;
+
+			console.info(square);
+		}
+	}
+
+	testHybirdTypes() {
+		interface Counter {
+			(start: number): string;
+			interval: number;
+			reset(): void;
+		}
+
+		function getCounter(): Counter {
+			let counter = <Counter>function (start: number) {console.info("(start = %d: number)", start);};
+			counter.interval = 123;
+			counter.reset = function() {};
+			return counter;
+		}
+
+		let c:Counter = getCounter();
+		c(10);
+		c.reset();
+		c.interval = 5.0;
+
+		console.info(c);
+
+		c(15);
+	}
+
+	testInterfaceExtendingClasses() {
+		class Control {
+			private state: any;
+		}
+
+		interface SelectableControl extends Control {
+			select(): void;
+		}
+
+		class Button extends Control {
+			select() {console.info(this + ".select()");}
+		}
+
+		class TextBox extends Control {
+			select() {console.info(this + ".select()");}	
+		}
+
+		class Image extends Control {
+
+		}
+
+		class Location {
+			select() {console.info(this + ".select()");}
+		}
+
+		let sc: SelectableControl = new Button();
+		sc.select();
+		sc = new TextBox();
+		sc.select();
+		// sc = new Image();
+		// sc.select();
+		// sc = new Location();
+		// sc.select();
 	}
 }
