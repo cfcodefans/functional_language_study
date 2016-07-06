@@ -64,4 +64,41 @@ export class FunctionTests extends tsUnit.TestClass {
 		}
 		invoker(sub, 10, 20);
 	}
+
+	testFunctionParams() {
+		function buildName(firstName: string, lastName: string): string {
+			return `${firstName} ${lastName}`;
+		}
+
+		// console.info(buildName("Bob")); //error too few parameters
+		// console.info(buildName("Bob", "Adams", "Sr.")); //error, too many parameters
+		console.info(buildName("Bob", "Adams"));
+	}
+
+	testOptionalParams() {
+		function buildName(firstName: string, lastName?: string): string {
+			return `${firstName} ${lastName}`;	
+		}
+		console.info(buildName("Bob")); 
+		// console.info(buildName("Bob", "Adams", "Sr.")); //error, too many parameters
+		console.info(buildName("Bob", "Adams"));	
+
+		function max(a: number, b?: number, c?:number): number {
+			return Math.max(a, Math.max(b, c));
+		}
+		console.info(max(4));	//NAN
+		console.info(max(4, 5));	//NAN
+		console.info(max(4, 5, 6));	//6
+	}
+
+	testDefaultParams() {
+		function buildName(firstName: string, lastName: string = "Smith"): string {
+			return `${firstName} ${lastName}`;
+		}
+
+		console.info(buildName("Bob"));
+		console.info(buildName("Bob", undefined));
+		// console.info(buildName("Bob", "Adams", "Sr")); //error, too many parameters
+		console.info(buildName("Bob", "Adams"));
+	}
 }

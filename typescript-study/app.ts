@@ -13,7 +13,7 @@ function main() {
 	var tests = new tsUnit.Test(
 		// BasicTypeTests,
 		// VarDefTests,
-		// InterfaceTests,
+		// InterfaceTests, 
 		// ClassTests,
 		FunctionTests
 		);
