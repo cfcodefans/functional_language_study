@@ -4,6 +4,7 @@ import VarDefTests = require("./study/VarDefTests");
 import InterfaceTests = require("./study/InterfaceTests");
 import ClassTests = require("./study/ClassTests");
 import FunctionTests = require("./study/FunctionTests");
+import GenericTests = require("./study/GenericTests");
 
 // import readline = require("readline");
 
@@ -15,14 +16,18 @@ function main() {
 		// VarDefTests,
 		// InterfaceTests, 
 		// ClassTests,
-		FunctionTests
+		// FunctionTests,
+		GenericTests
 		);
 
 	//Run the tests
-	var result = tests.run();
-
-	//Show the test results (TAP output)
-	console.info(result.getTapResults());
+	try {
+		var result = tests.run();
+		//Show the test results (TAP output)
+		console.info(result.getTapResults());
+	} catch(e) {
+		console.error(e);
+	}
 }
 
 main();

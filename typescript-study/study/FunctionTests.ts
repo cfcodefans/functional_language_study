@@ -5,7 +5,7 @@ export class FunctionTests extends tsUnit.TestClass {
 	
 	constructor() {
 		super();
-		console.info("constructor:\t" + this);
+		console.info("constructor:\t");
 	}
 
 	setUp() {
@@ -92,7 +92,7 @@ export class FunctionTests extends tsUnit.TestClass {
 	}
 
 	testDefaultParams() {
-		function buildName(firstName: string, lastName: string = "Smith"): string {
+		function buildName(firstName: string, lastName: string = "Default"): string {
 			return `${firstName} ${lastName}`;
 		}
 
@@ -100,5 +100,134 @@ export class FunctionTests extends tsUnit.TestClass {
 		console.info(buildName("Bob", undefined));
 		// console.info(buildName("Bob", "Adams", "Sr")); //error, too many parameters
 		console.info(buildName("Bob", "Adams"));
+
+		function _buildName(firstName = "Default", lastName: string) :string {
+			return `${firstName} ${lastName}`;	
+		}
+
+		// console.info(_buildName("Bob")); //Error, too few parameters
+		// console.info(_buildName("Bob", "Adams", "Sr")); //error, too many parameters
+		console.info(_buildName("Jimmy", undefined));
+		console.info(_buildName("Jimmy", "Adams"));		
+		console.info(_buildName(undefined, "Adams"));		
+	}
+
+	testRestParameters() {
+		function buildName(firstName: string, ...restOfName: string[]): string {
+			restOfName.unshift(firstName);
+			return restOfName.join(" ");
+		}
+
+		console.info(buildName("Joseph", "Samuel", "Lucas", "Mackinzie"));
+		console.info(buildName("fan"));
+	}
+
+	testArguments() {
+		function inspectArguments(...params: any[]):void {
+			console.info(`typeof(arguments) = ${typeof(arguments)}`);
+			console.info(`length: ${arguments.length}`);
+			for (var i: number = 0, j: number = arguments.length; i < j; i++) {
+				console.info(i, arguments[i]);
+			}
+		}
+
+		inspectArguments(1, 2, 3);
+		inspectArguments("a", "b", "c");
+		inspectArguments();
+	}
+
+	testThis() {
+		let deck = {
+			suits: ["hearts", "spades", "clubs", "diamonds"],
+			cards: Array(52),
+			createCardPicker: function() {
+				return function() {
+					let pickedCard = Math.floor(Math.random() * 52);
+					let pickedSuit = Math.floor(pickedCard / 13);
+					//need to bind "this" to deck
+					return {suit: this.suits[pickedSuit], card: pickedCard % 13};
+				};
+			}
+		}
+
+		let cardPicker = deck.createCardPicker().bind(deck); 
+		let pickedCard = cardPicker();
+
+		console.info(`card: ${pickedCard.card} of ${pickedCard.suit}`);
+	}
+
+	testLambdaWitThis() {
+		let deck = {
+			suits: ["hearts", "spades", "clubs", "diamonds"],
+			cards: Array(52),
+			createCardPicker: function() {
+				return () => {
+					let pickedCard = Math.floor(Math.random() * 52);
+					let pickedSuit = Math.floor(pickedCard / 13);
+					return {suit: this.suits[pickedSuit], card: pickedCard % 13};
+				};
+			}
+		};
+
+		let cardPicker = deck.createCardPicker();
+		let pickedCard = cardPicker();
+		console.info(`card: ${pickedCard.card} of ${pickedCard.suit}`);
+	}
+
+	testJavascriptOverloads() {
+		let suits = ["hearts", "spades", "clubs", "diamonds"];
+
+		function pickCard(x): any {
+			// Check to see if we're working with an object/array
+			// if so, they gave us the deck and we'll pick the card
+			if (typeof(x) == "object") {
+				let pickedCard = Math.floor(Math.random() * x.length);
+				return pickedCard;
+			}
+			// Otherwise just let them pick the card
+			else if (typeof(x) == "number") {
+				let pickedSuit = Math.floor(x / 13);
+				return {suit: suits[pickedSuit], card: x % 13};
+			}
+		}
+
+		let myDeck = [{suit: "diamonds", card: 2},
+						{suit: "spades", card: 10},
+						{suit: "hearts", card: 4},];
+		let pickedCard1 = myDeck[pickCard(myDeck)];
+		console.info(`card: ${pickedCard1.card} of ${pickedCard1.suit}`);
+
+		let pickedCard2 = pickCard(15);
+		console.info(`card: ${pickedCard2.card} of ${pickedCard2.suit}`);		
+	}
+
+	testTypescriptOverloads() {
+		let suits = ["hearts", "spades", "clubs", "diamonds"];
+		function pickCard(x: {suit: string; card: number;}[]): number;
+		function pickCard(x: number): {suit: string; card: number;};
+		function pickCard(x): any {
+			// Check to see if we're working with an object/array
+			// if so, they gave us the deck and we'll pick the card
+			if (typeof(x) == "object") {
+				let pickedCard = Math.floor(Math.random() * x.length);
+				return pickedCard;
+			}
+			// Otherwise just let them pick the card
+			else if (typeof(x) == "number") {
+				let pickedSuit = Math.floor(x / 13);
+				return {suit: suits[pickedSuit], card: x % 13};
+			}
+		}
+
+		let myDeck = [{suit: "diamonds", card: 2},
+						{suit: "spades", card: 10},
+						{suit: "hearts", card: 4},];
+		let pickedCard1 = myDeck[pickCard(myDeck)];
+		console.info(`card: ${pickedCard1.card} of ${pickedCard1.suit}`);
+
+		let pickedCard2 = pickCard(15);
+		console.info(`card: ${pickedCard2.card} of ${pickedCard2.suit}`);
+
+		// let pickedCard3 = pickCard("spade"); // violate type checks
 	}
 }
