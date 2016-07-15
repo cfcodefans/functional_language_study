@@ -5,6 +5,9 @@ import InterfaceTests = require("./study/lang/InterfaceTests");
 import ClassTests = require("./study/lang/ClassTests");
 import FunctionTests = require("./study/lang/FunctionTests");
 import GenericTests = require("./study/lang/GenericTests");
+import EnumTests = require("./study/lang/EnumTests");
+import TypeInferenceTests = require("./study/lang/TypeInferenceTests");
+import TypeCompatibilityTests = require("./study/lang/TypeCompatibilityTests");
 
 // import readline = require("readline");
 
@@ -17,7 +20,10 @@ function main() {
 		// InterfaceTests, 
 		// ClassTests,
 		// FunctionTests,
-		GenericTests
+		// GenericTests,
+		// EnumTests,
+		// TypeInferenceTests,
+		TypeCompatibilityTests
 		);
 
 	//Run the tests
