@@ -1,4 +1,4 @@
-import tsUnit = require("../node_modules/tsunit.external/tsUnit");
+import tsUnit = require("../../node_modules/tsunit.external/tsUnit");
 
 abstract class Mammal {
 	abstract makeSound(): void;
