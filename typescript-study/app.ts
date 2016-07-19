@@ -8,6 +8,7 @@ import GenericTests = require("./study/lang/GenericTests");
 import EnumTests = require("./study/lang/EnumTests");
 import TypeInferenceTests = require("./study/lang/TypeInferenceTests");
 import TypeCompatibilityTests = require("./study/lang/TypeCompatibilityTests");
+import CallbackTests = require("./study/async/CallbackTests");
 
 // import readline = require("readline");
 
@@ -24,6 +25,7 @@ function main() {
 		// EnumTests,
 		// TypeInferenceTests,
 		TypeCompatibilityTests
+		// CallbackTests
 		);
 
 	//Run the tests
