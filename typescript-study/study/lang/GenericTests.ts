@@ -87,5 +87,40 @@ export class GenericTests extends tsUnit.TestClass {
 		}
 
 		let x = {a: 1, b: 2, c: 3, d: 4};
+		copyFields(x, {b: 10, d: 20});
+		// copyFields(x, {Q: 90});//error, property 'Q' isn't declared in 'x'
+	}
+
+	testGenericsWithClassType() {
+		function create<T>(c: {new(): T}):T {
+			return new c();
+		}
+
+		class BeeKeeper {
+			hasMask: boolean;
+		}
+
+		class ZooKeeper {
+			nametag: string;
+		}
+
+		class Animal {
+			numLegs: number;
+		}
+
+		class Bee extends Animal {
+			keeper: BeeKeeper;
+		}
+
+		class Lion extends Animal {
+			keeper: ZooKeeper;
+		}
+
+		function findKeeper<A extends Animal, K>(a: {new (): A; prototype: {keeper: K}}): K {
+			return a.prototype.keeper;
+		}
+
+		findKeeper(Lion).nametag;
+		findKeeper(Bee).hasMask;
 	}
 }
