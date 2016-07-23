@@ -51,6 +51,7 @@ class ImplicitTests {
 	}
 
 	@Test
+	@throws[Exception]
 	def testImplicitClass: Unit = {
 		implicit class TriangleFunc(_d:Double) {
 			def sin = Math.sin(_d)
@@ -59,6 +60,18 @@ class ImplicitTests {
 
 		println(3.14, 3.14.sin)
 		println(1.57, 1.57.sin)
+
+		implicit class FuncRunnable(f: () => Unit) extends Runnable {
+			def run():Unit = {f()}
+		}
+
+		val r:Runnable = () => println("thread:\t" + Thread.currentThread.toString)
+
+		val t: Thread = new Thread(r)
+		t.start
+		t.join
+
+		t.run
 	}
 
 	@Test
