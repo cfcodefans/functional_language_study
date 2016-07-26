@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Angular 2 QuickStart</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css" href="styles.css">
+
+	<!-- 1. Load libraries -->
+	<!-- Polyfill(s) for older browsers -->
+	<script type="text/javascript" src="node_modules/core-js/client/shim.min.js"></script>
+	<script type="text/javascript" src="node_modules/zone.js/dist/zone.js"></script>
+	<script type="text/javascript" src="node_modules/reflect-metadata/Reflect.js"></script>
+	<script type="text/javascript" src="node_modules/systemjs/dist/system.src.js"></script>
+
+	<!-- 2. Configure SystemJS -->
+	<script type="text/javascript" src="systemjs.config.js"></script>
+
+	<script type="text/javascript">
+		System.import("app").catch((err) => console.error(err));
+	</script>
+</head>
+<body>
+	<!-- 3. Display the applicatin -->
+	<my-app>Loading...</my-app>
+</body>
+</html>
