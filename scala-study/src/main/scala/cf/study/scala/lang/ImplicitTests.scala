@@ -5,14 +5,16 @@ import java.util.Date
 import org.junit.Test
 
 /**
- * Created by fan on 2016/1/20.
- */
+  * Created by fan on 2016/1/20.
+  */
 class ImplicitTests {
+
 	class IntWithTimes(i: Int) {
 		def times[A](f: => A): Unit = {
 			for (i <- 0 to i)
 				f
 		}
+
 		override def toString: String = "Times: %d".format(i)
 	}
 
@@ -28,32 +30,32 @@ class ImplicitTests {
 	@Test
 	def testImplicitFuncAndValue: Unit = {
 		class DateLong(_date: Date) {
-			val longVal:Long = _date.getTime
-			val date:Date = _date
+			val longVal: Long = _date.getTime
+			val date: Date = _date
 
-			def this(_long:Long) = {
+			def this(_long: Long) = {
 				this(new Date(_long))
 			}
 
-			override def toString():String = s"$date\t=\t$longVal"
+			override def toString(): String = s"$date\t=\t$longVal"
 		}
 
 		def printDateLong(dl: DateLong) = println(dl)
-		val _l:Long = 0
+		val _l: Long = 0
 		printDateLong(new DateLong(_l))
 
-		implicit def longToDateLong(_l:Long) = new DateLong(_l)
+		implicit def longToDateLong(_l: Long) = new DateLong(_l)
 		printDateLong(_l)
 
-		implicit val theMoment:Long = 10000000;
-		def when(implicit _l:Long) = new DateLong(_l)
+		implicit val theMoment: Long = 10000000;
+		def when(implicit _l: Long) = new DateLong(_l)
 		println(when)
 	}
 
 	@Test
 	@throws[Exception]
 	def testImplicitClass: Unit = {
-		implicit class TriangleFunc(_d:Double) {
+		implicit class TriangleFunc(_d: Double) {
 			def sin = Math.sin(_d)
 			def cos = Math.cos(_d)
 		}
@@ -62,10 +64,12 @@ class ImplicitTests {
 		println(1.57, 1.57.sin)
 
 		implicit class FuncRunnable(f: () => Unit) extends Runnable {
-			def run():Unit = {f()}
+			def run(): Unit = {
+				f()
+			}
 		}
 
-		val r:Runnable = () => println("thread:\t" + Thread.currentThread.toString)
+		val r: Runnable = () => println("thread:\t" + Thread.currentThread.toString)
 
 		val t: Thread = new Thread(r)
 		t.start
@@ -77,18 +81,20 @@ class ImplicitTests {
 	@Test
 	def testImplicitObjectAndArg: Unit = {
 		trait Middle[T] {
-			def middle(a:T, b:T): T
+			def middle(a: T, b: T): T
 		}
 		implicit object MiddleInt extends Middle[Int] {
-			def middle(a:Int, b:Int) = (a + b) / 2
+			def middle(a: Int, b: Int) = (a + b) / 2
 		}
 		implicit object MiddleString extends Middle[String] {
-			def middle(a:String, b:String) = a.substring(a.length / 2, a.length) + b.substring(0, b.length / 2)
+			def middle(a: String, b: String) = a.substring(a.length / 2, a.length) + b.substring(0, b.length / 2)
 		}
 		implicit object MiddleDate extends Middle[Date] {
-			def middle(d1:Date, d2:Date) = new Date({if (d1.before(d2)) d1 else d2}.getTime + Math.abs(d1.getTime - d2.getTime) / 2)
+			def middle(d1: Date, d2: Date) = new Date({
+				if (d1.before(d2)) d1 else d2
+			}.getTime + Math.abs(d1.getTime - d2.getTime) / 2)
 		}
-		def middle[T:Middle](x:T, y:T):T = {
+		def middle[T: Middle](x: T, y: T): T = {
 			val mid = implicitly[Middle[T]]
 			return mid.middle(x, y)
 		}
@@ -97,7 +103,7 @@ class ImplicitTests {
 		println(middle("abcd", "123456"))
 		println(middle(new Date(0), new Date()))
 
-		def _middle[T:Middle](x:T, y:T)(implicit mid:Middle[T]) = mid.middle(x, y)
+		def _middle[T: Middle](x: T, y: T)(implicit mid: Middle[T]) = mid.middle(x, y)
 		println(_middle(1, 4))
 		println(_middle("abcd", "123456"))
 		println(_middle(new Date(0), new Date()))

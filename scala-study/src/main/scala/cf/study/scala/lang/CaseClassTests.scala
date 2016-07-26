@@ -3,28 +3,38 @@ package cf.study.scala.lang
 import org.junit.{Assert, Test}
 
 /**
- * Created by fan on 2015/11/16.
- */
+  * Created by fan on 2015/11/16.
+  */
 package object CaseClassTests {
 	def foo(): Unit = {
 		println("CaseClassTests.foo")
 	}
+
 	abstract class Expr {
 		println("Expr constructor")
+		def eval(s: String): String = s
 	}
+
 	case class Var(name: String) extends Expr {
 		println("Var constructor: %s".format(name))
 	}
-	case class Number(num: Double) extends  Expr {
+
+	case class Number(num: Double) extends Expr {
 		println("Number constructor: %f".format(num))
 	}
+
 	case class UnOp(operator: String, arg: Expr) extends Expr {
 		println("new UnOp(%s, %s)".format(operator, arg))
 	}
+
 	case class BinOp(operator: String, left: Expr, right: Expr) extends Expr
+
 }
+
 class Tests {
+
 	import CaseClassTests._
+
 	@Test def testCaseClass(): Unit = {
 		//class cf.study.scala.lang.CaseClassTests.package$Var$
 		println(Var.getClass)
@@ -102,14 +112,14 @@ class Tests {
 			case _ =>
 		})
 
-		println(List(0,0,1,1,2,3) match {
+		println(List(0, 0, 1, 1, 2, 3) match {
 			case List(0, _*) => println("list begins with 0")
 			case _ =>
 		})
 	}
 
 	@Test def testTuplePattern(): Unit = {
-		val v:Any = 42
+		val v: Any = 42
 		println((v) match {
 			case (a) => "(a)" //so it depends on order too
 			case (42) => "answer of universe"
@@ -117,7 +127,8 @@ class Tests {
 			case _ => "what"
 		})
 
-		println((v) match { //so it depends on order too
+		println((v) match {
+			//so it depends on order too
 			case (42) => "answer of universe"
 			case (a) => "(a)"
 			case (a, b) => "(a, b)"
@@ -132,7 +143,7 @@ class Tests {
 	}
 
 	@Test def testTypedPattern(): Unit = {
-		def len(x:Any) = x match {
+		def len(x: Any) = x match {
 			case s: String => s.length
 			case m: Map[_, _] => m.size
 			case a: Array[_] => a.length
@@ -150,21 +161,21 @@ class Tests {
 		println()
 
 		println(UnOp("abs", n5) match {
-			case UnOp("abs", e @ UnOp("abs", _)) => e
+			case UnOp("abs", e@UnOp("abs", _)) => e
 			case _ =>
 		})
 
 		println(UnOp("abs", UnOp("abs", n5)) match {
 			// if you apply abs to a number multiple times
 			// it would be same as you apply abs once
-			case UnOp("abs", e @ UnOp("abs", _)) => e
+			case UnOp("abs", e@UnOp("abs", _)) => e
 			case _ =>
 		})
 
 		println(UnOp("abs", UnOp("abs", UnOp("abs", n5))) match {
 			// if you apply abs to a number multiple times
 			// it would be same as you apply abs once
-			case UnOp("abs", e @ UnOp("abs", _)) => e
+			case UnOp("abs", e@UnOp("abs", _)) => e
 			case _ =>
 		})
 	}
@@ -176,7 +187,7 @@ class Tests {
 			}
 
 			//synthesis methods are only generated while the class is defined within the case class
-//			val int = TriOp("Integration", Var("x"), Number(0), Number(10))
+			//			val int = TriOp("Integration", Var("x"), Number(0), Number(10))
 			val ing = new TriOp("Integration", Var("x"), Number(0), Number(10))
 		}
 	}
@@ -199,4 +210,6 @@ class Tests {
 		val n0: Number = Number(0)
 		println(simplifyAll(UnOp("-", UnOp("-", UnOp("-", n0)))))
 	}
+
+
 }
