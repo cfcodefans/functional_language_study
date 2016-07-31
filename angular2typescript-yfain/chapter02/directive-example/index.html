@@ -2,25 +2,25 @@
 <html>
 <head>
 	<title></title>
-	<script src="//cdn.bootcss.com/angular.js/2.0.0-beta.17/angular2-polyfills.js"></script>
-	<script src="//cdn.bootcss.com/typescript/2.0.0/typescript.js"></script>
-	<script src="//cdn.bootcss.com/systemjs/0.19.8/system.src.js"></script>
-	<script src="//cdn.bootcss.com/rxjs/5.0.0-beta.10/Rx.umd.js"></script>
-	<script src="//cdn.bootcss.com/angular.js/2.0.0-beta.17/angular2.dev.js"></script>
-	<!--
-  <script src="//npmcdn.com/angular2@2.0.0-beta.0/bundles/angular2-polyfills.js"></script>
-  <script src="//npmcdn.com/typescript@1.7.5/lib/typescript.js"></script>
-  <script src="//npmcdn.com/systemjs@0.19.8/dist/system.src.js"></script>
-  <script src="//npmcdn.com/rxjs@5.0.0-beta.0/bundles/Rx.js"></script>
-  <script src="//npmcdn.com/angular2@2.0.0-beta.0/bundles/angular2.dev.js"></script>
--->
+	<script src="//npmcdn.com/systemjs@0.19.35/dist/system.src.js"></script>
+	<script src="//npmcdn.com/angular2@2.0.0-beta.17/bundles/angular2-polyfills.js"></script>
+	<script src="//npmcdn.com/typescript@2.0.0/lib/typescript.js"></script>
+
+	<script type="text/javascript" src="//npmcdn.com/symbol-observable@1.0.1/lib/index.js"></script>
+	<script type="text/javascript" src="//npmcdn.com/@reactivex/rxjs@5.0.0-beta.10/dist/cjs/Rx.js"></script>
+	<script src="//npmcdn.com/angular2@2.0.0-beta.17/bundles/angular2.dev.js"></script>
 
 	<script type="text/javascript">
 		System.config({
 			transpiler: "typescript",
 			typescriptOptions: {emitDecoratorMetadata: true},
 			map: {
-				"rxjs": "//cdn.bootcss.com/rxjs/5.0.0-beta.10"
+				"rxjs": "//npmcdn.com/@reactivex/rxjs@5.0.0-beta.10/dist/cjs",
+				"symbol-observable": "//npmcdn.com/symbol-observable@1.0.1/lib"
+			}, 
+			packages: {
+				"rxjs": { defaultExtension: 'js' },
+				"symbol-observable": {main: "index.js"}
 			}
 		});
 		System.import("index.ts");

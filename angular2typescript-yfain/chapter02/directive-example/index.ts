@@ -1,3 +1,4 @@
+import * as Subject from '@reactivex/rxjs/dist/cjs/Subject';
 import {bootstrap} from 'angular2/platform/browser';
 import {Component, Directive} from 'angular2/core';
 
