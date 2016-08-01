@@ -19,3 +19,5 @@ import SearchComponent from "../search/search";
 	encapsulation: ViewEncapsulation.None
 })
 export default class ApplicationComponent {}
+
+console.info("application.ts");

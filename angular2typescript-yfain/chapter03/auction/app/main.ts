@@ -13,5 +13,5 @@ bootstrap(ApplicationComponent, [
 	{provide: LocationStrategy, useClass: HashLocationStrategy}
 ]);
 
-
+console.info("main.ts");
 

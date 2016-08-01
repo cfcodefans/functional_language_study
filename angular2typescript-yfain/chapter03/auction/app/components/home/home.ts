@@ -17,3 +17,5 @@ export default class HomeComponent {
 		this.products = this.productService.getProducts();
 	}
 }
+
+console.info("home.ts");
