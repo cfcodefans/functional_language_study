@@ -1,48 +1,44 @@
-/**
- * System configuration for Angular 2 samples
- * Adjust as necessary for your application needs.
- */
 (function(global) {
-  // map tells the System loader where to look for things
-  var map = {
-    'app':                        'app', // 'dist',
-    '@angular':                   'node_modules/@angular',
-    'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
-    'rxjs':                       'node_modules/rxjs'
-  };
-  // packages tells the System loader how to load when no filename and/or no extension
-  var packages = {
-    'app':                        { main: 'main.js',  defaultExtension: 'js' },
-    'rxjs':                       { defaultExtension: 'js' },
-    'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
-  };
-  var ngPackageNames = [
-    'common',
-    'compiler',
-    'core',
-    'forms',
-    'http',
-    'platform-browser',
-    'platform-browser-dynamic',
-    'router',
-    'router-deprecated',
-    'upgrade',
-  ];
-  // Individual files (~300 requests):
-  function packIndex(pkgName) {
-    packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
-  }
-  // Bundled (~40 requests):
-  function packUmd(pkgName) {
-    packages['@angular/'+pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
-  }
-  // Most environments should use UMD; some (Karma) need the individual index files
-  var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
-  // Add package entries for angular packages
-  ngPackageNames.forEach(setPackageConfig);
-  var config = {
-    map: map,
-    packages: packages
-  };
-  System.config(config);
-})(this);
+  const NG_PACKAGES = [
+  "core",
+  "common",
+  "compiler",
+  // "forms",
+  "http",
+  "router",
+  "platform-browser",
+  "platform-browser-dynamic",
+    // "upgrade"
+    ];
+
+    const NG_VERSION = "2.0.0-rc.4";
+    const RESPOSITORY = "//npmcdn.com";
+
+    function MAP() {
+      var map = {
+        "app": "app",
+        "rxjs": "//npmcdn.com/rxjs@5.0.0-beta.6"
+      };
+
+      NG_PACKAGES.forEach((_package) => map[`@angular/${_package}`] = `${RESPOSITORY}/@angular/${_package}@${NG_VERSION}`);
+      map["@angular/router"] = `${RESPOSITORY}/@angular/router@3.0.0-alpha.7`;
+      return map;
+    }
+
+    function PACKAGES() {
+      var packages = {
+        "app" : {main: "main.ts", defaultExtension: "ts"},
+        "rxjs": {main: "index.js"},
+      };
+      NG_PACKAGES.forEach((_package) => packages[`@angular/${_package}`] = { main: 'index.js' });
+      return packages;
+    }
+
+    var cfg = {
+     transpiler: "typescript",
+     typescriptOptions: {emitDecoratorMetadata: true},
+     map: MAP(),
+     packages: PACKAGES() 
+   };
+   System.config(cfg);
+ })(this);

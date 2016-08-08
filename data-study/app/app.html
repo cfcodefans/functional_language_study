@@ -1,0 +1,12 @@
+<h1> Shanghai Stocks: {{shStocks.length}} </h1>
+
+<table>
+	<thead>
+		<td>Shanghai</td><td>number</td><td>name</td>
+	</thead>
+	<tr *ngFor=" let stock of shStocks; let i = index ">
+		<td>{{i}}</td>
+		<td>{{stock.id.c}}</td>
+		<td>{{stock.id.t}}</td>
+	</tr>
+</table>
