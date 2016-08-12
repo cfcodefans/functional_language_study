@@ -73,8 +73,9 @@ class ActorTests {
 		}
 		val fs: Future[String] = Futures.future(c, ExecutionContext.global)
 		println(Await.result(fs, Duration(10, TimeUnit.SECONDS)))
-//		fs onSuccess[Unit] ({
-//			case msg => println(msg)
-//		}) (ExecutionContext.global)
+		//		fs onSuccess[Unit] ({
+		//			case msg => println(msg)
+		//		}) (ExecutionContext.global)
 	}
+
 }

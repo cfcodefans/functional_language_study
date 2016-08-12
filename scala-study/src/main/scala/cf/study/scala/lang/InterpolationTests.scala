@@ -5,7 +5,8 @@ import org.junit.Test
 /**
   * Created by fan on 2016/7/25.
   */
-case class MockParser(override val parts: String*) extends StringContext {
+//case class MockParser(override val parts: String*) extends StringContext {
+case class MockParser(val parts: String*) {
 	def p(args: Any*):String = {
 		val sb: StringBuilder = new StringBuilder
 

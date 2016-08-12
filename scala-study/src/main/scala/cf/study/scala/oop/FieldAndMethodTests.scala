@@ -11,7 +11,7 @@ import scala.beans.BeanProperty
  */
 class Bar1(id: Int)
 
-class Bar2(val id: Int)
+class Bar2(private val id: Int)
 
 class Bar3(_id: Int) {
 	val id:Int = _id
@@ -61,12 +61,12 @@ class FieldAndMethodTests {
 
 	@Test def testFields(): Unit = {
 //		printClass(classOf[Bar1])
-//		printClass(classOf[Bar2])
+		printClass(classOf[Bar2])
 //		printClass(classOf[Bar3])
 //		printClass(classOf[Bar4])
 //		printClass(classOf[Bar5])
 //		printClass(classOf[Bar6])
-		printClass(classOf[Bar7])
+//		printClass(classOf[Bar7])
 //		printClass(classOf[Bar8])
 
 //		val b6 = new Bar6(5)

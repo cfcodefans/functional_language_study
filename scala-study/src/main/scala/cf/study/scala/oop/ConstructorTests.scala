@@ -26,7 +26,7 @@ class ConstructorTests {
 	}
 
 	@Test def testConstructor(): Unit = {
-//		new TheClass()
+		new TheClass()
 		new TheClass("hello")
 
 //		val t = new TheClass()
