@@ -1,6 +1,7 @@
 package org.apache.sqoop.core
 
 import org.apache.logging.log4j.{LogManager, Logger}
+import org.apache.sqoop.security.{AuthenticationManager, AuthorizationManager}
 
 /**
   * Created by fan on 2016/8/12.
@@ -12,8 +13,8 @@ object SqoopServer {
 		try
 			LOG.info("Initializing Sqoop server.")
 			SqoopConfiguration.getInstance.initialize()
-//			AuthenticationManager.getInstance.initialize()
-//			AuthorizationManager.getInstance.initialize()
+			AuthenticationManager.getInstance.initialize()
+			AuthorizationManager.getInstance.initialize()
 //			AuditLoggerManager.getInstance.initialize()
 //			RepositoryManager.getInstance.initialize()
 //			MasterKeyManager.getInstance.initialize()
@@ -37,8 +38,8 @@ object SqoopServer {
 //		MasterKeyManager.getInstance.destroy()
 //		RepositoryManager.getInstance.destroy()
 //		AuditLoggerManager.getInstance.destroy()
-//		AuthorizationManager.getInstance.destroy()
-//		AuthenticationManager.getInstance.destroy()
+		AuthorizationManager.getInstance.destroy()
+		AuthenticationManager.getInstance.destroy()
 		SqoopConfiguration.getInstance.destroy()
 //		ClassUtils.clearCache()
 		LOG.info("Sqoop server has been correctly terminated")

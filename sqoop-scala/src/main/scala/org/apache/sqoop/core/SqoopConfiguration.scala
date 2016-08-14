@@ -75,6 +75,7 @@ class SqoopConfiguration private() extends Reconfigurable {
 	def getProvider: ConfigurationProvider = provider
 
 	private var config: Map[String, String] = null
+	def getContext:Map[String, String] = config
 	private var oldConfig: Map[String, String] = null
 
 

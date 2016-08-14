@@ -5,9 +5,10 @@ import org.junit.Test
 
 import scala.io.Source
 
+
 /**
- * Created by fan on 2015/8/10.
- */
+  * Created by fan on 2015/8/10.
+  */
 
 object LongLines {
 	def processFile(filename: String, width: Int): Unit = {
@@ -75,7 +76,7 @@ class FuncAndClosureTests {
 	}
 
 	@Test def testLambda(): Unit = {
-		val list:List[Long] = MathTests.pi2Longs(10)
+		val list: List[Long] = MathTests.pi2Longs(10)
 		val gt5 = (x: Long) => x > 5
 
 		println(list.filter(gt5).toList)
@@ -125,13 +126,13 @@ class FuncAndClosureTests {
 		echo("hello", "world!")
 
 		val arr = Array("What's", "up", "doc?")
-//		error: type mismatch; found : Array[java.lang.String]	required: String
+		//		error: type mismatch; found : Array[java.lang.String]	required: String
 		//		echo(arr)
 		echo(arr: _*)
 	}
 
 	@Test def tailRecursion(): Unit = {
-		val answer:Double = 0.0
+		val answer: Double = 0.0
 		def isGoodEnough(guess: Double): Boolean = Math.abs(answer - guess) < 0.001
 
 		def improve(guess: Double): Double =
@@ -151,11 +152,11 @@ class FuncAndClosureTests {
 		println(approximate(10))
 		println(approximateLoop(10))
 
-		def boom(x:Int): Int =
+		def boom(x: Int): Int =
 			if (x == 0) throw new Exception("Boom!")
 			else boom(x - 1) + 1 //This is not tail recursive, because it performs an increment operation after the recursive call
 
-		def _boom(x:Int): Int =
+		def _boom(x: Int): Int =
 			if (x == 0) throw new Exception("Boom!")
 			else 1 + _boom(x - 1) //This is not tail recursive, because it performs an increment operation after the recursive call
 
@@ -171,7 +172,7 @@ class FuncAndClosureTests {
 			case e: Exception => e.printStackTrace()
 		}
 
-		def bang(x:Int): Int =
+		def bang(x: Int): Int =
 			if (x == 0) throw new Exception("Bang!")
 			else bang(x - 1)
 
@@ -183,7 +184,7 @@ class FuncAndClosureTests {
 
 		//indirect recursion can't be turned into tail recursion
 		def isEven(x: Int): Boolean =
-			if (x == 0) true else isOdd(x - 1)
+		if (x == 0) true else isOdd(x - 1)
 		def isOdd(x: Int): Boolean =
 			if (x == 0) false else isEven(x - 1)
 	}
@@ -195,8 +196,24 @@ class FuncAndClosureTests {
 		def printlnFunc(f: (Int => Int)) = println(f)
 		printlnFunc(addOne)
 
-		val _f:(Int => Int) = addOne
+		val _f: (Int => Int) = addOne
 		println(_f)
+	}
+
+	@Test def functionLiteral1(): Unit = {
+		import scala.collection.mutable._
+		val map: Map[String, String] = Map.empty
+		val op: () => String = () => {
+			println("called")
+			"value"
+		}
+		println("before")
+		map.put("test", "no")
+		val value: String = map.getOrElseUpdate("test", {
+			println("called")
+			"value"
+		})
+		println(op)
 	}
 
 	@Test def testCodeBlock(): Unit = {
@@ -217,20 +234,20 @@ class FuncAndClosureTests {
 		println(f_g)
 		println(f_g("w"))
 
-		val g_f = f _ andThen(g _)
+		val g_f = f _ andThen (g _)
 		println(g_f)
 		println(g_f("w"))
 	}
 
 	@Test def testPartialFunc: Unit = {
-		def add(a: Int, b: Int):Int = a + b
+		def add(a: Int, b: Int): Int = a + b
 		println(add(1, 2))
 
 		val addOne = add(1, _: Int)
 		println(addOne(5))
 
-		val addThree2 = add(3, _:Int)
+		val addThree2 = add(3, _: Int)
 
-		def addThree1(a:Int):Int = a + 3
+		def addThree1(a: Int): Int = a + 3
 	}
 }
