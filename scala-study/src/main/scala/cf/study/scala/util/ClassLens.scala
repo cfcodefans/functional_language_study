@@ -1,9 +1,9 @@
 package cf.study.scala.util
 
 import java.lang.annotation.Annotation
-import java.lang.reflect.{Modifier => Mod, Executable, Field, Method, Parameter}
+import java.lang.reflect.{Executable, Field, Method, Parameter, Modifier => Mod}
 
-import org.apache.commons.lang3.{ArrayUtils, StringUtils}
+import org.apache.commons.lang3.StringUtils
 import org.junit.Test
 
 import scala.collection.mutable
@@ -57,8 +57,9 @@ object ClassLens {
 
 		lines += "%s %s %s extends %s".format(modsToStrs(cls.getModifiers).mkString(" "),
 			typeStr(cls),
-			cls.getSimpleName,
-			cls.getSuperclass.getSimpleName)
+			cls.getSimpleName, {
+				if (cls.getSuperclass != null) cls.getSuperclass.getSimpleName else ""
+			})
 
 		val infs: Array[Class[_]] = cls.getInterfaces
 		imports.appendAll(infs)
@@ -129,10 +130,10 @@ object ClassLens {
 		if (!imports.isEmpty) {
 			lines.insert(1, "\n")
 			val top = classOf[Object].getPackage
-			lines.insertAll(1, imports.filter(c => top.equals(c.getPackage))
-					.map(c => if (c.isArray) c.getComponentType.getName else c.getName)
-//					.map(n => {println(n); StringUtils.substringBefore(n, "\n");})
-					.distinct.map("import %s;".format(_)).sorted)
+			lines.insertAll(1, imports.filter(_ != null).filter(c => top.equals(c.getPackage))
+				.map(c => if (c.isArray) c.getComponentType.getName else c.getName)
+				//					.map(n => {println(n); StringUtils.substringBefore(n, "\n");})
+				.distinct.map("import %s;".format(_)).sorted)
 		}
 
 		return lines.filter(line => StringUtils.isNotBlank(line)).mkString("\n")
@@ -140,6 +141,7 @@ object ClassLens {
 }
 
 class ClassLensTests {
+
 	import ClassLens._
 
 	@Test def test: Unit = {
@@ -149,6 +151,7 @@ class ClassLensTests {
 	@Test def testObject: Unit = {
 		object Foo {
 			def bar = v
+
 			val v = "foo"
 		}
 
@@ -159,6 +162,7 @@ class ClassLensTests {
 	@Test def testCaseObject: Unit = {
 		case object Foo {
 			def bar = v
+
 			val v = "foo"
 		}
 
