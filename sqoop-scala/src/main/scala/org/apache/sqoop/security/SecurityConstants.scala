@@ -27,14 +27,14 @@ object SecurityConstants {
 	  */
 	val PREFIX_REPO_ENCRYPTION_CONFIG: String = PREFIX_SECURITY_CONFIG + "repo_encryption."
 	/**
-	  * The config specifies the sqoop authentication type (SIMPLE, KERBEROS).
-	  * The default type is SIMPLE
-	  * <tt>org.apache.sqoop.security.authentication.type</tt>.
+	  * The config specifies the sqoop authentication _type (SIMPLE, KERBEROS).
+	  * The default _type is SIMPLE
+	  * <tt>org.apache.sqoop.security.authentication._type</tt>.
 	  */
-	val AUTHENTICATION_TYPE: String = PREFIX_AUTHENTICATION_CONFIG + "type"
+	val AUTHENTICATION_TYPE: String = PREFIX_AUTHENTICATION_CONFIG + "_type"
 	/**
 	  * The config specifies the sqoop authentication handler class.
-	  * The default type is org.apache.sqoop.security.authentication.SimpleAuthenticationHandler
+	  * The default _type is org.apache.sqoop.security.authentication.SimpleAuthenticationHandler
 	  * <tt>org.apache.sqoop.security.authentication.handler</tt>.
 	  */
 	val AUTHENTICATION_HANDLER: String = PREFIX_AUTHENTICATION_CONFIG + "handler"
@@ -85,25 +85,25 @@ object SecurityConstants {
 	val PREFIX_AUTHORIZATION_CONFIG: String = PREFIX_SECURITY_CONFIG + "authorization."
 	/**
 	  * The config specifies the sqoop authorization handler class.
-	  * The default type is org.apache.sqoop.security.authorization.DefaultAuthorizationHandler
+	  * The default _type is org.apache.sqoop.security.authorization.DefaultAuthorizationHandler
 	  * <tt>org.apache.sqoop.security.authorization.handler</tt>.
 	  */
 	val AUTHORIZATION_HANDLER: String = PREFIX_AUTHORIZATION_CONFIG + "handler"
 	/**
 	  * The config specifies the sqoop authorization access controller class.
-	  * The default type is org.apache.sqoop.security.authorization.DefaultAuthorizationAccessController
+	  * The default _type is org.apache.sqoop.security.authorization.DefaultAuthorizationAccessController
 	  * <tt>org.apache.sqoop.security.authorization.access_controller</tt>.
 	  */
 	val AUTHORIZATION_ACCESS_CONTROLLER: String = PREFIX_AUTHORIZATION_CONFIG + "access_controller"
 	/**
 	  * The config specifies the sqoop authorization validator class.
-	  * The default type is org.apache.sqoop.security.authorization.DefaultAuthorizationValidator
+	  * The default _type is org.apache.sqoop.security.authorization.DefaultAuthorizationValidator
 	  * <tt>org.apache.sqoop.security.authorization.validator</tt>.
 	  */
 	val AUTHORIZATION_VALIDATOR: String = PREFIX_AUTHORIZATION_CONFIG + "validator"
 	/**
 	  * The config specifies the sqoop authentication provider class.
-	  * The default type is org.apache.sqoop.security.authorization.DefaultAuthenticationProvider
+	  * The default _type is org.apache.sqoop.security.authorization.DefaultAuthenticationProvider
 	  * <tt>org.apache.sqoop.security.authorization.authentication_provider</tt>.
 	  */
 	val AUTHENTICATION_PROVIDER: String = PREFIX_AUTHORIZATION_CONFIG + "authentication_provider"

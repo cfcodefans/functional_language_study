@@ -17,7 +17,7 @@ object MResource {
 class MResource(val name: String,
 
                 /**
-                  * Currently, the type supports connector, link, job and submission.
+                  * Currently, the _type supports connector, link, job and submission.
                   */
                 val _type: MResource.TYPE.TYPE)
 
@@ -25,13 +25,13 @@ class MResource(val name: String,
   * Default constructor to build  new MResource model.
   *
   * param name Resource name
-  * param type Resource type
+  * param _type Resource _type
   */ {
 	/**
 	  * constructor to build  new MResource model.
 	  *
 	  * @param name     Resource name
-	  * @param typeName Resource type name
+	  * @param typeName Resource _type name
 	  */
 	def this(name: String, typeName: String) {
 		this(name, MResource.TYPE.withName(typeName.toUpperCase(Locale.getDefault)))
@@ -42,6 +42,6 @@ class MResource(val name: String,
 
 	def getType: String = _type.toString
 
-	override def toString = s"Resource (Resource name: $name, Resource type: $_type)"
+	override def toString = s"Resource (Resource name: $name, Resource _type: $_type)"
 }
 

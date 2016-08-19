@@ -33,8 +33,8 @@ public enum SecurityError implements ErrorCode {
 	/** The system was not able to login using Kerberos keytab and principal in sqoop configuration. */
 	AUTH_0003("Unable to login using Kerberos keytab and principal"),
 
-	/** Invalid authentication type {simple, Kerberos}. */
-	AUTH_0004("Invalid authentication type"),
+	/** Invalid authentication _type {simple, Kerberos}. */
+	AUTH_0004("Invalid authentication _type"),
 
 	/** The system was not able to find Kerberos keytab for http in sqoop configuration. */
 	AUTH_0005("Unable to find Kerberos keytab for http"),

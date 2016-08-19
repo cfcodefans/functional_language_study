@@ -28,13 +28,13 @@ import org.apache.sqoop.common.ErrorCode;
 @InterfaceStability.Unstable
 public enum ModelError implements ErrorCode {
 
-	MODEL_001("Attempt to pass two different set of MConfigs for single job type."),
+	MODEL_001("Attempt to pass two different set of MConfigs for single job _type."),
 
 	MODEL_002("Creating MJob of different job types"),
 
 	MODEL_003("Object is not valid configuration object"),
 
-	MODEL_004("Usage of unsupported data type"),
+	MODEL_004("Usage of unsupported data _type"),
 
 	MODEL_005("Can't get field value"),
 

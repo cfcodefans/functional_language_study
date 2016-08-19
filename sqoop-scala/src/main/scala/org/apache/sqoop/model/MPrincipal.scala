@@ -8,7 +8,7 @@ import java.util.Locale
 object MPrincipal {
 
 	/**
-	  * Currently, the type supports user, group and role.
+	  * Currently, the _type supports user, group and role.
 	  */
 	object TYPE extends Enumeration {
 		type TYPE = Value
@@ -22,7 +22,7 @@ object MPrincipal {
   * Default constructor to build  new MPrincipal model.
   *
   * param name  Principal name
-  * param _type Principal type
+  * param _type Principal _type
   */
 
 class MPrincipal(val name: String, val _type: MPrincipal._TYPE) {
@@ -30,14 +30,14 @@ class MPrincipal(val name: String, val _type: MPrincipal._TYPE) {
 	  * constructor to build  new MPrincipal model.
 	  *
 	  * @param name     Principal name
-	  * @param typeName Principal type name
+	  * @param typeName Principal _type name
 	  */
 	def this(name: String, typeName: String) {
 		this(name, MPrincipal.TYPE.withName(typeName.toUpperCase(Locale.getDefault)))
 	}
 
 	override def toString: String = {
-		return s"Principal (Principal name: ${this.name},  Principal type: ${this._type})"
+		return s"Principal (Principal name: ${this.name},  Principal _type: ${this._type})"
 	}
 
 	def getName: String = name

@@ -1,33 +1,40 @@
 package cf.study.scala.lang
 
-import cf.study.scala.lang.EnumTests.WeekDay.WeekDay
 import org.junit.Test
 
 /**
   * Created by fan on 2016/8/11.
   */
-object EnumTests {
 
+object WeekDayEnum extends Enumeration {
+//	type WeekDay = Value
 
-	object WeekDay extends Enumeration {
-		class _WeekDay(id: Int, name: String) extends Val(id, name) {
-			val work:Boolean = id < 6
-		}
+	def nextNameOrNull =
+		if (nextName != null && nextName.hasNext) nextName.next() else null
 
-		type WeekDay = _WeekDay
-		val Mon, Tue, Wed, Thu, Fri, Sat, Sun = new _WeekDay(nextId, if (nextName != null && nextName.hasNext) nextName.next() else null)
+//	class WeekDay(val fullname:String, id: Int = nextId, name: String = nextNameOrNull) extends Val(id, name) {
+	class WeekDay(val fullname:String) extends Val {
+		println(s"${id}:\t${fullname}")
+
+		override def toString(): String = super.toString() + " => " + fullname
 	}
 
+	val Mon = new WeekDay("Monday")
+	val Tue  = new WeekDay("Tuesday")
+	val Wed  = new WeekDay("Wednesday")
+	val Thu  = new WeekDay("Thursday")
+	val Fri  = new WeekDay("Friday")
+	val Sat  = new WeekDay("Saturday")
+	val Sun  = new WeekDay("Sunday")
+
+	def isWorkingDay(d: WeekDay) = !(d == Sat || d == Sun)
 }
 
 class EnumTests {
+	import WeekDayEnum._
 
-	import EnumTests._
-
-	@Test def testWeekDay = {
-		val wd: WeekDay = WeekDay.Mon
-		println(wd)
-		println(wd.getClass)
-		println(wd.work)
+	@Test
+	def testWeekDay = {
+		println(WeekDayEnum.values.mkString("\n"))
 	}
 }

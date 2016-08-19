@@ -10,8 +10,6 @@ import scala.beans.BeanProperty
   */
 object AuthenticationManager {
 	private[AuthenticationManager] val LOG: Logger = LogManager.getLogger(AuthenticationManager.getClass)
-
-
 	/**
 	  * Default authentication handler
 	  */

@@ -48,13 +48,13 @@ abstract class MInput[T](name: String, _sensitive: Boolean, _editable: InputEdit
 	def getType: MInputType
 
 	/**
-	  * @return <tt>true</tt> if this type maintains more state than what is
+	  * @return <tt>true</tt> if this _type maintains more state than what is
 	  *         stored in the <tt>MInput</tt> base class.
 	  */
 	def hasExtraInfo: Boolean = false
 
 	/**
-	  * @return the string representation of state stored in this type if
+	  * @return the string representation of state stored in this _type if
 	  *         applicable or an empty string.
 	  */
 	def getExtraInfoToString: String = null

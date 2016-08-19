@@ -26,7 +26,7 @@ final class MStringInput(val name: String,
                          override val mValidators: List[MValidator])
 	extends MInput[String](name, sensitive, editable, overrides, mValidators) {
 	/**
-	  * @return the maximum length of this string type
+	  * @return the maximum length of this string _type
 	  */
 	def getMaxLength: Short = maxLength
 
