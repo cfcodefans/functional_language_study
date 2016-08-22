@@ -1,38 +1,12 @@
-<style type="text/css">
-	.sidenav {
-		min-height: 100%;
-		margin: 0px;
-		padding: 0px;
-	}
-</style>
-
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 col-lg-2">
-			<nav class="navbar navbar-default navbar-fixed-side">
-				<!-- normal collapsible navbar markup -->
+			<nav class="col-sm-3 col-lg-2 navbar navbar-default navbar-fixed-side" style="display:block">
+				<stock-sidenav></stock-sidenav>
 			</nav>
 		</div>
 		<div class="col-sm-9 col-lg-10">
-			<!-- your page content -->
-			<h1> Shanghai Stocks: {{shStocks.length}} </h1>
-
-			<table>
-				<thead>
-					<td>Shanghai</td><td>number</td><td>name</td>
-				</thead>
-				<tr *ngFor=" let stock of shStocks; let i = index ">
-					<td>{{i}}</td>
-					<td>{{stock.id.c}}</td>
-					<td>{{stock.id.t}}</td>
-				</tr>
-			</table>
+			<stock-board></stock-board>
 		</div>
 	</div>
 </div>
-
-
-
-
-
-

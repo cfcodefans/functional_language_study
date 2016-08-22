@@ -4,16 +4,20 @@ import {Component} from "@angular/core";
 import {SH_STOCK_IDS} from "./services/stock-ids";
 import {Stock} from "./services/stocks";
 
+import SideNavComponent from "./components/sidenav/sidenav";
+import StockBoardComponent from "./components/stocks/stockboard";
+
+
 
 @Component({
 	selector: "app",
-	templateUrl: "app/app.html" 
+	templateUrl: "app/app.html",
+	directives:[
+		SideNavComponent,
+		StockBoardComponent,
+	]
 })
 class AppComponent {
-	shStocks: Array<Stock>;
-	constructor() {
-		this.shStocks = SH_STOCK_IDS.map(id => new Stock(id));
-	}
 }
 
 bootstrap(AppComponent);
