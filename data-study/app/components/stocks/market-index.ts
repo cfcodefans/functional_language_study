@@ -8,14 +8,16 @@ import {MarketIndex, MarketIndexService, Utils} from "../../services/stocks";
 })
 export default class MarketIndexComponent implements OnInit {
 	
-	sh:MarketIndex;
+	sh: MarketIndex = MarketIndex.fromData();
 
 	constructor(private marketIndexService:MarketIndexService) {
 		
 	}
 
 	load_sh() {
-		this.marketIndexService.getShMarketIndex().subscribe(mi => this.sh = mi, Utils.errorHandle);
+		this.marketIndexService.getShMarketIndex().subscribe(mi => {
+			this.sh = mi;
+		}, Utils.errorHandle);
 	}
 
 	ngOnInit() {

@@ -1,6 +1,6 @@
 import {bootstrap} from "@angular/platform-browser-dynamic";
 import {Component} from "@angular/core";
-import { Http, HttpModule, JsonpModule } from '@angular/http';
+import {HTTP_PROVIDERS, JSONP_PROVIDERS } from '@angular/http';
 
 import {SH_STOCK_IDS} from "./services/stock-ids";
 import {Stock} from "./services/stocks";
@@ -9,7 +9,6 @@ import SideNavComponent from "./components/sidenav/sidenav";
 import StockBoardComponent from "./components/stocks/stockboard";
 import MarketIndexComponent from "./components/stocks/market-index";
 
-import './rxjs-imports';
 
 @Component({
 	selector: "app",
@@ -22,4 +21,4 @@ import './rxjs-imports';
 class AppComponent {
 }
 
-bootstrap(AppComponent);
+bootstrap(AppComponent, [HTTP_PROVIDERS, JSONP_PROVIDERS]);
