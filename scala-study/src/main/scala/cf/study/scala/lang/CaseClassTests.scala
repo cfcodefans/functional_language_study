@@ -1,5 +1,6 @@
 package cf.study.scala.lang
 
+import cf.study.scala.util.ClassLens
 import org.junit.{Assert, Test}
 
 /**
@@ -211,5 +212,8 @@ class Tests {
 		println(simplifyAll(UnOp("-", UnOp("-", UnOp("-", n0)))))
 	}
 
-
+	@Test def testCaseClassInspection: Unit = {
+		println(ClassLens.prespective(Number.getClass))
+		println(ClassLens.prespective(classOf[Number]))
+	}
 }
