@@ -2,21 +2,21 @@
 <html>
 <head>
 	<title></title>
-	<script src="//npmcdn.com/systemjs@0.19.35/dist/system.src.js"></script>
-	<script src="//npmcdn.com/angular2@2.0.0-beta.17/bundles/angular2-polyfills.js"></script>
-	<script src="//npmcdn.com/typescript@2.0.0/lib/typescript.js"></script>
+	<script src="//unpkg.com/systemjs@0.19.35/dist/system.src.js"></script>
+	<script src="//unpkg.com/angular2@2.0.0-beta.17/bundles/angular2-polyfills.js"></script>
+	<script src="//unpkg.com/typescript@2.0.0/lib/typescript.js"></script>
 
-	<script type="text/javascript" src="//npmcdn.com/symbol-observable@1.0.1/lib/index.js"></script>
-	<script type="text/javascript" src="//npmcdn.com/@reactivex/rxjs@5.0.0-beta.10/dist/cjs/Rx.js"></script>
-	<script src="//npmcdn.com/angular2@2.0.0-beta.17/bundles/angular2.dev.js"></script>
+	<script type="text/javascript" src="//unpkg.com/symbol-observable@1.0.1/lib/index.js"></script>
+	<script type="text/javascript" src="//unpkg.com/@reactivex/rxjs@5.0.0-beta.10/dist/cjs/Rx.js"></script>
+	<script src="//unpkg.com/angular2@2.0.0-beta.17/bundles/angular2.dev.js"></script>
 
 	<script type="text/javascript">
 		System.config({
 			transpiler: "typescript",
 			typescriptOptions: {emitDecoratorMetadata: true},
 			map: {
-				"rxjs": "//npmcdn.com/@reactivex/rxjs@5.0.0-beta.10/dist/cjs",
-				"symbol-observable": "//npmcdn.com/symbol-observable@1.0.1/lib"
+				"rxjs": "//unpkg.com/@reactivex/rxjs@5.0.0-beta.10/dist/cjs",
+				"symbol-observable": "//unpkg.com/symbol-observable@1.0.1/lib"
 			}, 
 			packages: {
 				"rxjs": { defaultExtension: 'js' },
