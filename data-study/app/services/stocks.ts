@@ -16,7 +16,7 @@ export class Stock {
 //http://hq.sinajs.cn/?list=s_sh000001
 //var hq_str_s_sh000001="上证指数,3089.7055,4.9004,0.16,1613689,17918349";
 //指数名称，当前点数，上涨/下跌点数，涨跌率，成交量（手），成交额（万元）
-const SH_MARKET_INDEX_URL = "http://localhost:8864/source/?list=s_sh000001";
+const SH_MARKET_INDEX_URL = "/source/?list=s_sh000001";
 
 export class MarketIndex {
 	constructor(
