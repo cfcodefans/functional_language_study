@@ -5,11 +5,12 @@ import java.util.Date
 import org.apache.commons.lang3.builder.ToStringBuilder
 import org.junit.{Assert, Test}
 
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 /**
- * Created by fan on 2015/9/14.
- */
+  * Created by fan on 2015/9/14.
+  */
 class ListTests {
 	@Test def testList: Unit = {
 		//List of Strings
@@ -76,7 +77,7 @@ class ListTests {
 	}
 
 	@Test def testInsert(): Unit = {
-		val nums:ListBuffer[Int] = ListBuffer(1, 2, 3, 4)
+		val nums: ListBuffer[Int] = ListBuffer(1, 2, 3, 4)
 		Assert.assertEquals(2, nums(1))
 		nums.insert(1, 1)
 		Assert.assertEquals(1, nums(1))
@@ -92,7 +93,7 @@ class ListTests {
 			if (xs.isEmpty) xs
 			else insert(xs.head, isort(xs.tail))
 
-		val nums:List[Int] = List(3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7)
+		val nums: List[Int] = List(3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7)
 		println(isort(nums))
 	}
 
@@ -103,7 +104,7 @@ class ListTests {
 		Assert.assertEquals("Banana", b)
 		Assert.assertEquals("Cherry", c)
 
-//		val List(head, rest) = fruits //match error
+		//		val List(head, rest) = fruits //match error
 		val head :: rest = fruits
 		Assert.assertEquals("Apple", head)
 		Assert.assertEquals(fruits.tail, rest)
@@ -167,7 +168,7 @@ class ListTests {
 	}
 
 	@Test def testMergeSort() {
-		def msort[T](less: (T, T) => Boolean) (xs: List[T]) : List[T] = {
+		def msort[T](less: (T, T) => Boolean)(xs: List[T]): List[T] = {
 			def merge(xs: List[T], ys: List[T]): List[T] =
 				(xs, ys) match {
 					case (Nil, _) => ys
@@ -185,9 +186,9 @@ class ListTests {
 			}
 		}
 
-		val nums:List[Int] = List(3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7)
-		println(msort((_1:Int, _2:Int) => _1 < _2)(nums))
-		println(msort((_1:Int, _2:Int) => _1 > _2)(nums))
+		val nums: List[Int] = List(3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7)
+		println(msort((_1: Int, _2: Int) => _1 < _2)(nums))
+		println(msort((_1: Int, _2: Int) => _1 > _2)(nums))
 	}
 
 	@Test def testCollect(): Unit = {
@@ -209,10 +210,44 @@ class ListTests {
 
 	@Test def testFoldLeft(): Unit = {
 		val samples: List[Int] = 1.to(10).toList
-		val sum:Int = samples.sum
+		val sum: Int = samples.sum
 		println(sum)
 
 		println(samples.foldLeft(0)((a, b) => a + b))
 		println(samples.foldLeft("join: ")((s, i) => s + i + ", "))
+
+		println(1.to(3).foldLeft(1)((_n, _e) => _n * _e))
+	}
+
+	def factorial(n:Int):Double = n.toLong.to(1).foldLeft(n.toLong)((_n, _e) => _n * _e).toDouble
+
+	@Test def testCombination(): Unit = {
+//		import scala.collection.mutable._
+
+		val result:ListBuffer[Set[Int]] = ListBuffer.empty
+
+		def cmbNumber(n:Int, m:Int):Int = (factorial(n) / (factorial(m) * factorial(n - m))).toInt
+
+		def pick(src:Set[Int], n:Int, cmb:Set[Int], _re:ListBuffer[Set[Int]] = ListBuffer.empty): Unit = {
+//			if (n >= src.size && n > 0) {
+//				_re += src
+//				return
+//			}
+
+			if (n == 0) {
+				_re += cmb
+				return
+			}
+
+			var picked:Set[Int] = Set.empty
+			src.map((i:Int) => {
+				picked += i
+				pick(src -- picked, n - 1, cmb + i, _re)
+			})
+		}
+
+		pick(1.to(6).toSet, 3, Set.empty[Int], result)
+		println(cmbNumber(6, 3), result.size)
+		result.foreach(cmb => println(cmb.mkString(" ")))
 	}
 }
