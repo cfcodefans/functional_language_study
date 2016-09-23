@@ -120,7 +120,7 @@ class ClassAndObjectTests {
 		println(ClassLens.prespective(classOf[Mock]))
 
 		val mock = new Mock
-		println(mock.object_Mock)
+//		println(mock.object_Mock)
 	}
 }
 
@@ -128,6 +128,7 @@ object Mock {
 	val object_Mock = "object Mock"
 }
 
-class Mock extends Mock {
+//illegal cyclic reference
+class Mock extends {//Mock {
 	val class_Mock = "class Mock"
 }

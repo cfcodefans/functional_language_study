@@ -25,8 +25,9 @@ export class MarketIndex {
 		public update: number,
 		public percent: number,
 		public transaction: number,
-		public amount: number
-		) {}
+		public amount: number) {
+
+		}
 
 	public static fromData(data: string = null): MarketIndex {
 		if (Utils.isBlank(data)) return new MarketIndex("xxx", 0,0,0,0,0);
@@ -53,9 +54,7 @@ export class MarketIndexService {
 
 	getShMarketIndex(): Observable<MarketIndex> {
 		return this.http.get(SH_MARKET_INDEX_URL)
-					.map((resp: Response) => {
-						return MarketIndex.fromData(resp.text());
-					});
+					.map((resp: Response) => MarketIndex.fromData(resp.text()));
 					// .catch(errorHandle);
 		// let params = new URLSearchParams();
 		// params.set("callback", "Console.info");
@@ -72,6 +71,12 @@ export class Utils {
 		return !str || str.trim().length == 0;
 	}
 
+	/**
+	 * isEmpty
+	 */
+	public static isEmpty(array: Array<any>) {
+		return !array || array.length == 0;
+	}
 
 	public static errorHandle(error: any) {
 		console.error(error);

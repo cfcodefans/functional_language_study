@@ -13,6 +13,7 @@ package object CaseClassTests {
 
 	abstract class Expr {
 		println("Expr constructor")
+
 		def eval(s: String): String = s
 	}
 
@@ -30,9 +31,12 @@ package object CaseClassTests {
 
 	case class BinOp(operator: String, left: Expr, right: Expr) extends Expr
 
+
 }
 
 class Tests {
+
+
 
 	import CaseClassTests._
 
