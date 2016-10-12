@@ -1,5 +1,6 @@
 package cf.study.scala.lang
 
+import cf.study.scala.util.ClassLens
 import org.junit.{Assert, Test}
 
 /**
@@ -12,6 +13,7 @@ package object CaseClassTests {
 
 	abstract class Expr {
 		println("Expr constructor")
+
 		def eval(s: String): String = s
 	}
 
@@ -29,9 +31,12 @@ package object CaseClassTests {
 
 	case class BinOp(operator: String, left: Expr, right: Expr) extends Expr
 
+
 }
 
 class Tests {
+
+
 
 	import CaseClassTests._
 
@@ -211,5 +216,8 @@ class Tests {
 		println(simplifyAll(UnOp("-", UnOp("-", UnOp("-", n0)))))
 	}
 
-
+	@Test def testCaseClassInspection: Unit = {
+		println(ClassLens.prespective(Number.getClass))
+		println(ClassLens.prespective(classOf[Number]))
+	}
 }

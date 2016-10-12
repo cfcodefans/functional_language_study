@@ -1,5 +1,6 @@
 package cf.study.scala.lang
 
+import cf.study.scala.util.ClassLens
 import org.junit.{Assert, Test}
 
 import scala.collection.mutable.Map
@@ -75,7 +76,9 @@ class ClassAndObjectTests {
 		println(f)
 
 		def g() {
-			"this String gets lost too"
+//			println("println")
+			print("print")
+			return "this String gets lost too"
 		}
 		println(g())
 		println(g)
@@ -105,7 +108,27 @@ class ClassAndObjectTests {
 		Assert.assertEquals(_x, x + x)
 	}
 
-	@Test def testObject(): Unit = {
+	@Test
+	def testObject(): Unit = {
 		println(ChecksumAccumulator.calculate("Every value is an object"))
 	}
+
+	@Test
+	def testObjectAndClass = {
+		println(ClassLens.prespective(Mock.getClass))
+		println("==================================")
+		println(ClassLens.prespective(classOf[Mock]))
+
+		val mock = new Mock
+//		println(mock.object_Mock)
+	}
+}
+
+object Mock {
+	val object_Mock = "object Mock"
+}
+
+//illegal cyclic reference
+class Mock extends {//Mock {
+	val class_Mock = "class Mock"
 }

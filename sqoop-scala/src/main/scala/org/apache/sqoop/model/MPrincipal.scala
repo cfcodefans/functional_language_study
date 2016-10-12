@@ -6,7 +6,6 @@ import java.util.Locale
   * Model describing entire principal object which used in principal based authorization controller
   */
 object MPrincipal {
-
 	/**
 	  * Currently, the _type supports user, group and role.
 	  */
@@ -14,7 +13,6 @@ object MPrincipal {
 		type TYPE = Value
 		val USER, GROUP, ROLE = Value
 	}
-
 	type _TYPE = TYPE.TYPE
 }
 

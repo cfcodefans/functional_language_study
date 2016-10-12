@@ -45,6 +45,10 @@ class ControlTests {
 		Assert.assertEquals(gcdLoop(24, 16), 4)
 
 		{
+
+		}
+
+		{
 			var i: Int = 0
 			do {
 				print(i)

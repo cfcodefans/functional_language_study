@@ -48,5 +48,7 @@ class MapTests {
 												m
 											})
 		println(_m)
+
+		_m.size
 	}
 }

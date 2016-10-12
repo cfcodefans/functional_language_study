@@ -200,6 +200,68 @@ class FuncAndClosureTests {
 		println(_f)
 	}
 
+	@Test def supplierLiteral: Unit = {
+		object Taker {
+
+			def takeFunctionLiteral(supplier: => Int): Unit = {
+				println("taker takes")
+				//				println(supplier.apply()) //can't compile
+				println(supplier.getClass)
+				println(supplier)
+			}
+
+			def takeExplicitFunction0(supplier: () => Int): Unit = {
+				println("taker takes")
+				println(supplier())
+			}
+
+		}
+
+		val give5: () => Int = () => {
+			println("giver gives")
+			5
+		}
+
+
+//		println(give5.isInstanceOf[Function0[_]])
+
+		Taker.takeFunctionLiteral({
+			println("who gives")
+			6
+		})
+		println()
+		Taker.takeExplicitFunction0(give5)
+	}
+
+	@Test def functionCallByName: Unit = {
+		object Taker {
+
+			def take(supplier: => Int):Unit = {
+				supplier
+				println(supplier.getClass)
+			}
+			def take1(supplier: () => Int):Unit = println(supplier.getClass)
+		}
+
+		Taker.getClass.getMethods.filter(_.getName.startsWith("take"))
+		    .foreach(_.getParameters.foreach(println(_)))
+
+		println()
+
+		val give5: () => Int = () => {
+			println("giver gives")
+			5
+		}
+
+		println(give5.isInstanceOf[Function0[Object]])
+
+		Taker.take({
+			println("giver gives")
+			5
+		})
+		Taker.take1(give5)
+	}
+
 	@Test def functionLiteral1(): Unit = {
 		import scala.collection.mutable._
 		val map: Map[String, String] = Map.empty

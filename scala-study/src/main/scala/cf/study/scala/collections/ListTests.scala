@@ -5,7 +5,6 @@ import java.util.Date
 import org.apache.commons.lang3.builder.ToStringBuilder
 import org.junit.{Assert, Test}
 
-import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -136,6 +135,11 @@ class ListTests {
 		println(abcde.indices)
 	}
 
+	@Test def testIndex: Unit = {
+		val abcde = List('a', 'b', 'c', 'd', 'e')
+		println(abcde.zipWithIndex.mkString(","))
+	}
+
 	@Test def testSort(): Unit = {
 		val abcde = List('a', 'b', 'c', 'd', 'e')
 		println(abcde.sorted)
@@ -225,35 +229,45 @@ class ListTests {
 		println(1.to(3).foldLeft(1)((_n, _e) => _n * _e))
 	}
 
-	def factorial(n:Int):Double = n.toLong.to(1).foldLeft(n.toLong)((_n, _e) => _n * _e).toDouble
+	def factorial(n:Int):Double = 1.toLong.to(n).foldLeft(1.toLong)((_n, _e) => _n * _e).toDouble
 
-	@Test def testCombination(): Unit = {
-//		import scala.collection.mutable._
+	def pick(src:Set[Int], n:Int, cmb:Set[Int], _re:ListBuffer[Set[Int]] = ListBuffer.empty): Unit = {
+		if (n == 0) {
+			_re += cmb
+			return
+		}
 
+		var picked:Set[Int] = Set.empty
+		src.map((i:Int) => {
+			picked += i
+			pick(src -- picked, n - 1, cmb + i, _re)
+		})
+	}
+
+	@Test
+	def testCombination(): Unit = {
+		//		import scala.collection.mutable._
 		val result:ListBuffer[Set[Int]] = ListBuffer.empty
-
 		def cmbNumber(n:Int, m:Int):Int = (factorial(n) / (factorial(m) * factorial(n - m))).toInt
 
-		def pick(src:Set[Int], n:Int, cmb:Set[Int], _re:ListBuffer[Set[Int]] = ListBuffer.empty): Unit = {
-//			if (n >= src.size && n > 0) {
-//				_re += src
-//				return
-//			}
 
-			if (n == 0) {
-				_re += cmb
-				return
-			}
-
-			var picked:Set[Int] = Set.empty
-			src.map((i:Int) => {
-				picked += i
-				pick(src -- picked, n - 1, cmb + i, _re)
-			})
-		}
 
 		pick(1.to(6).toSet, 3, Set.empty[Int], result)
 		println(cmbNumber(6, 3), result.size)
 		result.foreach(cmb => println(cmb.mkString(" ")))
+
+
+	}
+
+	@Test
+	def testSumOfDistance(): Unit = {
+		for (i: Int <- 2.to(8)) {
+
+			val result: ListBuffer[Set[Int]] = ListBuffer.empty
+			pick(0.to(i).toSet, 2, Set.empty[Int], result)
+			result.foreach(cmb => println(cmb.mkString(" "), Math.abs(cmb.head - cmb.last)))
+			println(i, result.map(cmb => Math.abs(cmb.head - cmb.last)).sum)
+			println()
+		}
 	}
 }
