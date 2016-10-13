@@ -140,6 +140,12 @@ class ListTests {
 		println(abcde.zipWithIndex.mkString(","))
 	}
 
+	@Test def testSort(): Unit = {
+		val abcde = List('a', 'b', 'c', 'd', 'e')
+		println(abcde.sorted)
+		println(abcde.toArray.sorted)
+	}
+
 	@Test def testZip(): Unit = {
 		val abcde = List('a', 'b', 'c', 'd', 'e')
 		println(abcde.indices.toList.zip(abcde))
