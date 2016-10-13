@@ -237,7 +237,8 @@ class FuncAndClosureTests {
 		object Taker {
 
 			def take(supplier: => Int):Unit = {
-				supplier
+				println("taker takes")
+//				supplier
 				println(supplier.getClass)
 			}
 			def take1(supplier: () => Int):Unit = println(supplier.getClass)
@@ -259,7 +260,7 @@ class FuncAndClosureTests {
 			println("giver gives")
 			5
 		})
-		Taker.take1(give5)
+//		Taker.take1(give5)
 	}
 
 	@Test def functionLiteral1(): Unit = {
