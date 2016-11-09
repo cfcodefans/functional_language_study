@@ -1,6 +1,10 @@
 package cf.study.scala.lang
 
+import java.util.Objects
+
+import cf.study.scala.MiscTests
 import cf.study.scala.util.ClassLens
+import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.junit.{Assert, Test}
 
 /**
@@ -22,6 +26,8 @@ package object CaseClassTests {
 	}
 
 	case class Number(num: Double) extends Expr {
+		def this(numStr: String) = this(numStr.toDouble)
+
 		println("Number constructor: %f".format(num))
 	}
 
@@ -36,9 +42,12 @@ package object CaseClassTests {
 
 class Tests {
 
-
-
 	import CaseClassTests._
+
+	@Test def testSecondConstructor: Unit = {
+		val n: Number = new Number("0.1")
+		println(n)
+	}
 
 	@Test def testCaseClass(): Unit = {
 		//class cf.study.scala.lang.CaseClassTests.package$Var$
@@ -219,5 +228,42 @@ class Tests {
 	@Test def testCaseClassInspection: Unit = {
 		println(ClassLens.prespective(Number.getClass))
 		println(ClassLens.prespective(classOf[Number]))
+	}
+
+	case class Person(name: String, age: Int) {
+//		println(s"Person.new($name, $age): \t ${MiscTests.invocation}\n")
+
+		//this is not overriding the factory method
+//		def apply(name: String, age: Int): Person = {
+//			println(s"Person.apply($name, $age)")
+//			new Person(name, age)
+//		}
+	}
+
+	@Test
+	def testCaseFactory: Unit = {
+		val p1 = new Person("p1", 0)
+		val p2 = Person("p2", 0)
+	}
+
+	@Test
+	def testClassMember: Unit = {
+		val p1 = new Person("p1", 0)
+		println(ClassLens.prespective(p1.getClass))
+		println(p1.name)
+//		p1.name = "p2" // not setter, it is val
+	}
+
+	@Test
+	def testToStringAndHashcodeAndEquals: Unit = {
+		println(Person("toString", 0))
+		println(Person("toString", 0).hashCode(), HashCodeBuilder.reflectionHashCode(Person("toString", 0)))
+		println(Person("toString", 0) == Person("toString", 0))
+	}
+
+	@Test
+	def testCopy1: Unit = {
+		val p = Person("p", 10)
+		println(p, p.copy(), p == p.copy(), p.eq(p.copy()))
 	}
 }

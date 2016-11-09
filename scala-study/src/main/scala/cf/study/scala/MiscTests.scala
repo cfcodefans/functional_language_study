@@ -30,6 +30,7 @@ object MiscTests {
 		}
 	}
 
+	def invocation: String = Thread.currentThread().getStackTrace.mkString("\n")
 }
 
 class MiscTests {

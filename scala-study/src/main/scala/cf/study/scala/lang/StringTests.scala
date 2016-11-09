@@ -25,6 +25,9 @@ class StringTests {
 		println("abc".split(',').toList)
 		println("/data".split(',').toList)
 		println("\u000A")
+
+		val s:String = "abc"
+//		s.substring(s.length-2)
 	}
 
 	@Test def getOffsets: Unit = {

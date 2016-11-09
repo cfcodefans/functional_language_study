@@ -255,8 +255,6 @@ class ListTests {
 		pick(1.to(6).toSet, 3, Set.empty[Int], result)
 		println(cmbNumber(6, 3), result.size)
 		result.foreach(cmb => println(cmb.mkString(" ")))
-
-
 	}
 
 	@Test
@@ -269,5 +267,10 @@ class ListTests {
 			println(i, result.map(cmb => Math.abs(cmb.head - cmb.last)).sum)
 			println()
 		}
+	}
+
+	@Test def testFind: Unit = {
+		val list:List[Int] = 1.to(10).toList
+
 	}
 }
