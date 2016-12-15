@@ -271,6 +271,24 @@ class ListTests {
 
 	@Test def testFind: Unit = {
 		val list:List[Int] = 1.to(10).toList
+		Assert.assertTrue(list.find(_ < 0).headOption.isEmpty)
+	}
 
+	@Test def testMaxBy: Unit = {
+		val list:List[(Int, Int)] = (3, 1) :: (5, 1) :: (5, 9) :: Nil
+		var max: (Int, Int) = list.max(new Ordering[(Int, Int)] {
+			override def compare(x: (Int, Int), y: (Int, Int)): Int = {
+				if (x._1 > y._1) 1
+				else if (x._1 < y._1) -1
+				else Math.signum(x._2 - y._2).toInt * -1
+			}
+		})
+		println(max)
+
+//		max	= list.max((x: (Int, Int), y: (Int, Int)) => {
+//				if (x._1 > y._1) 1
+//				else if (x._1 < y._1) -1
+//				else Math.signum(x._2 - y._2).toInt * -1
+//			})
 	}
 }

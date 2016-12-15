@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils
 import org.junit.Test
 
 import scala.collection.concurrent.TrieMap
+import scala.collection.immutable.TreeMap
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
@@ -34,6 +35,9 @@ class MapTests {
 		}))
 	}
 
+
+
+
 	@Test def testToMap: Unit = {
 		val toMap: Map[Int, String] = 1.to(10).map(i => (i, i.toString)).toMap
 		println(toMap)
@@ -50,5 +54,10 @@ class MapTests {
 		println(_m)
 
 		_m.size
+	}
+
+	@Test
+	def testTreeMap: Unit = {
+		val tm:TreeMap[Int, Int] = TreeMap.empty[Int, Int]
 	}
 }

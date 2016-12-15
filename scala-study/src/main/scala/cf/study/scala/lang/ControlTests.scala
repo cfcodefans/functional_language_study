@@ -254,6 +254,15 @@ that's marked with breakable.
 			})
 			Assert.assertEquals(i, 6)
 		}
+
+		{
+			breakable({
+				1.to(10).foreach(i => {
+					println(i)
+					if (i > 5) break
+				})
+			})
+		}
 	}
 
 	@Test

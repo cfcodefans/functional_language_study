@@ -72,11 +72,12 @@ class ClassAndObjectTests {
 
 	@Test def convertToUnit() {
 		def f(): Unit = "This String gets lost"
+
 		println(f())
 		println(f)
 
 		def g() {
-//			println("println")
+			//			println("println")
 			print("print")
 			return "this String gets lost too"
 		}
@@ -120,7 +121,7 @@ class ClassAndObjectTests {
 		println(ClassLens.prespective(classOf[Mock]))
 
 		val mock = new Mock
-//		println(mock.object_Mock)
+		//		println(mock.object_Mock)
 	}
 }
 
@@ -129,6 +130,7 @@ object Mock {
 }
 
 //illegal cyclic reference
-class Mock extends {//Mock {
+class Mock extends {
+	//Mock {
 	val class_Mock = "class Mock"
 }

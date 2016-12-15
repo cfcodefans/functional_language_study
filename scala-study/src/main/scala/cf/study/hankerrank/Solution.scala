@@ -1,5 +1,9 @@
 package cf.study.hankerrank
 
+import java.util._
+
+import scala.util.control.Breaks._
+
 object Solution {
 	var sum: Long = 0
 	var count: Int = 0
@@ -121,5 +125,34 @@ object Solution {
 			root.addNode(newValue)
 			println(newValue, sum)
 		}
+	}
+
+	val m: Map[Char, Char] = new HashMap[Char, Char]
+
+	def solve(str: String): String = {
+		if (str.length() % 2 == 1) return "NO"
+		val s: Stack[Char] = new Stack[Char]
+
+		// println(str)
+		breakable {
+			str.foreach(c => {
+				// println(c)
+				if (m.containsKey(c)) {
+					val _c = m.get(c)
+					// println(s"_c: ${_c} s.peek: ${s.peek}")
+					if (s.empty || _c != s.pop) {
+						return "NO"
+						break
+					}
+				} else {
+					s.push(c)
+				}
+			})
+		}
+
+		if (s.empty)
+			return "YES"
+		else
+			return "NO"
 	}
 }

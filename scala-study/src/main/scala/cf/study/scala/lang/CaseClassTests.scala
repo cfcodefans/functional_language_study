@@ -1,8 +1,5 @@
 package cf.study.scala.lang
 
-import java.util.Objects
-
-import cf.study.scala.MiscTests
 import cf.study.scala.util.ClassLens
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.junit.{Assert, Test}
@@ -36,8 +33,6 @@ package object CaseClassTests {
 	}
 
 	case class BinOp(operator: String, left: Expr, right: Expr) extends Expr
-
-
 }
 
 class Tests {

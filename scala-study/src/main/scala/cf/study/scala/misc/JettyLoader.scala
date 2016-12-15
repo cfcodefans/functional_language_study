@@ -3,7 +3,7 @@ package cf.study.scala.misc
 import java.nio.file.Paths
 
 import org.apache.commons.lang3.builder.ToStringBuilder
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.{LogManager, Logger}
 import org.eclipse.jetty.annotations.AnnotationConfiguration
 import org.eclipse.jetty.plus.webapp.{EnvConfiguration, PlusConfiguration}
 import org.eclipse.jetty.server.Server
@@ -11,7 +11,7 @@ import org.eclipse.jetty.webapp.Configuration.ClassList
 import org.eclipse.jetty.webapp.{FragmentConfiguration, JettyWebXmlConfiguration, WebAppContext}
 
 object JettyLoader {
-	val log = Logger.getLogger(classOf[JettyLoader])
+	val log = LogManager.getLogger(classOf[JettyLoader])
 
 	def main(args: Array[String]): Unit = {
 		val jl = new JettyLoader(8086, "test", "D:\\git\\data-projects\\data.admin\\target\\data.admin-0.0.1")
