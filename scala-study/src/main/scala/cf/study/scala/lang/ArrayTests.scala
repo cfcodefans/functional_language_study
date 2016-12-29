@@ -16,4 +16,16 @@ class ArrayTests {
 			println
 		}
 	}
+
+	@Test
+	def testZipWithIndex(): Unit = {
+		val a = (1 to 100).toArray
+		a.zipWithIndex
+	}
+
+	@Test
+	def testMax(): Unit = {
+		val a = (1 to 100).toArray
+		a.tail
+	}
 }
