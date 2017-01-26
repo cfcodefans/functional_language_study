@@ -1,11 +1,13 @@
-interface Person {
-	firstName: 	string;
-	lastName:	string;
-}
+{
+	interface Person {
+		firstName: string;
+		lastName: string;
+	}
 
-function greeter(person: Person) {
-	return "Hello, " + person.firstName + " " + person.lastName;
-}
+	function greeter(person: Person) {
+		return "Hello, " + person.firstName + " " + person.lastName;
+	}
 
-var user = {firstName: "Jane", lastName: "User"};
-console.info(greeter(user));
+	var _user = { firstName: "Jane", lastName: "User" };
+	console.info(greeter(_user));
+}

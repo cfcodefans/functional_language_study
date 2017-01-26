@@ -202,6 +202,14 @@ export class ClassTests extends tsUnit.TestClass {
 		new Dog().makeSound();
 		cat.makeSound();
 	}
+
+	testPropertyWithValue() {
+		class AjaxRes {
+			url:string = "abc";
+		}	
+		let res = new AjaxRes();
+		console.info(res.url);
+	}
 }
 
 

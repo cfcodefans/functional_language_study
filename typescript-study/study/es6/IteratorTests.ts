@@ -1,4 +1,4 @@
-import tsUnit from "../../node_modules/tsunit.external/tsUnit";
+import tsUnit = require("../../node_modules/tsunit.external/tsUnit");
 
 
 export class IteratorTests extends tsUnit.TestClass {

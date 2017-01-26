@@ -19,12 +19,12 @@ function main() {
 		// BasicTypeTests,
 		// VarDefTests,
 		// InterfaceTests, 
-		// ClassTests,
+		ClassTests
 		// FunctionTests,
 		// GenericTests,
 		// EnumTests,
 		// TypeInferenceTests,
-		TypeCompatibilityTests
+		// TypeCompatibilityTests
 		// CallbackTests
 		);
 

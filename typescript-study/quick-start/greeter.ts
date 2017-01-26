@@ -1,6 +1,8 @@
-function greeter(person: string) {
-	return "Hello, " + person;
-}
-var user = "Jane User";
+{
+	function greeterStr(person: string) {
+		return "Hello, " + person;
+	}
 
-console.info(greeter(user));
+	let user: string = "Jane User";
+	console.info(greeterStr(user));
+}
