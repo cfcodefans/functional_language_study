@@ -62,14 +62,32 @@ export class Param implements IParam {
     }
 }
 
-export interface IRestInvocation {
+export interface IRestInvocation<R> {
     params: IParam[];
     method: HttpMethod;
-    result: any;
+    resultType: any;
+    onSuccess(resp: any): R;
+    onError(err: any);
     path: string;
     name: string;
-    onSuccess(resp:any): any;
-    onError(resp:any): any;
     produceMediaTypes: string[];
     consumedMediaTypes: string[];
+}
+
+
+class ScalaRes {
+    url: string = '/scala/scala';
+    params(): IParam[] { return []; }
+    helloworld(): IRestInvocation<number> {
+        let _params: IParam[] = [];
+        return <IRestInvocation<number>> {
+            params: _params,
+            method: HttpMethod.GET,
+            resultType: 'null',
+            path: '/scala/helloworld',
+            name: 'helloworld',
+            produceMediaTypes: ['text/plain'],
+            consumedMediaTypes: []
+        };
+    }
 }

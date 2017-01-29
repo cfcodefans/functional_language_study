@@ -9,6 +9,7 @@ import EnumTests = require("./study/lang/EnumTests");
 import TypeInferenceTests = require("./study/lang/TypeInferenceTests");
 import TypeCompatibilityTests = require("./study/lang/TypeCompatibilityTests");
 import CallbackTests = require("./study/async/CallbackTests");
+import RestfulTests = require("./study/restful/RestfulTests")
 
 // import readline = require("readline");
 
@@ -19,7 +20,7 @@ function main() {
 		// BasicTypeTests,
 		// VarDefTests,
 		// InterfaceTests, 
-		ClassTests
+		RestfulTests
 		// FunctionTests,
 		// GenericTests,
 		// EnumTests,
