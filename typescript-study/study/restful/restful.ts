@@ -68,6 +68,8 @@ export interface IRestInvocation {
     result: any;
     path: string;
     name: string;
-    onSuccess(resp: any): any;
-    onError(resp: any): any;
+    onSuccess(resp:any): any;
+    onError(resp:any): any;
+    produceMediaTypes: string[];
+    consumedMediaTypes: string[];
 }
