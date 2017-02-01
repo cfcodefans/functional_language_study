@@ -65,4 +65,11 @@ class MapTests {
     def testTreeMap: Unit = {
         val tm: TreeMap[Int, Int] = TreeMap.empty[Int, Int]
     }
+
+    @Test def testMapGet(): Unit = {
+        val map: mutable.Map[Int, String] = mutable.Map.empty[Int, String]
+        map.get(1).map(println(_))
+        map.put(1, 1.toString)
+        map.get(1).map(println(_))
+    }
 }

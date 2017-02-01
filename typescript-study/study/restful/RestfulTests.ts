@@ -28,7 +28,5 @@ export class ClassTests extends tsUnit.TestClass {
         _bar.foo = () => { console.info("no"); }
         _bar.foo();
     }
-
-
 }
 
