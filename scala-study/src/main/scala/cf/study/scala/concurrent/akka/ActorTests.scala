@@ -1,10 +1,11 @@
 package cf.study.scala.concurrent.akka
 
-import java.util.concurrent.{Callable, TimeUnit}
+import java.util.concurrent.{Callable, ExecutorService, Executors, TimeUnit}
 
 import akka.actor.{Actor, ActorRef, ActorSystem, PoisonPill, Props}
 import akka.dispatch.Futures
-import akka.routing.{ActorRefRoutee, RoundRobinPool, RoundRobinRoutingLogic, Router}
+import akka.routing._
+import org.apache.commons.lang3.time.DateFormatUtils
 import org.junit.Test
 
 import scala.concurrent.duration.Duration
@@ -146,11 +147,38 @@ class ActorTests {
     class Inspector extends Actor {
         override def receive: Receive = {
             case (msg: Any) => {
-                println(s"\nmsg: $msg\n")
-                println(s"thread: ${Thread.currentThread()}\n")
-                Thread.currentThread().getStackTrace.foreach(println(_))
+                //                println(s"\nmsg: $msg\n")
+                println(s"thread: ${Thread.currentThread()} received $msg\n")
+                //                Thread.currentThread().getStackTrace.foreach(println(_))
             }
         }
+    }
+
+    @Test
+    def tryWait(): Unit = {
+        class Dummy extends Actor {
+            var ms: Long = System.currentTimeMillis()
+
+            override def receive: Receive = {
+                case (msg: Any) => {
+                    val _ms: Long = System.currentTimeMillis()
+                    if (_ms - ms > 999)
+                        println(s"${_ms - ms}")
+                    ms = _ms
+                }
+            }
+        }
+        val sys: ActorSystem = ActorSystem("Dummy")
+        val ar: ActorRef = sys.actorOf(Props[Dummy](new Dummy))
+
+        Future[Unit]({
+            for (i <- 1 to 10) {
+                Thread.sleep(1000)
+                ar ! i
+            }
+        })(ExecutionContext.fromExecutorService(Executors.newSingleThreadExecutor()))
+
+        Thread.sleep(10000);
     }
 
     @Test
@@ -163,13 +191,161 @@ class ActorTests {
 
     @Test
     def exploreRoute(): Unit = {
-        val sys: ActorSystem = ActorSystem("Route")
-        val route: Router = {
-            val routees: Array[ActorRefRoutee] = (1 to Runtime.getRuntime.availableProcessors()).map(i => {
-                sys.actorOf(Props[Inspector](new Inspector), name = s"inspector_$i")
-            }).map(ActorRefRoutee(_)).toArray
-            Router(RoundRobinRoutingLogic(), routees)
+        for (t <- 1 to 10) {
+            val sys: ActorSystem = ActorSystem("Route_" + t)
+            val route: Router = {
+                val routees = (1 to Runtime.getRuntime.availableProcessors()).map(i => {
+                    sys.actorOf(Props[Inspector](new Inspector), name = s"inspector_$i")
+                }).map(ActorRefRoutee(_)).toVector
+                Router(RoundRobinRoutingLogic(), routees)
+            }
+
+            for (i <- 1 to 10) {
+                route.route(i, ActorRef.noSender)
+            }
         }
+
+        Thread.sleep(100)
     }
 
+    @Test
+    def testBatchWithFSM(): Unit = {
+        import akka.actor.FSM
+
+        import scala.concurrent.duration._
+
+        // received events
+        final case class SetTarget(ref: ActorRef)
+        final case class Queue(obj: Any)
+        case object Flush
+
+        //sent events
+        final case class Batch(_batch: Seq[Any])
+
+        //states
+        sealed trait State
+        case object Idle extends State
+        case object Active extends State
+
+        sealed trait Data
+        case object Uninitialized extends Data
+        final case class Todo(targte: ActorRef, queue: Seq[Any]) extends Data
+
+        class Buncher extends FSM[State, Data] {
+            startWith(Idle, Uninitialized)
+            when(Idle) {
+                case Event(SetTarget(ref), Uninitialized) => {
+                    println(System.currentTimeMillis(), StateTimeout, Uninitialized, "stay idle")
+                    stay().using(Todo(ref, Vector.empty))
+                }
+                case Event(ev: Any, d: Data) => {
+                    println(ev, d, " go to Active")
+                    goto(Active).using(d)
+                }
+            }
+
+            when(Active, stateTimeout = 500 microsecond) {
+                case Event(Flush | StateTimeout, t: Todo) => {
+                    println(System.currentTimeMillis(), StateTimeout, t, "go to idle")
+                    goto(Idle).using(t.copy(queue = Vector.empty))
+                }
+                case Event(ev: Any, d: Data) => {
+                    println(System.currentTimeMillis(), ev, d, "stay active")
+                    stay()
+                }
+            }
+
+            onTransition({
+                case (transition: (State, State)) => println(s"${System.currentTimeMillis()}:\t ${transition._1} => ${transition._2}")
+            })
+
+            initialize()
+        }
+
+        val sys: ActorSystem = ActorSystem("Buncher")
+        val ar: ActorRef = sys.actorOf(Props[Buncher](new Buncher))
+
+        Future[Unit]({
+            Thread.sleep(1000)
+            ar ! 1
+            Thread.sleep(1000)
+            ar ! 2
+            Thread.sleep(100)
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            ar ! 3
+            Thread.sleep(1000)
+            ar ! 4
+            Thread.sleep(1000)
+            ar ! 4
+            Thread.sleep(1000)
+            ar ! 4
+        })(ExecutionContext.fromExecutorService(Executors.newSingleThreadExecutor()))
+
+        Thread.sleep(10000);
+    }
+
+    @Test
+    def tryStateWithFSM(): Unit = {
+        import akka.actor.FSM
+
+        import scala.concurrent.duration._
+
+        sealed trait State
+        case object Idle extends State
+        case object Active extends State
+
+        class StateActor extends FSM[State, Int] {
+            startWith(Idle, 0, Option(1.second))
+
+            onTransition({
+                case (transition: (State, State)) => println(s"${System.currentTimeMillis()}:\t ${transition._1} => ${transition._2}")
+            })
+
+            whenUnhandled({
+                case ev@Event(_ev: Any, i: Int) => {
+                    println(s"when unhandled ev:\t $ev")
+                    if (i < 0) goto(Idle)
+                    else if (i > 0) goto(Active)
+                    else stop()
+                }
+            })
+
+            when(Idle, 500.millisecond) {
+                case ev@Event(_ev: Any, i: Int) => {
+                    println(s"when idle ev:\t $ev")
+                    if (i < 0) stay()
+                    else if (i > 0) goto(Active)
+                    else stop()
+                }
+            }
+
+            initialize()
+        }
+
+        val es: ExecutorService = Executors.newSingleThreadExecutor()
+        val sys: ActorSystem = ActorSystem.create("StateActor",
+            null,
+            Thread.currentThread().getContextClassLoader,
+            ExecutionContext.fromExecutorService(es))
+        printTime
+        val ar: ActorRef = sys.actorOf(Props[StateActor](new StateActor))
+        Thread.sleep(1000)
+        printTime
+        es.awaitTermination(100, SECONDS)
+    }
+
+    def printTime = {
+        val millis: Long = System.currentTimeMillis()
+        println(s"$millis\t${DateFormatUtils.format(millis: Long, "MM/dd/yyyy hh:mm:ss.sss")}")
+    }
 }
