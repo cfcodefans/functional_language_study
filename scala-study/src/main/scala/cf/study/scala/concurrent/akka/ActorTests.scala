@@ -305,15 +305,15 @@ class ActorTests {
         case object Active extends State
 
         class StateActor extends FSM[State, Int] {
-            startWith(Idle, 0, Option(1.second))
+            startWith(Idle, 0, Option(300.milliseconds))
 
             onTransition({
-                case (transition: (State, State)) => println(s"${System.currentTimeMillis()}:\t ${transition._1} => ${transition._2}")
+                case (transition: (State, State)) => println(s"${timeStr}:\t ${transition._1} => ${transition._2}")
             })
 
             whenUnhandled({
                 case ev@Event(_ev: Any, i: Int) => {
-                    println(s"when unhandled ev:\t $ev")
+                    println(s"${timeStr}when unhandled ev:\t $ev")
                     if (i < 0) goto(Idle)
                     else if (i > 0) goto(Active)
                     else stop()
@@ -321,10 +321,35 @@ class ActorTests {
             })
 
             when(Idle, 500.millisecond) {
+                case ev@Event(StateTimeout, i: Int) => {
+                    println(s"${timeStr} timeout so stay the same status")
+                    stay()
+                }
                 case ev@Event(_ev: Any, i: Int) => {
-                    println(s"when idle ev:\t $ev")
+                    println(s"${timeStr}when idle ev:\t $ev")
+                    if (i < 0) {
+                        println("\tstay at idle status")
+                        stay()
+                    }
+                    else if (i > 0) goto(Active)
+                    else {
+                        println(s"\tstop because i = $i")
+                        stop()
+                    }
+                }
+                case ev@Event(Active, i: Int) => {
+                    println(s"${timeStr}when idle ev:\t $ev")
                     if (i < 0) stay()
                     else if (i > 0) goto(Active)
+                    else stop()
+                }
+            }
+
+            when(Active, 500.millisecond) {
+                case ev@Event(_ev: Any, i: Int) => {
+                    println(s"${timeStr}when active ev:\t$ev")
+                    if (i > 0) stay()
+                    else if (i < 0) goto(Idle)
                     else stop()
                 }
             }
@@ -337,15 +362,21 @@ class ActorTests {
             null,
             Thread.currentThread().getContextClassLoader,
             ExecutionContext.fromExecutorService(es))
-        printTime
+        println(s"${timeStr} start")
         val ar: ActorRef = sys.actorOf(Props[StateActor](new StateActor))
         Thread.sleep(1000)
-        printTime
+        println(s"${timeStr} after a second")
+        ar.!(1)
         es.awaitTermination(100, SECONDS)
     }
 
-    def printTime = {
+    def timeStr: String = {
         val millis: Long = System.currentTimeMillis()
-        println(s"$millis\t${DateFormatUtils.format(millis: Long, "MM/dd/yyyy hh:mm:ss.sss")}")
+        val str: String = s"$millis\t${DateFormatUtils.format(millis: Long, "MM/dd/yyyy hh:mm:ss.sss\t")}"
+        str
+    }
+
+    def printTime = {
+        println(timeStr)
     }
 }
