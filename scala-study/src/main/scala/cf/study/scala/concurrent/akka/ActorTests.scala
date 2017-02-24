@@ -1,5 +1,6 @@
 package cf.study.scala.concurrent.akka
 
+import java.util.Date
 import java.util.concurrent.{Callable, ExecutorService, Executors, TimeUnit}
 
 import akka.actor.{Actor, ActorRef, ActorSystem, PoisonPill, Props}
@@ -149,6 +150,7 @@ class ActorTests {
             case (msg: Any) => {
                 //                println(s"\nmsg: $msg\n")
                 println(s"thread: ${Thread.currentThread()} received $msg\n")
+                printTime
                 //                Thread.currentThread().getStackTrace.foreach(println(_))
             }
         }
@@ -321,11 +323,35 @@ class ActorTests {
             })
 
             when(Idle, 500.millisecond) {
-                case ev@Event(_ev: Any, i: Int) => {
-                    println(s"when idle ev:\t $ev")
-                    if (i < 0) stay()
-                    else if (i > 0) goto(Active)
+                case ev@Event(StateTimeout, i: Int) => {
+                    println(s"timeout $ev happened, going from idle to idle")
+                    goto(Idle)
+                }
+                case ev@Event(_ev: Int, i: Int) => {
+                        println(s"when idle ev:\t $ev")
+                    if (_ev < 0) stay()
+                    else if (_ev > 0) {
+                            println("going to be active")
+                        goto(Active)
+                    }
                     else stop()
+                }
+            }
+
+            when(Active, 500.millisecond) {
+                case Event(StateTimeout, i: Int) => {
+                    println(s"timeout happened, going from active to idle")
+                    goto(Idle)
+                }
+                case ev@Event(_ev: Int, i: Int) => {
+                        println(s"when Active ev:\t $ev")
+                    if (_ev < 0) stay()
+                    else if (_ev > 0) goto(Active)
+                    else stop()
+                }
+                case ev@_ => {
+                    println(s"whatelse $ev")
+                    stay()
                 }
             }
 
@@ -340,7 +366,11 @@ class ActorTests {
         printTime
         val ar: ActorRef = sys.actorOf(Props[StateActor](new StateActor))
         Thread.sleep(1000)
+        Thread.sleep(1000)
+        ar ! 1
+        Thread.sleep(1000)
         printTime
+        es.shutdown()
         es.awaitTermination(100, SECONDS)
     }
 
@@ -348,4 +378,22 @@ class ActorTests {
         val millis: Long = System.currentTimeMillis()
         println(s"$millis\t${DateFormatUtils.format(millis: Long, "MM/dd/yyyy hh:mm:ss.sss")}")
     }
+
+    @Test
+    def testScheduler = {
+        import scala.concurrent.duration._
+
+        val sys: ActorSystem = ActorSystem.create("Scheduler",
+            null,
+            Thread.currentThread().getContextClassLoader)
+
+        val ar: ActorRef = sys.actorOf(Props[Inspector](new Inspector))
+
+        sys.scheduler.schedule(1.second, 500.millisecond, ar, new Date())(ExecutionContext.global)
+        printTime
+
+        Thread.sleep(4000)
+    }
+
+
 }
