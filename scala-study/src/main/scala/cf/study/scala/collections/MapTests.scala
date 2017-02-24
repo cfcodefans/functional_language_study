@@ -26,14 +26,12 @@ class MapTests {
     }
 
 
+    def generator(i: Int): String = {
+        println(s"generator(${i})")
+        StringUtils.repeat(i.toString, i)
+    }
     @Test def testMutableMap: Unit = {
         val m = TrieMap.empty[Int, String]
-
-        def generator(i: Int): String = {
-            println(s"generator(${i})")
-            StringUtils.repeat(i.toString, i)
-        }
-
         println(m.getOrElseUpdate(5, generator(5)))
         println(m.getOrElseUpdate(5, generator(5)))
         println(m.getOrElseUpdate(6, {
