@@ -165,4 +165,7 @@ class SyntaxTests {
 		println(fibonacci(6))
 		println(fibonacci(7))
 	}
+
+	@Test def testThrow(): Unit = {
+	}
 }

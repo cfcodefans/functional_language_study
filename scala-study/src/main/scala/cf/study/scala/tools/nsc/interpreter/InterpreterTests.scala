@@ -6,9 +6,11 @@ import javax.script.ScriptContext
 
 import org.junit.{After, Before, Test}
 
+import scala.collection.JavaConverters._
+import scala.collection.mutable
+import scala.reflect.ClassTag
 import scala.tools.nsc.Settings
 import scala.tools.nsc.interpreter.IMain
-import scala.collection.JavaConverters._
 
 /**
   * Created by fan on 2016/12/15.
@@ -51,8 +53,8 @@ class InterpreterTests {
         println(bindings.asScala.mkString("\n"))
 
         //NPE
-//        bindings = im.getBindings(ScriptContext.GLOBAL_SCOPE)
-//        println(bindings.asScala.mkString("\n"))
+        //        bindings = im.getBindings(ScriptContext.GLOBAL_SCOPE)
+        //        println(bindings.asScala.mkString("\n"))
 
         im.eval("println(classOf[TestClz])")
     }
@@ -62,8 +64,44 @@ class InterpreterTests {
         im.eval("println(now)")
     }
 
-    @Test def testEval(): Unit ={
+    @Test def testEval(): Unit = {
         val eval = im.eval("new java.util.Date()")
         println(eval)
+    }
+
+    type Func[P] = (P, Date) => Any
+
+    @Test
+    def testTyping(): Unit = {
+
+        //        class Dummy extends Func[Long] {
+        //            override def apply(v1: Long, v2: Date) = println(s"$v1 at $v2")
+        //        }
+
+        val script: String =
+            """
+              |import java.util._
+              |class Script extends Function2[Long, Date, Any] {
+              |    override def apply(v1: Long, v2: Date) = println(s"$v1 at $v2")
+              | }
+              | new Script
+            """.stripMargin
+
+        val eval = im.eval(script)
+        val func: Func[Long] = eval.asInstanceOf[Func[Long]]
+        func(100, new Date())
+
+        callFunc[Long](100L, "test", script)
+    }
+
+    val cache: mutable.HashMap[String, (Func[_], Date)] = mutable.HashMap.empty
+    def callFunc[P: ClassTag](param: P, scriptKey:String, script: String)(implicit paramType: Manifest[P]): Unit = {
+        println(s"parameter:$param type is $paramType")
+
+         val entry = cache.getOrElseUpdate(scriptKey, {(im.eval(script).asInstanceOf[Func[P]], new Date())})
+
+        val eval = entry._1
+        val func: Func[P] = eval.asInstanceOf[Func[P]]
+        func(param, new Date())
     }
 }

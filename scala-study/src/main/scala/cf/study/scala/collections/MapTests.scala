@@ -30,6 +30,7 @@ class MapTests {
         println(s"generator(${i})")
         StringUtils.repeat(i.toString, i)
     }
+
     @Test def testMutableMap: Unit = {
         val m = TrieMap.empty[Int, String]
         println(m.getOrElseUpdate(5, generator(5)))
@@ -69,5 +70,10 @@ class MapTests {
         map.get(1).map(println(_))
         map.put(1, 1.toString)
         map.get(1).map(println(_))
+    }
+
+    @Test def testSortByKey() = {
+        val m = Map((1, 'a'), (2, 'b'))
+        m.toArray.sortBy(_._1)
     }
 }

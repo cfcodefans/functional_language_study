@@ -3,7 +3,7 @@ package cf.study.scala.concurrent.akka
 import java.util.Date
 import java.util.concurrent.{Callable, ExecutorService, Executors, TimeUnit}
 
-import akka.actor.{Actor, ActorRef, ActorSystem, PoisonPill, Props}
+import akka.actor.{Actor, ActorRef, ActorSystem, Kill, PoisonPill, Props}
 import akka.dispatch.Futures
 import akka.routing._
 import org.apache.commons.lang3.time.DateFormatUtils
@@ -145,15 +145,24 @@ class ActorTests {
         Thread.sleep(5000)
     }
 
-    class Inspector extends Actor {
-        override def receive: Receive = {
+    class Inspector extends akka.actor.Actor {
+        override def receive: akka.actor.Actor.Receive = {
             case (msg: Any) => {
-                //                println(s"\nmsg: $msg\n")
                 println(s"thread: ${Thread.currentThread()} received $msg\n")
                 printTime
-                //                Thread.currentThread().getStackTrace.foreach(println(_))
+                Thread.currentThread().getStackTrace.foreach(println(_))
             }
         }
+    }
+
+    @Test
+    def tryKillActor(): Unit = {
+        val sys: ActorSystem = ActorSystem("Stack")
+        val inspector: ActorRef = sys.actorOf(Props[Inspector](new Inspector), name = "inspector")
+        inspector ! "this"
+        inspector ! Kill
+        inspector ! "what"
+        Thread.sleep(100)
     }
 
     @Test
@@ -328,10 +337,10 @@ class ActorTests {
                     goto(Idle)
                 }
                 case ev@Event(_ev: Int, i: Int) => {
-                        println(s"when idle ev:\t $ev")
+                    println(s"when idle ev:\t $ev")
                     if (_ev < 0) stay()
                     else if (_ev > 0) {
-                            println("going to be active")
+                        println("going to be active")
                         goto(Active)
                     }
                     else stop()
@@ -344,7 +353,7 @@ class ActorTests {
                     goto(Idle)
                 }
                 case ev@Event(_ev: Int, i: Int) => {
-                        println(s"when Active ev:\t $ev")
+                    println(s"when Active ev:\t $ev")
                     if (_ev < 0) stay()
                     else if (_ev > 0) goto(Active)
                     else stop()
@@ -382,18 +391,16 @@ class ActorTests {
     @Test
     def testScheduler = {
         import scala.concurrent.duration._
-
-        val sys: ActorSystem = ActorSystem.create("Scheduler",
+        val as: ActorSystem = ActorSystem.create("Scheduler",
             null,
             Thread.currentThread().getContextClassLoader)
 
-        val ar: ActorRef = sys.actorOf(Props[Inspector](new Inspector))
+        val ar: ActorRef = as.actorOf(Props[Inspector](new Inspector))
 
-        sys.scheduler.schedule(1.second, 500.millisecond, ar, new Date())(ExecutionContext.global)
+        val cancellable = as.scheduler.schedule(1.second, 500.millisecond, ar, new Date())(ExecutionContext.global)
         printTime
 
         Thread.sleep(4000)
+        cancellable.cancel()
     }
-
-
 }

@@ -16,7 +16,8 @@ class StreamTests {
         val intList: List[Int] = 1.to(10).toList
         val it: Iterator[Int] = intList.iterator
         Stream.continually(it.next).takeWhile(i => {
-            println("before hasNext:" + i); it.hasNext
+            println("before hasNext:" + i);
+            it.hasNext
         }).foreach(println)
     }
 }
