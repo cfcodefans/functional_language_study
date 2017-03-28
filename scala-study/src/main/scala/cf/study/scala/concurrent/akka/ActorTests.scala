@@ -5,6 +5,7 @@ import java.util.concurrent.{Callable, ExecutorService, Executors, TimeUnit}
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Kill, PoisonPill, Props}
 import akka.dispatch.Futures
+import akka.routing.ConsistentHashingRouter.ConsistentHashMapping
 import akka.routing._
 import org.apache.commons.lang3.time.DateFormatUtils
 import org.junit.Test
@@ -148,9 +149,9 @@ class ActorTests {
     class Inspector extends akka.actor.Actor {
         override def receive: akka.actor.Actor.Receive = {
             case (msg: Any) => {
-                println(s"thread: ${Thread.currentThread()} received $msg\n")
-                printTime
-                Thread.currentThread().getStackTrace.foreach(println(_))
+                println(s"thread: ${Thread.currentThread()} ${this} received $msg\n")
+                //printTime
+                //Thread.currentThread().getStackTrace.foreach(println(_))
             }
         }
     }
@@ -201,7 +202,7 @@ class ActorTests {
     }
 
     @Test
-    def exploreRoute(): Unit = {
+    def exploreRouteRoundRobinRouting(): Unit = {
         for (t <- 1 to 10) {
             val sys: ActorSystem = ActorSystem("Route_" + t)
             val route: Router = {
@@ -216,6 +217,25 @@ class ActorTests {
             }
         }
 
+        Thread.sleep(100)
+    }
+
+    @Test
+    def exploreRouteHashingRouting(): Unit = {
+        val sys: ActorSystem = ActorSystem("HashRouter")
+        val routees = (1 to 2).map(i => {
+            sys.actorOf(Props[Inspector](new Inspector), name = s"inspector_$i")
+        }).map(ActorRefRoutee(_)).toVector
+
+        object dummyConsistentHashMapping extends ConsistentHashMapping {
+            def isDefinedAt(x: Any) = x.isInstanceOf[Int]
+            def apply(x: Any) = x.asInstanceOf[Int] % 10 / 5
+        }
+
+        val router: Router = Router(ConsistentHashingRoutingLogic(sys, hashMapping = dummyConsistentHashMapping), routees)
+        for (i <- 1 to 10) {
+            router.route(i, ActorRef.noSender)
+        }
         Thread.sleep(100)
     }
 
@@ -389,7 +409,7 @@ class ActorTests {
     }
 
     @Test
-    def testScheduler = {
+    def testScheduler(): Unit = {
         import scala.concurrent.duration._
         val as: ActorSystem = ActorSystem.create("Scheduler",
             null,
