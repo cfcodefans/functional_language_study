@@ -37,9 +37,8 @@ class ActorTests {
         class TestActor extends Actor {
             //			val log = Logging(context.system, this)
             override def receive: Receive = {
-                case "test" => {
+                case "test" =>
                     longOper
-                }
                 case _ => println("received unknown message")
             }
         }
@@ -172,12 +171,11 @@ class ActorTests {
             var ms: Long = System.currentTimeMillis()
 
             override def receive: Receive = {
-                case (msg: Any) => {
+                case (msg: Any) =>
                     val _ms: Long = System.currentTimeMillis()
                     if (_ms - ms > 999)
                         println(s"${_ms - ms}")
                     ms = _ms
-                }
             }
         }
         val sys: ActorSystem = ActorSystem("Dummy")
@@ -229,6 +227,7 @@ class ActorTests {
 
         object dummyConsistentHashMapping extends ConsistentHashMapping {
             def isDefinedAt(x: Any) = x.isInstanceOf[Int]
+
             def apply(x: Any) = x.asInstanceOf[Int] % 10 / 5
         }
 
