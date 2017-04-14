@@ -5,7 +5,7 @@ import org.junit.Test
 /**
   * Created by fan on 2017/2/20.
   */
-class YieldTests {
+class LazyTests {
     @Test def testYield: Unit ={
         lazy val c = for (i <- 0 to 2) yield {
             println(s"here $i")
