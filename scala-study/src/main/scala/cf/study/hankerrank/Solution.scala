@@ -1,7 +1,9 @@
 package cf.study.hankerrank
 
+import java.util
 import java.util._
 
+import scala.collection.mutable
 import scala.util.control.Breaks._
 
 object Solution {
@@ -159,14 +161,31 @@ object Solution {
     def displayPathtoPrincess(m: Int, grid: Array[String]) = {
         val robotPos: (Int, Int) = grid.zipWithIndex.filter(_._1.contains('m')).map(p => (p._1.indexOf('m'), p._2)).head
         val princessPos: (Int, Int) = {
-            val height:Int = grid.size - 1
+            val height: Int = grid.size - 1
             if (grid(0).charAt(0) == 'p') (0, 0)
             else if (grid(height).charAt(0) == 'p') (0, height)
             else if (grid(0).last == 'p') (grid(0).length - 1, 0)
             else (grid.last.size, height)
         }
 
-        println({if (robotPos._1 < princessPos._1) "RIGHT" else "LEFT" })
-        println({if (robotPos._2 < princessPos._2) "DOWN" else "UP" })
+        println({
+            if (robotPos._1 < princessPos._1) "RIGHT" else "LEFT"
+        })
+        println({
+            if (robotPos._2 < princessPos._2) "DOWN" else "UP"
+        })
+    }
+
+    def minDistanceBetweenSameElementsInArray(arr: Array[Int]): Int = {
+        val map: mutable.Map[Int, Int] = mutable.Map.empty
+        var re: Int = -1
+        for (i <- 0 until (arr.length)) {
+            val v: Int = arr(i)
+            if (map.contains(v)) {
+                re = if (re == -1) i - map(v) else Math.min(re, i - map(v))
+            }
+            map.update(v, i)
+        }
+        return re
     }
 }
