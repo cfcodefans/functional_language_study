@@ -1,5 +1,8 @@
 package cf.study.scala.lang
 
+import java.time.temporal.{ChronoUnit, TemporalUnit}
+import java.util.{Calendar, Date}
+
 import org.junit.{Assert, Test}
 
 /**
@@ -31,5 +34,10 @@ class RangeTest {
             Assert.assertEquals(ranges(i)._2, allRangeSlices(i).last._2)
             println(s"${ranges(i)} -> ${allRangeSlices(i).mkString(", ")}")
         }
+    }
+
+    @Test def testDateRange(): Unit = {
+        val start: Date = Calendar.getInstance().getTime
+        (1 to 10).map(start.toInstant.plus(_, ChronoUnit.DAYS)).toArray
     }
 }

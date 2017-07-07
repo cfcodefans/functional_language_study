@@ -127,4 +127,8 @@ class StatisticsTests {
         import collection.JavaConverters._
         buf.asScala.zipWithIndex.foreach(line => println(s"${line._2}\t ${line._1.mkString(", ")}"))
     }
+
+    def factorial(n: Int): Long = if (n == 0) 1 else (1 to n).foldRight(1)(_ * _)
+
+    def poissonDistribution(k: Int, n: Int): Double = Math.pow(n, k) * Math.pow(Math.E, -n) / factorial(k)
 }
