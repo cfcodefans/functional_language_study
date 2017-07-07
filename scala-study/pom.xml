@@ -6,7 +6,7 @@
     <version>1.0.0</version>
     <inceptionYear>2008</inceptionYear>
     <properties>
-        <scala.version>2.11.7</scala.version>
+        <scala.version>2.12.2</scala.version>
         <jetty-version>9.4.0.RC1</jetty-version>
         <!-- 		<jetty-version>8.1.14.v20131031</jetty-version> -->
         <jetty-scope>provided</jetty-scope>
@@ -29,11 +29,6 @@
     </pluginRepositories>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.alexandrnikitin</groupId>
-            <artifactId>bloom-filter_2.11</artifactId>
-            <version>0.6.0</version>
-        </dependency>
 
         <dependency>
             <groupId>com.typesafe.akka</groupId>
@@ -132,7 +127,7 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>
-                            <goal>test-compile</goal>
+<!--                             <goal>test-compile</goal> -->
                         </goals>
                     </execution>
                 </executions>

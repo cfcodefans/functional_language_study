@@ -72,7 +72,7 @@ class MapTests {
         map.get(1).map(println(_))
     }
 
-    @Test def testSortByKey() = {
+    @Test def testSortByKey(): Unit = {
         val m = Map((1, 'a'), (2, 'b'))
         m.toArray.sortBy(_._1)
     }
