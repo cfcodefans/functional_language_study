@@ -1,8 +1,10 @@
 import { suite, test, slow, timeout, skip } from "mocha-typescript"
 import { expect } from "chai"
 
+import { tryIt } from "./utils"
+
 @suite class BasicTypesStudy {
-    // @skip 
+    @skip 
     @test _boolean(): void {
         let isDone: boolean = false
         let isNotDone: Boolean = true
@@ -31,13 +33,14 @@ import { expect } from "chai"
         // console.info("true | 1", true | 1)
         // console.info("1 | true", 1 | true)
         // console.info("true | true", true | true)
-        console.info("true || 1", true || 1)
-        console.info("true || 0", true || 0)
-        console.info("true && 1", true && 1)
-        console.info("true && 0", true && 1)
+        tryIt("true || 1", true)
+        tryIt("true || 0", true)
+        tryIt("true && 1", true)
+        tryIt("true && 0", true) // it is not false
+        tryIt("0 && 0", false)
     }
 
-
+    // @skip
     @test _number(): void {
         let decimal: number = 6
         console.info(decimal)
@@ -70,6 +73,7 @@ import { expect } from "chai"
         console.info("-3 % -5", -3 % -5)
     }
 
+    @skip
     @test _string(): void {
         let color: string = "blue"
         console.info(color)
