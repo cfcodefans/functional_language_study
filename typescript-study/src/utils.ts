@@ -9,6 +9,6 @@ export function tryIt(statement: string, expected?: any, msg?: string): void {
         re = e
     }
     // console.info([statement, re, expected || "", msg || `${statement} = ${re}`].join("\t"))
-    console.info([statement, "=", re].join("\t"))
+    console.info([statement, "=", "" + re].join("\t"))
     // expect(re).to.eq(expected, msg || `${statement} eq ${re}`)
 }
