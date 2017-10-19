@@ -1,10 +1,10 @@
 import { suite, test, slow, timeout, skip } from "mocha-typescript"
 import { expect } from "chai"
 
-import { tryIt } from "./utils"
+import { tryIt } from './utils';
 
 @suite class BasicTypesStudy {
-    @skip 
+    @skip
     @test _boolean(): void {
         let isDone: boolean = false
         let isNotDone: Boolean = true
@@ -28,11 +28,6 @@ import { tryIt } from "./utils"
 
         let _true: boolean = true
         console.info("_true.valueOf()", _true.valueOf())
-        // console.info("true + 1", true + 1)
-        // console.info("true - 1", true - 1)
-        // console.info("true | 1", true | 1)
-        // console.info("1 | true", 1 | true)
-        // console.info("true | true", true | true)
         tryIt("true || 1", true)
         tryIt("true || 0", true)
         tryIt("true && 1", true)
@@ -58,19 +53,36 @@ import { tryIt } from "./utils"
         expect(_number === _Number)
 
         let pi: number = Math.PI
-        console.info("pi.toExponential(5)", pi.toExponential(5))
-        console.info("(1/4).toFixed(4)", (1 / 4).toFixed(4))
-        console.info(pi.toLocaleString("zh"))
+        tryIt("pi.toExponential(5)")
+        tryIt("(1/4).toFixed(4)")
+        tryIt('pi.toLocaleString("zh")')
 
-        console.info("0b100 >> 2", 0b100 >> 2)
-        console.info("1 << 2", 0b1 << 2)
-        console.info("1 >> 2", 0b1 >> 2)
-        console.info("-1 << 2", -1 << 2)
-        console.info("-1 >> 2", -1 >> 2)
-        console.info("3 % 5", 3 % 5)
-        console.info("-3 % 5", -3 % 5)
-        console.info("3 % -5", 3 % -5)
-        console.info("-3 % -5", -3 % -5)
+        tryIt("0b100 >> 2")
+        tryIt("1 << 2")
+        tryIt("1 >> 2")
+        tryIt("-1 << 2")
+        tryIt("-1 >> 2")
+        tryIt("3 % 5")
+        tryIt("-3 % 5")
+        tryIt("3 % -5")
+        tryIt("-3 % -5")
+
+        tryIt("! 0b1010")
+        tryIt("~ 0b1010")
+
+        tryIt("0b101 | 0b10")
+        tryIt("0b101 & 0b10")
+        tryIt("0b101 ^ 0b10")
+        tryIt("0b101 ^ 0b11")
+
+        tryIt("0b1010 ^ 0b1111")
+        tryIt("0b1001 ^ 0b1111")
+        tryIt("0b110 ^ 0b1111")
+
+        tryIt("~ 0")
+        tryIt("~ -1")
+        tryIt("0b110 ^ 0b110")
+        tryIt("(~0b110) ^ 0b110")
     }
 
     @skip
@@ -81,5 +93,46 @@ import { tryIt } from "./utils"
         console.info(color)
         let age: number = 36
         console.info(`I am ${age} years old`)
+
+        tryIt("'abcdef'[0]")
+        tryIt("'abcdef'[1]")
+        tryIt("'abcdef'[6]")
+        tryIt("'abcdef'[-1]")
+
+        tryIt("'abcdef'.slice(2, 2)")
+        tryIt("'abcdef'.slice(2, 3)")
+        tryIt("'abcdef'.slice(2, 4)")
+        tryIt("'abcdef'.slice(4, 2)")
+        tryIt("'abcdef'.slice(0, -2)")
+        tryIt("'abcdef'.slice(-2, 0)")
+        tryIt("'abcdef'.slice(-4, -2)")
+
+        tryIt("'abcdef'.substr(2)")
+        tryIt("'abcdef'.substr(2, 0)")
+        tryIt("'abcdef'.substr(2, -1)")
+        tryIt("'abcdef'.substr(2, -2)")
+        tryIt("'abcdef'.substr(2, 10)")
+
+        tryIt("'abcdef'.substring(2, 2)")
+        tryIt("'abcdef'.substring(2, 3)")
+        tryIt("'abcdef'.substring(2, 4)")
+        tryIt("'abcdef'.substring(4, 2)")
+        tryIt("'abcdef'.substring(0, -2)")
+        tryIt("'abcdef'.substring(-2, 0)")
+        tryIt("'abcdef'.substring(-4, -2)")
+
+        tryIt("1 + '0'")
+        tryIt("1 + '2'")
+        tryIt("1 * '0'")
+        tryIt("1 * '2'")
+        tryIt("'2' * 2")
+        tryIt("'3' * '2'")
+        tryIt("'3' * 'a'")
+        tryIt("'a' * '2'")
+
+        tryIt("'abcdef'.split(/./)")
+        tryIt("'abcdef'.split(/../)")
+        tryIt("'abcdef'.split(/cd/)")
+        tryIt("'abcdef'.split(/(b|d)/)")
     }
 }
