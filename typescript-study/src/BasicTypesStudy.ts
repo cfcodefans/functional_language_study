@@ -4,7 +4,7 @@ import { expect } from "chai"
 import { tryIt } from './utils';
 
 @suite class BasicTypesStudy {
-    // @skip
+    @skip
     @test _boolean(): void {
         let isDone: boolean = false
         let isNotDone: Boolean = true
@@ -59,13 +59,13 @@ import { tryIt } from './utils';
         tryIt("NaN || undefined")
         tryIt("undefined || NaN")
 
-        
+
         tryIt("false || 1")
         tryIt("1 || false")
         tryIt("false || 0")
         tryIt("0 || false")
 
-        
+
         tryIt("true && 1")
         tryIt("1 && true")
         tryIt("true && 0")
@@ -84,12 +84,12 @@ import { tryIt } from './utils';
         tryIt("NaN && undefined")
         tryIt("undefined && NaN")
 
-        
+
         tryIt("false && 1")
         tryIt("1 && false")
         tryIt("false && 0")
         tryIt("0 && false")
-  
+
         // let _true: boolean = true
         // console.info("_true.valueOf()", _true.valueOf())
     }
@@ -144,19 +144,187 @@ import { tryIt } from './utils';
         tryIt("(~0b110) ^ 0b110")
     }
 
-    @skip
+    // @skip
     @test _string(): void {
         let color: string = "blue"
         console.info(color)
         color = "red"
         console.info(color)
         let age: number = 36
-        console.info(`I am ${age} years old`)
+        // console.info(`I am ${age} years old`)
+
+        tryIt("JSON.stringify({})")
+        tryIt("JSON.stringify(null)")
+        tryIt("JSON.stringify(undefined)")
 
         tryIt("'abcdef'[0]")
         tryIt("'abcdef'[1]")
         tryIt("'abcdef'[6]")
         tryIt("'abcdef'[-1]")
+
+        tryIt("'abcdef'.anchor()")
+        tryIt("'abcdef'.anchor('test')")
+        tryIt("''.anchor('test')")
+        tryIt("'<a/>'.anchor('test')")
+        tryIt("'abcdef'.big()")
+        tryIt("'abcdef'.blink()")
+        tryIt("'abcdef'.bold()")
+
+
+        tryIt("'abcdef'.charAt(1)")
+        tryIt("'abcdef'.charAt(10)")
+        tryIt("'abcdef'.charAt(-1)")
+        tryIt("'abcdef'.charAt(-10)")
+
+        tryIt("'abcdef'.charCodeAt(1)")
+        tryIt("'abcdef'.charCodeAt(10)")
+        tryIt("'abcdef'.charCodeAt(-1)")
+
+        tryIt("'abcdef'.codePointAt(1)")
+        tryIt("'abcdef'.codePointAt(10)")
+        tryIt("'abcdef'.codePointAt(-1)")
+
+        tryIt("'abcdef'.concat('12345')")
+        tryIt("'abcdef'.concat(12345)")
+        tryIt("'abcdef'.concat(new Date())")
+        tryIt("'abcdef'.concat('')")
+        tryIt("'abcdef'.concat(null)")
+        tryIt("'abcdef'.concat(undefined)")
+
+        tryIt("'abcdef'.endsWith('f')")
+        tryIt("'abcdef'.endsWith('1')")
+        tryIt("'abcdef'.endsWith('')")
+        tryIt("'123456'.endsWith(6)")
+        tryIt("'abcdef'.endsWith(null)")
+        tryIt("'abcdefnull'.endsWith(null)")
+        tryIt("'abcdefundefined'.endsWith(undefined)")
+
+        tryIt("'abcdef'.fixed()")
+
+        tryIt("'abcdef'.fontcolor()")
+        tryIt("'abcdef'.fontcolor('red')")
+
+        tryIt("'abcdef'.fontsize()")
+        tryIt("'abcdef'.fontsize('10')")
+        tryIt("'abcdef'.fontsize('0')")
+        tryIt("'abcdef'.fontsize('')")
+        tryIt("'abcdef'.fontsize(null)")
+        tryIt("'abcdef'.fontsize(10)")
+        tryIt("'abcdef'.fontsize(0)")
+        
+        tryIt("'abcdef'.includes()")
+        tryIt("'abcdef'.includes(null)")
+        tryIt("'abc_null_def'.includes(null)")
+        tryIt("'abcdef'.includes(undefined)")
+        tryIt("'abc_undefined_def'.includes(undefined)")
+        tryIt("'abcdef'.includes('bcd')")
+        tryIt("'abcdef'.includes('bcd', 0)")
+        tryIt("'abcdef'.includes('bcd', 1)")
+        tryIt("'abcdef'.includes('bcd', 2)")
+        tryIt("'abcdef'.includes('bcd', -1)")
+        tryIt("'abcdef'.includes('bcd', -2)")
+        tryIt("'abcdef'.includes('ef', -3)")
+        tryIt("'abcdef'.includes('ef', 10)")
+
+        tryIt("'abcdef'.indexOf('d')")
+        tryIt("'abcdef'.indexOf('1')")
+        tryIt("'abcdef'.indexOf('')")
+        tryIt("'abcdef'.indexOf('d', 2)")
+        tryIt("'abcdef'.indexOf('d', 3)")
+        tryIt("'abcdef'.indexOf('d', 4)")
+        tryIt("'abcdef'.indexOf('d', 5)")
+        tryIt("'abcdef'.indexOf('d', 10)")
+        tryIt("'abcdef'.indexOf('d', -3)")
+        tryIt("'abc_null_def'.indexOf(null)")
+        tryIt("'abc_undefined_def'.indexOf(undefined)")
+
+        tryIt("'abcdef'.italics()")
+
+        tryIt("'abcdef'.lastIndexOf('d')")
+        tryIt("'abcdef'.lastIndexOf('1')")
+        tryIt("'abcdef'.lastIndexOf('')")
+        tryIt("'abcdef'.lastIndexOf('d', 2)")
+        tryIt("'abcdef'.lastIndexOf('d', 3)")
+        tryIt("'abcdef'.lastIndexOf('d', 4)")
+        tryIt("'abcdef'.lastIndexOf('d', 5)")
+        tryIt("'abcdef'.lastIndexOf('d', 10)")
+        tryIt("'abcdef'.lastIndexOf('d', -3)")
+        tryIt("'abc_null_def'.lastIndexOf(null)")
+        tryIt("'abc_undefined_def'.lastIndexOf(undefined)")
+
+        tryIt("'abcdef'.length")
+
+        tryIt("'abcdef'.link()")
+
+        tryIt("'abcdef'.localeCompare()")
+        tryIt("'abcdef'.localeCompare(null)")
+        tryIt("'abcdef'.localeCompare('null')")
+        tryIt("'abcdef'.localeCompare(undefined)")
+        tryIt("'abcdef'.localeCompare('undefined')")
+        tryIt("'abcdef'.localeCompare('a')")
+        tryIt("'abcdef'.localeCompare('abcdef')")
+        tryIt("'abcdef'.localeCompare('abcdefg')")
+        tryIt("'abcdef'.localeCompare('aacdef')")
+        tryIt("'abcdef'.localeCompare('accdef')")
+
+        tryIt("'abcdef'.match()")
+        tryIt("'abcdef'.match(/./)")
+        tryIt("'abcdef'.match(/cde/)")
+        tryIt("'abcdef'.match(/(b|d)/)")
+        tryIt("'abcdef'.match(null)")
+        tryIt("'abc_null_def'.match(null)")
+        tryIt("'abcdef'.match(undefined)")
+        tryIt("'abc_undefined_def'.match(undefined)")
+        
+        //normalize(form: "NFC" | "NFD" | "NFKC" | "NFKD"): string;
+        tryIt("'abcdef'.normalize()")
+        // tryIt("'abcdef'.normalize(null)") //抛异常
+        // tryIt("'abcdef'.normalize(undefined)") //抛异常
+        //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
+        tryIt("'abcdef'.normalize('NFC')")
+        tryIt("'abcdef'.normalize('NFD')")
+        tryIt("'abcdef'.normalize('NFKC')")
+        tryIt("'abcdef'.normalize('NFKD')")
+        tryIt("'123456'.normalize('NFC')")
+        tryIt("'123456'.normalize('NFD')")
+        tryIt("'123456'.normalize('NFKC')")
+        tryIt("'123456'.normalize('NFKD')")
+        tryIt("'\u1E9B\u0323'.normalize('NFC')")
+        tryIt("'\u1E9B\u0323'.normalize('NFD')")
+        tryIt("'\u1E9B\u0323'.normalize('NFKC')")
+        tryIt("'\u1E9B\u0323'.normalize('NFKD')")
+
+        tryIt("'abcdef'.padEnd(20)")
+        tryIt("'abcdef'.padEnd(10)")
+        tryIt("'abcdef'.padEnd(0)")
+        tryIt("'abcdef'.padEnd(1)")
+        tryIt("'abcdef'.padEnd(20, '-')")
+        tryIt("'abcdef'.padEnd(15, '-')")
+        tryIt("'abcdef'.padEnd(10, '-')")
+        tryIt("'abcdef'.padEnd(10.5, '-')")
+        tryIt("'abcdef'.padEnd(0, '-')")
+        tryIt("'abcdef'.padEnd(-1, '-')")
+        tryIt("'abcdef'.padEnd(10, '123456')")
+        tryIt("'abcdef'.padEnd(10, null)")
+        tryIt("'abcdef'.padEnd(10, undefined)")
+
+
+        
+        tryIt("'abcdef'.padStart(20)")
+        tryIt("'abcdef'.padStart(10)")
+        tryIt("'abcdef'.padStart(0)")
+        tryIt("'abcdef'.padStart(1)")
+        tryIt("'abcdef'.padStart(20, '-')")
+        tryIt("'abcdef'.padStart(15, '-')")
+        tryIt("'abcdef'.padStart(10, '-')")
+        tryIt("'abcdef'.padStart(10.5, '-')")
+        tryIt("'abcdef'.padStart(0, '-')")
+        tryIt("'abcdef'.padStart(-1, '-')")
+        tryIt("'abcdef'.padStart(10, '123456')")
+        tryIt("'abcdef'.padStart(10, null)")
+        tryIt("'abcdef'.padStart(10, undefined)")
+        
+        
 
         tryIt("'abcdef'.slice(2, 2)")
         tryIt("'abcdef'.slice(2, 3)")
@@ -185,6 +353,10 @@ import { tryIt } from './utils';
         tryIt("1 * '0'")
         tryIt("1 * '2'")
         tryIt("'2' * 2")
+        tryIt("'4' / 2")
+        tryIt("4 / '2'")
+        tryIt("'4' / '2'")
+        tryIt("'4' / ' 2'")
         tryIt("'3' * '2'")
         tryIt("'3' * 'a'")
         tryIt("'a' * '2'")
@@ -193,5 +365,7 @@ import { tryIt } from './utils';
         tryIt("'abcdef'.split(/../)")
         tryIt("'abcdef'.split(/cd/)")
         tryIt("'abcdef'.split(/(b|d)/)")
+
+
     }
 }
