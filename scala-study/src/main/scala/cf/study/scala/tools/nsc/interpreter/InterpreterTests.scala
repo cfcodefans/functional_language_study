@@ -2,11 +2,9 @@ package cf.study.scala.tools.nsc.interpreter
 
 import java.io.PrintWriter
 import java.util.Date
-import javax.script.ScriptContext
 
 import org.junit.{After, Before, Test}
 
-import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.reflect.ClassTag
 import scala.tools.nsc.Settings
@@ -41,31 +39,31 @@ class InterpreterTests {
 
 
     @Test def testPrintWriter(): Unit = {
-        im.eval("val a = 1")
-        im.eval("println(a + a)")
+        im.intp.interpret("val a = 1")
+        im.intp.interpret("println(a + a)")
     }
 
     @Test def testClass(): Unit = {
-        val eval = im.eval("class TestClz(id:Long = System.currentTimeMillis()) {}")
+        val eval = im.intp.interpret("class TestClz(id:Long = System.currentTimeMillis()) {}")
         println(eval)
 
-        var bindings = im.getBindings(ScriptContext.ENGINE_SCOPE)
-        println(bindings.asScala.mkString("\n"))
+//        var bindings = im.getBindings(ScriptContext.ENGINE_SCOPE)
+        //        println(bindings.asScala.mkString("\n"))
 
         //NPE
         //        bindings = im.getBindings(ScriptContext.GLOBAL_SCOPE)
         //        println(bindings.asScala.mkString("\n"))
 
-        im.eval("println(classOf[TestClz])")
+        im.intp.interpret("println(classOf[TestClz])")
     }
 
     @Test def testBind(): Unit = {
         im.directBind("now", new Date())
-        im.eval("println(now)")
+        im.intp.interpret("println(now)")
     }
 
     @Test def testEval(): Unit = {
-        val eval = im.eval("new java.util.Date()")
+        val eval = im.intp.interpret("new java.util.Date()")
         println(eval)
     }
 
@@ -87,7 +85,7 @@ class InterpreterTests {
               | new Script
             """.stripMargin
 
-        val eval = im.eval(script)
+        val eval = im.intp.interpret(script)
         val func: Func[Long] = eval.asInstanceOf[Func[Long]]
         func(100, new Date())
 
@@ -98,7 +96,7 @@ class InterpreterTests {
     def callFunc[P: ClassTag](param: P, scriptKey:String, script: String)(implicit paramType: Manifest[P]): Unit = {
         println(s"parameter:$param type is $paramType")
 
-         val entry = cache.getOrElseUpdate(scriptKey, {(im.eval(script).asInstanceOf[Func[P]], new Date())})
+         val entry = cache.getOrElseUpdate(scriptKey, {(im.intp.interpret(script).asInstanceOf[Func[P]], new Date())})
 
         val eval = entry._1
         val func: Func[P] = eval.asInstanceOf[Func[P]]
