@@ -23,6 +23,8 @@ class MapTests {
 
         println(m(0))
         //        println(m(1))
+//        val m1: Map[Int, Int] = m.+((-1, 1))
+        val m1: Map[Int, Int] = m + ((-1, 1))
     }
 
 

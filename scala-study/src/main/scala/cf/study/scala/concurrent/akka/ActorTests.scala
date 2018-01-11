@@ -285,9 +285,9 @@ class ActorTests {
                 }
             }
 
-            onTransition({
-                case (transition: (State, State)) => println(s"${System.currentTimeMillis()}:\t ${transition._1} => ${transition._2}")
-            })
+//            onTransition({
+//                case (transition: (State, State)) => println(s"${System.currentTimeMillis()}:\t ${transition._1} => ${transition._2}")
+//            })
 
             initialize()
         }
@@ -337,9 +337,9 @@ class ActorTests {
         class StateActor extends FSM[State, Int] {
             startWith(Idle, 0, Option(1.second))
 
-            onTransition({
-                case (transition: (State, State)) => println(s"${System.currentTimeMillis()}:\t ${transition._1} => ${transition._2}")
-            })
+//            onTransition({
+            //                case (transition: (State, State)) => println(s"${System.currentTimeMillis()}:\t ${transition._1} => ${transition._2}")
+            //            })
 
             whenUnhandled({
                 case ev@Event(_ev: Any, i: Int) => {
