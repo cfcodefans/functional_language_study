@@ -1,9 +1,12 @@
-import * as bn from "./binance-api";
+import * as bn from "./binance-api"
+import * as RP from 'request-promise'
 
-
-function main() {
+async function main() {
     console.info("test")
-    console.info(bn.BASE)
+
+    // console.info(bn.BASE)
+    let req = await RP("http://baidu.com")
+    console.info(req)
 }
 
 main()
