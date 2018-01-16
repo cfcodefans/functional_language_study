@@ -1,17 +1,16 @@
 import * as bn from "./binance-api"
 import * as RP from 'request-promise'
 import * as _ from "lodash"
+import { IExchangeInfo } from "./defs";
 
 async function main() {
     console.info("test")
 
     // console.info(bn.BASE)
-    let req = await RP("http://baidu.com")
-    console.info(req)
+    // let exchangeInfo: IExchangeInfo = await bn.exchangeInfo()
+    // exchangeInfo.symbols.map(s => s.symbol).forEach(console.info)
 
-    let d = {}
-    _.update(d, "symbol", (symbol: string) => symbol)
-    console.info(d)
+    console.info(await bn.time())
 }
 
 main()
