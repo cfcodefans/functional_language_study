@@ -1,4 +1,19 @@
 
+export const BASE: string = "https://api.binance.com/api/"
+export const WS: string = 'https://api.binance.com/wapi/'
+export const WS_BASE: string = 'wss://stream.binance.com:9443/ws/'
+export const USER_AGENT: string = 'Mozilla/4.0 (compatible; Node Binance API)'
+export const CONTENT_TYPE: string = 'application/x-www-form-urlencoded'
+
+export class Options {
+    recvWindow: number = 60000
+    reconnect: boolean = false
+    test: boolean = false
+    apiKey: string = ''
+    apiSecret: string = ''
+}
+
+export const OPTS: Options = new Options()
 
 export type RateLimitType = 'REQUEST' | 'ORDERS'
 export type LimitIntervalType = 'MINUTE' | 'SECOND' | 'DAY'

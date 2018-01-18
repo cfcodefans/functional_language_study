@@ -1,4 +1,4 @@
-import * as bn from "./binance-api"
+import * as bn from "./binance-node"
 import * as RP from 'request-promise'
 import * as _ from "lodash"
 import { IExchangeInfo } from "./defs";
