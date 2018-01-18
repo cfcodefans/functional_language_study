@@ -1,61 +1,7 @@
-// import * as Req from 'request'
-// import * as RP from 'request-promise'
-import * as _ from 'lodash'
-import * as crypto from 'crypto'
-import * as d from './defs'
+import * as d from "./defs";
+import { publicReq } from "./node-util";
+import * as _ from "lodash"
 
-
-
-export async function publicReq(_url: string, data: any, _method: string = 'GET'): Promise<any> {
-    if (!(data && !_.isEmpty(_url))) return Promise.resolve(null);
-
-    console.info(`${_method} ${_url}`)
-
-    return fetch(new Request(
-        _url, {
-            method: _method,
-            body: data,
-            window: d.OPTS.recvWindow,
-            // resolveWithFullResponse: true,
-            headers: {
-                'User-agent': d.USER_AGENT,
-                'Content-type': d.CONTENT_TYPE
-            }
-        })).then((resp: Response) => resp.json())
-        .catch(console.error)
-}
-
-export async function apiReq(_url: string, _method: string = 'GET'): Promise<any> {
-    if (_.isEmpty(d.OPTS.apiKey)) throw 'apiReq: Invalid API Key';
-    return fetch(new Request(_url,
-        {
-            method: _method,
-            window: d.OPTS.recvWindow,
-            // resolveWithFullResponse: true,
-            // agent:false,
-            headers: {
-                'User-agent': d.USER_AGENT,
-                'Content-type': d.CONTENT_TYPE,
-                'X-MBX-APIKEY': d.OPTS.apiKey
-            }
-        })).then((resp: Response) => resp.json())
-        .catch(console.error)
-}
-
-export async function signedReq(_url: string, data: any, _method: string = 'GET'): Promise<any> {
-    if (_.isEmpty(d.OPTS.apiSecret)) throw 'signedReq: Invalid API Secret'
-    data = data ? data : {}
-    data.timestamp = new Date().getTime()
-    if (typeof data.symbol !== 'undefined') data.symbol = data.symbol.replace('_', '')
-    if (typeof data.recvWindow === 'undefined') data.recvWindow = d.OPTS.recvWindow
-
-    let query: string = Object.keys(data)
-        .map((key: string) => `${key}=${encodeURIComponent(data[key])}`)
-        .join('&')
-
-    let signature: string = crypto.createHmac('sha256', d.OPTS.apiSecret).update(query).digest('hex')
-    return apiReq(`${_url}?${query}&signature=${signature}`)
-}
 
 export async function exchangeInfo(): Promise<d.IExchangeInfo> {
     return await publicReq(d.BASE + "v1/exchangeInfo", {}) as d.IExchangeInfo
@@ -71,4 +17,23 @@ export async function time(): Promise<number> {
     let resp: any = await publicReq(d.BASE + "v1/time", {})
     console.info(resp)
     return parseInt(_.get(resp, "serverTime") as string)
+}
+
+export async function depth(symbol: string, limit: number = 100): Promise<d.IDepth> {
+    if (_.isEmpty(symbol))
+        throw `symbol is empty`
+
+    if (!d.intervalLimits.includes(limit))
+        throw `invalid limit ${limit} is not in ${d.intervalLimits}`
+
+    return publicReq(d.BASE + "v1/depth", { symbol: symbol, limit: limit })
+        .then(result => {
+            let _bids: any[][] = _.get(result, "bids", []) as any[][]
+            let _asks: any[][] = _.get(result, "asks", []) as any[][]
+            return {
+                lastUpdateId: _.get(result, "lastUpdateId") as number,
+                bids: _bids.map(bid => { return { price: bid[0], qty: bid[1] } }),
+                asks: _asks.map(ask => { return { price: ask[0], qty: ask[1] } })
+            }
+        })
 }

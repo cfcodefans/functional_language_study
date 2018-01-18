@@ -28,6 +28,18 @@ export type FilterType = "PRICE_FILTER" | "LOT_SIZE" | "MIN_NOTIONAL"
 
 export type OrderType = "LIMIT" | "LIMIT_MAKER" | "MARKET" | "STOP_LOSS" | "STOP_LOSS_LIMIT" | "TAKE_PROFIT" | "TAKE_PROFIT_LIMIT"
 
+export type OrderStatus = "NEW" |
+    "PARTIALLY_FILLED" |
+    "FILLED" |
+    "CANCELED" |
+    "PENDING_CANCEL" | // (currently unused)
+    "REJECTED" |
+    "EXPIRED"
+
+export type OrderSide = "BUY" | "SELL"
+
+export type TimeInForce = "GTC" | "IOC" | "FOK"
+
 export interface IFilter {
     filterType: FilterType
 
@@ -68,4 +80,20 @@ export interface IExchangeInfo {
     serverTime: number
     rateLimits: IRateLimit[]
     symbols: ISymbol[]
+}
+
+export const intervalLimits = [5, 10, 20, 50, 100, 500, 1000]
+
+export interface IPriceAndQty {
+    price: number
+    qty: number
+}
+
+export interface IDataResp {
+    lastUpdateId: number
+}
+
+export interface IDepth extends IDataResp {
+    bids: IPriceAndQty[],
+    asks: IPriceAndQty[]
 }
