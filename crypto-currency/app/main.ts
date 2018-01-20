@@ -1,4 +1,4 @@
-import * as bn from "./binance-node"
+import * as bn from "./binance-api"
 import { IExchangeInfo } from "./defs"
 
 async function main() {

@@ -2,6 +2,9 @@ import * as _ from 'lodash'
 import * as crypto from 'crypto'
 import * as d from './defs'
 
+
+
+
 export async function publicReq(_url: string, data: any, _method: string = 'GET'): Promise<any> {
     if (!(data && !_.isEmpty(_url))) return Promise.resolve(null);
 
@@ -52,3 +55,4 @@ export async function signedReq(_url: string, data: any, _method: string = 'GET'
     let signature: string = crypto.createHmac('sha256', d.OPTS.apiSecret).update(query).digest('hex')
     return apiReq(`${_url}?${query}&signature=${signature}`)
 }
+
