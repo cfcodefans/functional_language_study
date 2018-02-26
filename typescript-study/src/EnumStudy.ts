@@ -2,7 +2,7 @@ import * as console from 'console';
 import { suite, test, slow, timeout, skip } from "mocha-typescript"
 import { expect } from "chai"
 
-import { tryIt } from './utils';
+import { tell } from './utils';
 
 @suite class EnumStudy {
     @test tryEnum(): void {
