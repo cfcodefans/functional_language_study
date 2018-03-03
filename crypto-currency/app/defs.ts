@@ -5,6 +5,12 @@ export const WS_BASE: string = 'wss://stream.binance.com:9443/ws/'
 export const USER_AGENT: string = 'Mozilla/4.0 (compatible; Node Binance API)'
 export const CONTENT_TYPE: string = 'application/x-www-form-urlencoded'
 
+//https://github.com/binance-exchange/binance-official-api-docs/blob/master/errors.md
+export interface Error {
+    code: number
+    msg: string
+}
+
 export class Options {
     recvWindow: number = 60000
     reconnect: boolean = false
@@ -23,6 +29,7 @@ export interface IRateLimit {
     interval: LimitIntervalType
     limit: number
 }
+
 
 export type FilterType = "PRICE_FILTER" | "LOT_SIZE" | "MIN_NOTIONAL"
 
@@ -53,7 +60,6 @@ export interface IFilter {
 
     minNotional?: number
 }
-
 
 export type SymbolStatus = 'PRE_TRADING' |
     'TRADING' |
@@ -94,6 +100,49 @@ export interface IDataResp {
 }
 
 export interface IDepth extends IDataResp {
+    symbol: string
     bids: IPriceAndQty[],
     asks: IPriceAndQty[]
+}
+
+export interface ISymbolPrice {
+    symbol: string
+    price: string
+}
+
+export interface ISymbolTicker {
+    symbol: string
+    priceChange: string
+    priceChangePercent: string
+    weightedAvgPrice: string
+    prevClosePrice: string
+    lastPrice: string
+    lastQty: string
+    bidPrice: string
+    askPrice: string
+    openPrice: string
+    highPrice: string
+    lowPrice: string
+    volume: string
+    quoteVolume: string
+    openTime: number
+    closeTime: number
+    fristId: number
+    lastId: number
+    count: number
+}
+
+export interface IRecentTradesResp {
+    symbol: string
+    transactions: ITransaction[]
+}
+
+export interface ITransaction {
+    symbol: string
+    id: number
+    price: string
+    qty: string
+    time: number
+    isBuyerMaker: boolean
+    isBestMatch: boolean
 }

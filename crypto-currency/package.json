@@ -12,19 +12,17 @@
   "author": "cf.chenfan@gmail.com",
   "license": "ISC",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.92",
-    "@types/request-promise": "^4.1.39",
-      
     "@types/ws": "^3.2.1",
     "mocha-typescript": "^1.1.12",
     "ts-loader": "^3.2.0"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "chai": "^4.1.2",
     "lodash": "^4.17.4",
     "mocha": "^4.1.0",
-    "request": "^2.34.0",
-    "request-promise": "^4.2.2",
     "ws": "^4.0.0"
   }
 }
