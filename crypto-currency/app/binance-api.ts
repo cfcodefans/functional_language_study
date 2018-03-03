@@ -3,7 +3,7 @@
 import * as _ from 'lodash'
 import * as crypto from 'crypto'
 import * as d from './defs'
-import { publicReq, signedReq } from './axios-util'
+import { publicReq, signedReq, apiReq } from './axios-util'
 
 export async function exchangeInfo(): Promise<d.IExchangeInfo> {
     return await publicReq(d.BASE + "v1/exchangeInfo", null) as d.IExchangeInfo
@@ -77,7 +77,7 @@ export async function trades(symbol: string, limit: number = 500, fromId?: numbe
     if (_.isEmpty(symbol))
         throw `symbol is empty`
 
-    return signedReq(d.BASE + "v1/historicalTrades", symbol ? { symbol, limit, fromId } : null)
+    return apiReq(d.BASE + "v1/historicalTrades", symbol ? { symbol, limit, fromId } : null)
         .then(result => {
             let resp: d.IRecentTradesResp = {
                 'symbol': symbol,
