@@ -3,7 +3,7 @@ export const BASE: string = "https://api.binance.com/api/"
 export const WS: string = 'https://api.binance.com/wapi/'
 export const WS_BASE: string = 'wss://stream.binance.com:9443/ws/'
 export const USER_AGENT: string = 'Mozilla/4.0 (compatible; Node Binance API)'
-export const CONTENT_TYPE: string = 'application/x-www-form-urlencoded'
+export const  CONTENT_TYPE: string = 'application/x-www-form-urlencoded'
 
 //https://github.com/binance-exchange/binance-official-api-docs/blob/master/errors.md
 export interface Error {

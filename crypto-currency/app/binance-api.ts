@@ -85,5 +85,8 @@ export async function trades(symbol: string, limit: number = 500, fromId?: numbe
             }
             resp.transactions.forEach(t => t.symbol = symbol)
             return resp
+        }).catch((reason: any) => {
+            console.error(reason)
+            return null
         })
 }
