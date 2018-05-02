@@ -1,0 +1,3 @@
+cnpm test
+tsc webpack.config.ts
+webpack

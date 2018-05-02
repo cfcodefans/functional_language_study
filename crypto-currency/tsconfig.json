@@ -55,5 +55,9 @@
   "include": [
     "app/**/*",
     "public/**/*",
-    "tests/**/*"]
+    "tests/**/*"
+  ],
+  "exclude": [
+    "node_module/**/*"
+  ]
 }

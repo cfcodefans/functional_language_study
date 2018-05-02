@@ -1,9 +1,12 @@
 import * as wp from 'webpack'
 
 const config: wp.Configuration = {
-    entry: "./app/main.ts",
+    entry: {
+        "app": "./app/main.ts",
+        "public": "./public/frontend.ts"
+    },
     output: {
-        filename: "main.js", path: __dirname + "/target", publicPath: "assets"
+        filename: "[name].js", path: __dirname + "/target", publicPath: "assets"
     },
     target: "node",
     resolve: {

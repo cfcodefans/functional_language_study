@@ -7,22 +7,27 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test mocha -r ts-node/register tests/**/*.spec.ts"
   },
   "author": "cf.chenfan@gmail.com",
   "license": "ISC",
-  "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/lodash": "^4.14.92",
-    "@types/ws": "^3.2.1",
-    "mocha-typescript": "^1.1.12",
-    "ts-loader": "^3.2.0"
-  },
   "dependencies": {
     "axios": "^0.18.0",
     "chai": "^4.1.2",
     "lodash": "^4.17.4",
     "mocha": "^4.1.0",
     "ws": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/lodash": "^4.14.92",
+    "@types/node": "^10.0.2",
+    "@types/webpack": "^4.1.4",
+    "@types/ws": "^3.2.1",
+    "cross-env": "^5.1.4",
+    "mocha-typescript": "^1.1.12",
+    "ts-loader": "^3.2.0",
+    "ts-node": "^5.0.1",
+    "typescript": "^2.8.3"
   }
 }
