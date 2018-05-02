@@ -44,8 +44,9 @@ export async function apiReq(_url: string, _params: any, _method: string = 'get'
             'Content-type': d.CONTENT_TYPE,
             'X-MBX-APIKEY': d.OPTS.apiKey
         }
-    }).then((resp: ax.AxiosResponse) => resp.data)
-        .catch(console.error)
+    }).then((resp: ax.AxiosResponse) => {
+        return resp.data
+    }).catch(console.error)
 }
 
 export async function signedReq(_url: string, data: any, _method: string = 'get'): Promise<any> {
