@@ -17,10 +17,11 @@
   },
   "dependencies": {
     "@types/chai": "^4.0.4",
-    "@types/lodash": "^4.14.77",
+    "@types/lodash": "^4.14.116",
     "@types/mocha": "^2.2.43",
     "chai": "^4.1.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.10",
+    "mobx": "^5.0.3",
     "mocha": "^4.0.1"
   }
 }
