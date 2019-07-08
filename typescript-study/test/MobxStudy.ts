@@ -1,7 +1,7 @@
-import { observable, autorun, IReactionDisposer, IReactionPublic, Reaction } from "mobx"
+import { observable, autorun, IReactionDisposer, IReactionPublic, Reaction, IObservableValue, when } from "mobx"
 import { trace } from "console";
 
-function main() {
+function _test() {
     const map = observable.map({ key: "value" })
 
     const list = observable([1, 2, 4])
@@ -63,5 +63,40 @@ function main() {
     // list[2] = 3
     // person.name.firstName = "C.S."
     // person.name.firstName = "C.S.1"
+}
+
+function test_1(): void {
+    let i: IObservableValue<number> = observable.box(4)
+    console.info("before autorun", i.get())
+
+    autorun((r: IReactionPublic) => {
+        console.info("during autorun", i.get())
+    })
+
+    for (let a: number = 0; a < 5; a++) {
+        i.set(a)
+    }
+}
+
+function test_2(): void {
+    class TestCls {
+        @observable.ref arr: number[]
+        constructor(arr: number[]) {
+            this.arr = arr
+        }
+    }
+
+    let t: TestCls = new TestCls([0, 1, 2, 3, 4, 5])
+    let t1: TestCls = new TestCls([])
+    console.info("before autorun", t.arr)
+    autorun((r: IReactionPublic) => {
+        t1.arr = t.arr.map(el => el + 1)
+        console.info("during autorun", t1.arr)
+    })
+    t.arr = [0, 2, 4]
+}
+
+function main(): void {
+    test_1()
 }
 main()
