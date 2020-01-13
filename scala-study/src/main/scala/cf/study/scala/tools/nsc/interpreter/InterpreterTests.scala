@@ -3,7 +3,7 @@ package cf.study.scala.tools.nsc.interpreter
 import java.io.PrintWriter
 import java.util.Date
 
-import org.junit.{After, Before, Test}
+import org.junit.{After, Assert, Before, Test}
 
 import scala.collection.mutable
 import scala.reflect.ClassTag
@@ -47,7 +47,7 @@ class InterpreterTests {
         val eval = im.intp.interpret("class TestClz(id:Long = System.currentTimeMillis()) {}")
         println(eval)
 
-//        var bindings = im.getBindings(ScriptContext.ENGINE_SCOPE)
+        //        var bindings = im.getBindings(ScriptContext.ENGINE_SCOPE)
         //        println(bindings.asScala.mkString("\n"))
 
         //NPE
@@ -85,7 +85,8 @@ class InterpreterTests {
               | new Script
             """.stripMargin
 
-        val eval = im.intp.interpret(script)
+        val eval = im.compileString(script)
+        Assert.assertFalse(eval.isInstanceOf[Boolean])
         val func: Func[Long] = eval.asInstanceOf[Func[Long]]
         func(100, new Date())
 
@@ -93,10 +94,13 @@ class InterpreterTests {
     }
 
     val cache: mutable.HashMap[String, (Func[_], Date)] = mutable.HashMap.empty
-    def callFunc[P: ClassTag](param: P, scriptKey:String, script: String)(implicit paramType: Manifest[P]): Unit = {
+
+    def callFunc[P: ClassTag](param: P, scriptKey: String, script: String)(implicit paramType: Manifest[P]): Unit = {
         println(s"parameter:$param type is $paramType")
 
-         val entry = cache.getOrElseUpdate(scriptKey, {(im.intp.interpret(script).asInstanceOf[Func[P]], new Date())})
+        val entry = cache.getOrElseUpdate(scriptKey, {
+            (im.intp.interpret(script).asInstanceOf[Func[P]], new Date())
+        })
 
         val eval = entry._1
         val func: Func[P] = eval.asInstanceOf[Func[P]]
