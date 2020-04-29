@@ -22,7 +22,7 @@
     "zone.js": "0.6.21",
 
     "bootstrap": "^3.3.6",
-    "jquery": "^2.2.2"
+    "jquery": "^3.5.0"
     },
   "devDependencies": {
     "live-server": "0.8.2",
