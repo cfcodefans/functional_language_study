@@ -16,12 +16,12 @@
     ];
 
     const NG_VERSION = "2.0.0-rc.5";
-    const RESPOSITORY = "//npmcdn.com";
+    const RESPOSITORY = "//unpkg.com";
 
     function MAP() {
       var map = {
         "app": "app",
-        "rxjs": "//npmcdn.com/rxjs@5.0.0-beta.6"
+        "rxjs": "//unpkg.com/rxjs@5.0.0-beta.6"
       };
 
       NG_PACKAGES.forEach((_package) => map[`@angular/${_package}`] = `${RESPOSITORY}/@angular/${_package}@${NG_VERSION}`);
