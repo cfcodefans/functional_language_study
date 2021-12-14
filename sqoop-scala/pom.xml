@@ -7,7 +7,7 @@
     <inceptionYear>2008</inceptionYear>
     <properties>
         <scala.version>2.12.0-M1</scala.version>
-        <log4j-ver>2.5</log4j-ver>
+        <log4j-ver>2.16.0</log4j-ver>
     </properties>
 
     <repositories>
