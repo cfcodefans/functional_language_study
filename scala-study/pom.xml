@@ -7,7 +7,7 @@
     <inceptionYear>2008</inceptionYear>
     <properties>
         <scala.version>2.12.2</scala.version>
-        <jetty-version>9.4.0.RC1</jetty-version>
+        <jetty-version>10.0.10</jetty-version>
         <!-- 		<jetty-version>8.1.14.v20131031</jetty-version> -->
         <jetty-scope>provided</jetty-scope>
     </properties>
